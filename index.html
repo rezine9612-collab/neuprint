@@ -75,11 +75,13 @@
 
     /* QR + 검증 텍스트: 모두 우측정렬 */
     .np-verify-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    margin-top: 56px;   /* ← 추가 */
+}
+
 
     .np-qr {
       width: 74px;
@@ -231,11 +233,12 @@
     </div>
 
     <div class="np-verify-panel">
-      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+        <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
 
-      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</br>
-        To validate this report, visit : https://neuprint.ai/verify
-      </div>
+        <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
+        <div class="np-verify-label">
+            To validate this report, visit https://neuprint.ai/verify
+        </div>
     </div>
   </div>
 
@@ -248,10 +251,10 @@
     <div class="np-metric-grid">
 
       <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:700; line-height:1.25; margin-bottom:4px;">
-          Authorship<br/>Verification
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+          Authorship Verification
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-bottom:4px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
           Human
         </div>
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
@@ -264,10 +267,10 @@
 
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          ARC Reasoning<br/>Level
+          ARC Reasoning Level
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-bottom:4px;">
-          L4 Integrated<br/>Reasoning
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          L4 · Integrated Reasoning
         </div>
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           ARC Reliability 0.89
@@ -279,10 +282,10 @@
 
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Identity Consistency<br/>(TPS-H)
+          Identity Consistency
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-bottom:4px;">
-          Same Author<br/>Likely
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          Same Author Likely
         </div>
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           Similarity Score 0.87
@@ -294,10 +297,10 @@
 
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          HR Role<br/>Recommendation
+          HR Role Recommendation
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-bottom:4px;">
-          Strategy ·<br/>Analysis ·<br/>Policy
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          Strategy · Analysis · Policy
         </div>
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           Fit Reliability 0.82
