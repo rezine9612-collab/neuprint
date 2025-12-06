@@ -51,12 +51,12 @@
     }
 
     .np-header-title-line1 {
-      font-size: 13px;  /* 13px 기준 px로 근사 */
+      font-size: 13px;
       font-weight: 500;
     }
 
     .np-header-title-main {
-      font-size: 30px; /* 메인 타이틀 */
+      font-size: 30px;
       font-weight: 700;
       line-height: 1.2;
     }
@@ -71,8 +71,20 @@
       font-weight: 500;
     }
 
+    /* QR + 검증 텍스트: 모두 우측정렬 */
     .np-verify-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
       text-align: right;
+    }
+
+    .np-qr {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      display: block;
+      margin-bottom: 8px;
     }
 
     .np-verify-label {
@@ -98,14 +110,6 @@
       text-decoration: underline;
       text-underline-offset: 2px;
       margin-top: 2px;
-    }
-
-    .np-qr {
-      width: 96px;
-      height: 96px;
-      object-fit: contain;
-      display: block;
-      margin-top: 6px;
     }
 
     /* =========================
@@ -155,9 +159,9 @@
       color: #444444;
     }
 
-    /* 900px 고정, 중앙정렬 카드 */
+    /* 박스는 부모 폭(900 - 패딩 80 = 820) 안에서 100% */
     .np-summary-container {
-      width: 900px;
+      width: 100%;
       margin: 0 auto;
       border: 1px solid #d7d7d7;
       border-radius: 12px;
@@ -185,31 +189,20 @@
     }
 
     .np-tag {
-      font-size: 13px;       /* medium 13px */
+      font-size: 13px;      /* 13px medium */
       font-weight: 500;
       padding: 6px 12px;
       border-radius: 16px;
-      background: #eeeeee;   /* 면색 eeeeee, 외곽선 없음 */
+      background: #eeeeee;  /* 외곽선 없음, 면색 eeeeee */
     }
-
-    /* 반응형 최소한 처리 */
-    @media (max-width: 900px) {
-      .np-summary-container {
-        width: 100%;
-      }
-    }
-
   </style>
 </head>
 
 <body>
 <div class="np-page">
 
-  <!-- =========================
-       HEADER (로고 + 텍스트 + QR)
-       ========================= -->
+  <!-- HEADER -->
   <div class="np-header-row">
-    <!-- 왼쪽: 로고 + 타이틀 텍스트 -->
     <div class="np-left-header">
       <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
 
@@ -227,21 +220,17 @@
       </div>
     </div>
 
-    <!-- 오른쪽: Verification + QR -->
     <div class="np-verify-panel">
       <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
 
-      <div class="np-verify-label">Verification ID</div>
-      <div class="np-verify-id">NP-2025-0314-0007</div>
+      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
       <div class="np-verify-label-secondary">
         To validate this report, visit https://neuprint.ai/verify
       </div>
     </div>
   </div>
 
-  <!-- =========================
-       1. Overview Metrics
-       ========================= -->
+  <!-- 1. Overview Metrics -->
   <section>
     <div class="np-section-title-small">
       1. Overview Metrics
@@ -249,7 +238,6 @@
 
     <div class="np-metric-grid">
 
-      <!-- 1) Authorship Verification -->
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:700; line-height:1.25; margin-bottom:4px;">
           Authorship<br/>Verification
@@ -265,7 +253,6 @@
         </div>
       </article>
 
-      <!-- 2) ARC Reasoning Level -->
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           ARC Reasoning<br/>Level
@@ -281,7 +268,6 @@
         </div>
       </article>
 
-      <!-- 3) Identity Consistency -->
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Identity Consistency<br/>(TPS-H)
@@ -297,7 +283,6 @@
         </div>
       </article>
 
-      <!-- 4) HR Role Recommendation -->
       <article class="np-metric-card">
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           HR Role<br/>Recommendation
@@ -316,9 +301,7 @@
     </div>
   </section>
 
-  <!-- =========================
-       2. Content Summary
-       ========================= -->
+  <!-- 2. Content Summary -->
   <section>
     <div class="np-section-title-row">
       <div class="np-section-title">
@@ -330,7 +313,7 @@
     </div>
 
     <div class="np-summary-container">
-      <div class="np-label">Prompx :</div>
+      <div class="np-label">Prompt :</div>
       <div class="np-text">
         Should schools allow AI-assisted writing in formal assessments?
       </div>
