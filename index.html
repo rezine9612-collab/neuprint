@@ -18,7 +18,7 @@
     body {
       font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: #ffffff;
-      color: color:#999999;
+      color:#999999;
     }
 
     /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
@@ -284,6 +284,17 @@
     .np-ai-bar-ai {
       background: #7ad9eb;    /* AI 내부 컬러 */
     }
+/* 바 속 텍스트 */
+.np-ai-bar-text {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  pointer-events: none;
+}
 
     .np-ai-legend {
       display: flex;
@@ -498,29 +509,33 @@
       <article class="np-ai-card">
         <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
 
-        <div class="np-ai-bar-wrap">
-          <div class="np-ai-bar-label">Classification share</div>
-          <div class="np-ai-bar">
-            <div class="np-ai-bar-seg np-ai-bar-human" style="width:82%;"></div>
-            <div class="np-ai-bar-seg np-ai-bar-hybrid" style="width:9%;"></div>
-            <div class="np-ai-bar-seg np-ai-bar-ai" style="width:9%;"></div>
-          </div>
+<div class="np-ai-bar-wrap">
+  <div class="np-ai-bar-label">Classification share</div>
 
-          <div class="np-ai-legend">
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#f5c67d;"></span>
-              Human 82%
-            </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#f2f2f2;"></span>
-              Hybrid 9%
-            </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#7ad9eb;"></span>
-              AI 9%
-            </div>
-          </div>
-        </div>
+  <div class="np-ai-bar" style="position: relative;">
+    <span class="np-ai-bar-text">Human 82%</span>
+
+    <div class="np-ai-bar-seg np-ai-bar-human" style="width:82%;"></div>
+    <div class="np-ai-bar-seg np-ai-bar-hybrid" style="width:9%;"></div>
+    <div class="np-ai-bar-seg np-ai-bar-ai" style="width:9%;"></div>
+  </div>
+
+  <div class="np-ai-legend">
+    <div class="np-ai-legend-item">
+      <span class="np-ai-legend-swatch" style="background:#f5c67d;"></span>
+      Human 82%
+    </div>
+    <div class="np-ai-legend-item">
+      <span class="np-ai-legend-swatch" style="background:#f2f2f2;"></span>
+      Hybrid 9%
+    </div>
+    <div class="np-ai-legend-item">
+      <span class="np-ai-legend-swatch" style="background:#7ad9eb;"></span>
+      AI 9%
+    </div>
+  </div>
+</div>
+
 
         <ul class="np-ai-note-list">
           <li>Human · non-linear reasoning with self-revision traces</li>
