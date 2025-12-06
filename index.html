@@ -1,141 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NeuPrint Integrated Analysis Report</title>
+<div class="np-report-page">
 
-  <!-- Open Sans CDN -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- 상단 텍스트 블록 -->
+  <div class="np-header-engine">
+    Neuprint Cognitive Forensics Engine v4.2.1
+  </div>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <div class="np-header-title-main">
+    NeuPrint Integrated Analysis Report
+  </div>
 
-  <style>
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background: #ffffff;
-      color: #1a1a1a;
-    }
+  <div class="np-header-subtitle">
+    Integrated authorship, cognition, identity and HR-fit analysis
+  </div>
 
-    /* 카드 공통 스타일 */
-    .np-card {
-      border: 1px solid #e5e7eb;
-      padding: 20px;
-      border-radius: 14px;
-      background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-      transition: 0.2s ease;
-    }
-    .np-card:hover {
-      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
+  <div class="np-header-timestamp">
+    Analysis Timestamp: 2025-03-14 14:32:07 UTC
+  </div>
 
-    /* 라벨 */
-    .np-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #6b7280;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
+  <div class="np-verify-block">
+    <div><strong>Verification ID :</strong> NP-2025-0314-0007</div>
+    <div>
+      <strong>To validate this report, visit :</strong>
+      <span class="np-verify-link">https://neuprint.ai/verify</span>
+    </div>
+  </div>
 
-    /* 큰 결과 텍스트 */
-    .np-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: #111827;
-    }
-  </style>
+  <!-- Overview Metrics 섹션 -->
+  <div class="np-section-title">
+    1. Overview Metrics
+  </div>
 
-</head>
+  <div class="np-metric-grid">
 
-<body class="flex justify-center py-12">
-
-<div class="w-[960px]">
-
-  <!-- 상단 로고 + QR -->
-  <div class="flex justify-between items-start mb-10">
-    <img src="neuprint-logo.png" alt="NeuPrint Logo" class="h-12">
-
-    <div class="text-right">
-      <div class="text-sm text-gray-600">Verification ID</div>
-      <div class="text-sm font-semibold">NP-2025-0314-0007</div>
-
-      <img src="ExampleQR.png" class="mt-2 h-24 w-24"/>
-      <div class="text-xs text-gray-500 mt-1">
-        Validate at neuprint.ai/verify
+    <!-- Authorship 카드 예시 -->
+    <div class="np-metric-card">
+      <div class="np-metric-label">Authorship Verification</div>
+      <div class="np-metric-value">Human</div>
+      <div class="np-metric-meta">Confidence 92%</div>
+      <div class="np-metric-caption">
+        Deep reflective pattern consistent with human-authored reference profiles.
       </div>
     </div>
+
+    <!-- 나머지 3개 카드도 동일 클래스 재사용 -->
   </div>
-
-  <!-- 타이틀 -->
-  <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">
-      NeuPrint Integrated Analysis Report
-    </h1>
-
-    <p class="text-gray-600 text-sm mt-1 leading-relaxed">
-      Integrated authorship, reasoning, identity and HR-fit metrics derived from NeuPrint reference frameworks.
-      Built for education, HR and decision teams requiring trustworthy cognitive analysis.
-    </p>
-
-    <p class="text-xs text-gray-500 mt-3">
-      Analysis Timestamp: 2025-03-14 14:32:07 UTC
-    </p>
-  </div>
-
-  <!-- Summary Snapshot Section -->
-  <h2 class="text-xs font-semibold text-gray-500 tracking-wide mt-10 mb-3">
-    SUMMARY SNAPSHOT
-  </h2>
-
-  <div class="grid grid-cols-4 gap-4">
-
-    <!-- 1. Authorship -->
-    <div class="np-card">
-      <div class="np-label">Authorship Verification</div>
-      <div class="np-value">Human</div>
-      <div class="text-xs text-gray-600 mt-2">Confidence 92 percent</div>
-      <p class="text-xs text-gray-500 leading-relaxed mt-2">
-        Deep reflective pattern consistent with human-authored reference profiles.
-      </p>
-    </div>
-
-    <!-- 2. ARC Level -->
-    <div class="np-card">
-      <div class="np-label">ARC Reasoning Level</div>
-      <div class="np-value">L4 · Integrated Reasoning</div>
-      <div class="text-xs text-gray-600 mt-2">ARC Reliability 0.89</div>
-      <p class="text-xs text-gray-500 leading-relaxed mt-2">
-        Strong integration of interpretation, evaluation and multistep reasoning.
-      </p>
-    </div>
-
-    <!-- 3. Identity -->
-    <div class="np-card">
-      <div class="np-label">Identity Consistency (TPS-H)</div>
-      <div class="np-value">Same Author Likely</div>
-      <div class="text-xs text-gray-600 mt-2">Similarity Score 0.87</div>
-      <p class="text-xs text-gray-500 leading-relaxed mt-2">
-        Stable CFF-Prime 8 pattern with low temporal drift across samples.
-      </p>
-    </div>
-
-    <!-- 4. HR Role -->
-    <div class="np-card">
-      <div class="np-label">HR Role Recommendation</div>
-      <div class="np-value">Strategy · Analysis · Policy</div>
-      <div class="text-xs text-gray-600 mt-2">Fit Reliability 0.82</div>
-      <p class="text-xs text-gray-500 leading-relaxed mt-2">
-        Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-      </p>
-    </div>
-
-  </div>
-
 </div>
-
-</body>
-</html>
