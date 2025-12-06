@@ -139,7 +139,7 @@
     }
 
     .np-metric-card {
-      border: 1px solid #e5e7eb;
+      border: 1px solid #fefefeb;
       border-radius: 10px;
       padding: 16px 18px;
       background: #ffffff;
@@ -203,7 +203,7 @@
       font-weight: 500;
       padding: 6px 12px;
       border-radius: 16px;
-      background: #eeeeee;
+      background: #fefefe;
     }
 
     /* =========================
@@ -239,7 +239,7 @@
     }
 
     .np-ai-card {
-      border: 1px solid #e5e7eb;
+      border: 1px solid #fefefeb;
       border-radius: 12px;
       padding: 16px 18px;
       background: #ffffff;
@@ -257,71 +257,76 @@
       line-height: 1.5;
     }
 
-    .np-ai-bar-wrap {
+    /* --- 새 바 스타일 (3중 레이어) --- */
+    .np-ai-bar-row {
       margin-top: 6px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
-    .np-ai-bar-label {
+    .np-ai-bar-label-inline {
       font-size: 11px;
       font-weight: 600;
       margin-bottom: 4px;
     }
 
-    .np-ai-bar {
+    .np-ai-bar-shell {
       width: 100%;
-      height: 18px;
       border-radius: 999px;
-      overflow: hidden;
-      background: #f3f4f6;
-      display: flex;
+      padding: 1px;  /* 외곽선 1px */
+      box-sizing: border-box;
     }
 
-    /* 새 색상 3조합 */
-    .np-ai-bar-seg-human {
-      background: #0f766e;  /* teal */
+    .np-ai-bar-inner {
+      width: 100%;
+      border-radius: 999px;
+      padding: 1px;  /* 내부선 1px */
+      box-sizing: border-box;
     }
 
-    .np-ai-bar-seg-hybrid {
-      background: #6366f1;  /* indigo */
+    .np-ai-bar-center {
+      height: 16px; /* 가운데 16px */
+      border-radius: 999px;
     }
 
-    .np-ai-bar-seg-ai {
-      background: #f59e0b;  /* amber */
+    /* Human bar 색상 */
+    .np-ai-bar-human-shell {
+      border: 1px solid #2d7188;       /* 외곽선 */
+    }
+    .np-ai-bar-human-inner {
+      border: 1px solid #9aedfb;       /* 내부선 */
+    }
+    .np-ai-bar-human-center {
+      background: #8edeea;             /* 가운데 색상 */
     }
 
-    .np-ai-legend {
+    /* Hybrid bar 색상 */
+    .np-ai-bar-hybrid-shell {
+      border: 1px solid #c3c5c9;       /* 외곽선 */
+    }
+    .np-ai-bar-hybrid-inner {
+      border: 1px solid #00f5f3;       /* 내부선 (0f5f3 → 00f5f3로 보정) */
+    }
+    .np-ai-bar-hybrid-center {
+      background: #f0f5f3;             /* 가운데 색상 */
+    }
+
+    /* AI bar 색상 */
+    .np-ai-bar-ai-shell {
+      border: 1px solid #c58f3f;       /* 외곽선 */
+    }
+    .np-ai-bar-ai-inner {
+      border: 1px solid #fed897;       /* 내부선 */
+    }
+    .np-ai-bar-ai-center {
+      background: #f8d18f;             /* 가운데 색상 */
+    }
+
+    /* 디시전 태그 */
+    .np-ai-tag-list {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .np-ai-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .np-ai-legend-swatch {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-    }
-
-    .np-ai-note-list {
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: 500;
-      color: #444;
-      line-height: 1.4;
-    }
-
-    .np-ai-note-list li {
-      margin-left: 14px;
-      margin-bottom: 2px;
+      gap: 8px;
+      margin-top: 10px;
     }
 
     @media (max-width: 980px) {
@@ -487,44 +492,46 @@
     <div class="np-ai-title-row">
       <div class="np-ai-title">3. AI Usage Classification</div>
       <div class="np-ai-submeta">
-        Final decision · Human (Confidence 88%)<br />
-        Pattern deep_reflective_human · Reliability band high · Interpretation Human-led with light AI phrasing support
+        Final decision · Human (Confidence 88%)
       </div>
     </div>
 
     <div class="np-ai-grid">
       <!-- 왼쪽: Human / Hybrid / AI Mix -->
       <article class="np-ai-card">
-        <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
+        <div class="np-ai-card-title">Human</div>
 
-        <div class="np-ai-bar-wrap">
-          <div class="np-ai-bar-label">Classification share</div>
-          <div class="np-ai-bar">
-            <div class="np-ai-bar-seg-human" style="width:82%;"></div>
-            <div class="np-ai-bar-seg-hybrid" style="width:9%;"></div>
-            <div class="np-ai-bar-seg-ai" style="width:9%;"></div>
+        <div class="np-ai-bar-row">
+          <div class="np-ai-bar-label-inline">Human 82%</div>
+          <div class="np-ai-bar-shell np-ai-bar-human-shell">
+            <div class="np-ai-bar-inner np-ai-bar-human-inner">
+              <div class="np-ai-bar-center np-ai-bar-human-center" style="width:82%;"></div>
+            </div>
           </div>
+        </div>
 
-          <div class="np-ai-legend">
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#0f766e;"></span>
-              Human 82%
+        <div class="np-ai-bar-row">
+          <div class="np-ai-bar-label-inline">Hybrid 9%</div>
+          <div class="np-ai-bar-shell np-ai-bar-hybrid-shell">
+            <div class="np-ai-bar-inner np-ai-bar-hybrid-inner">
+              <div class="np-ai-bar-center np-ai-bar-hybrid-center" style="width:9%;"></div>
             </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#6366f1;"></span>
-              Hybrid 9%
-            </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#f59e0b;"></span>
-              AI 9%
+          </div>
+        </div>
+
+        <div class="np-ai-bar-row">
+          <div class="np-ai-bar-label-inline">AI 9%</div>
+          <div class="np-ai-bar-shell np-ai-bar-ai-shell">
+            <div class="np-ai-bar-inner np-ai-bar-ai-inner">
+              <div class="np-ai-bar-center np-ai-bar-ai-center" style="width:9%;"></div>
             </div>
           </div>
         </div>
 
         <ul class="np-ai-note-list">
-          <li><strong>Human</strong> · non-linear reasoning with self-revision traces</li>
-          <li><strong>Hybrid</strong> · local phrasing support and polishing</li>
-          <li><strong>AI</strong> · fully AI-generated outcome is unlikely</li>
+          <li>Human · non-linear reasoning with self-revision traces</li>
+          <li>Hybrid · local phrasing support and polishing</li>
+          <li>AI · fully AI-generated outcome is unlikely</li>
         </ul>
       </article>
 
@@ -532,12 +539,17 @@
       <article class="np-ai-card">
         <div class="np-ai-card-title">Decision Summary</div>
         <p class="np-ai-card-text">
-          Final decision is <strong>Human</strong>. Pattern label is
-          <strong>deep reflective human in a stable context</strong>. A confidence of
-          <strong>88%</strong> indicates that the classifier produces the same decision
-          under small perturbations of the text. The sample sits within the
-          <strong>top 22 percentile</strong> of the human reference group for the same grade band.
+          Final decision is Human. Pattern label is deep reflective human in a stable context.
+          A confidence of 88% indicates that the classifier produces the same decision under small
+          perturbations of the text. The sample sits within the top 22 percentile of the human
+          reference group for the same grade band.
         </p>
+
+        <div class="np-ai-tag-list">
+          <span class="np-tag">Pattern deep_reflective_human</span>
+          <span class="np-tag">Reliability band high</span>
+          <span class="np-tag">Interpretation Human-led with light AI phrasing support</span>
+        </div>
       </article>
     </div>
   </section>
