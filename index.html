@@ -1,3 +1,169 @@
+<!-- 헤드 안에 공통으로 포함 -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ===========================
+     NeuPrint Global Style Tokens
+     =========================== */
+
+  :root {
+    /* Font family */
+    --np-font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Colors */
+    --np-color-text-main: #000000;
+    --np-color-text-muted: #4b5563;
+    --np-color-page-bg: #ffffff;
+
+    /* Font sizes (pt 환산, 16px 기준 rem으로 고정) */
+    --np-fs-11pt: 0.9rem;   /* 약 14.5px  → 설명 문장 */
+    --np-fs-13pt: 1.1rem;   /* 약 17.3px → 메타, 라벨 */
+    --np-fs-18pt: 1.5rem;   /* 약 24px   → 카드 메인 값 */
+    --np-fs-30pt: 2.5rem;   /* 약 40px   → 리포트 메인 타이틀 */
+
+    /* Line-height */
+    --np-lh-tight: 1.2;
+    --np-lh-normal: 1.4;
+    --np-lh-relaxed: 1.6;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--np-font-family);
+    background: var(--np-color-page-bg);
+    color: var(--np-color-text-main);
+  }
+
+  .np-report-page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+
+  /* ===========================
+     Header / Meta 영역
+     =========================== */
+
+  /* Neuprint Cognitive Forensics Engine v4.2.1 */
+  .np-header-engine {
+    font-size: var(--np-fs-13pt);
+    font-weight: 500; /* medium */
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+  }
+
+  /* NeuPrint Integrated Analysis Report */
+  .np-header-title-main {
+    margin-top: 4px;
+    font-size: var(--np-fs-30pt);
+    font-weight: 700; /* bold */
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+  }
+
+  /* Integrated authorship, cognition, identity and HR-fit analysis */
+  .np-header-subtitle {
+    margin-top: 8px;
+    font-size: var(--np-fs-13pt);
+    font-weight: 500;
+    line-height: var(--np-lh-normal);
+    color: var(--np-color-text-main);
+  }
+
+  /* Analysis Timestamp: 2025-03-14 14:32:07 UTC */
+  .np-header-timestamp {
+    margin-top: 6px;
+    font-size: var(--np-fs-13pt);
+    font-weight: 500;
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+  }
+
+  /* Verification ID / 검증 안내 영역 */
+  .np-verify-block {
+    margin-top: 12px;
+    font-size: var(--np-fs-13pt);
+    font-weight: 500;
+    line-height: var(--np-lh-normal);
+    color: var(--np-color-text-main);
+  }
+
+  .np-verify-block strong {
+    font-weight: 600;
+  }
+
+  .np-verify-link {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  /* ===========================
+     섹션 타이틀 / 카드 구조
+     =========================== */
+
+  /* 1. Overview Metrics */
+  .np-section-title {
+    margin-top: 32px;
+    margin-bottom: 10px;
+    font-size: var(--np-fs-13pt);
+    font-weight: 700; /* bold */
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+  }
+
+  .np-metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .np-metric-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px 18px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  }
+
+  /* Authorship Verification */
+  .np-metric-label {
+    font-size: var(--np-fs-13pt);
+    font-weight: 500;
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+    margin-bottom: 4px;
+  }
+
+  /* Human */
+  .np-metric-value {
+    font-size: var(--np-fs-18pt);
+    font-weight: 700;
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+    margin-bottom: 4px;
+  }
+
+  /* Confidence 92% */
+  .np-metric-meta {
+    font-size: var(--np-fs-13pt);
+    font-weight: 500;
+    line-height: var(--np-lh-tight);
+    color: var(--np-color-text-main);
+    margin-bottom: 6px;
+  }
+
+  /* Deep reflective pattern ... */
+  .np-metric-caption {
+    font-size: var(--np-fs-11pt);
+    font-weight: 500;
+    line-height: var(--np-lh-relaxed);
+    color: var(--np-color-text-main);
+  }
+</style>
+
+
 <div class="np-report-page">
 
   <!-- 상단 텍스트 블록 -->
