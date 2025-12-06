@@ -80,6 +80,14 @@
     align-items: flex-end;
     text-align: right;
     margin-top: 56px;   /* ← 추가 */
+
+    .np-author-label {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: right;
+}
+      
 }
 
 
@@ -232,14 +240,17 @@
       </div>
     </div>
 
-    <div class="np-verify-panel">
-        <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+  <div class="np-verify-panel">
 
-        <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
-        <div class="np-verify-label">
-            To validate this report, visit https://neuprint.ai/verify
-        </div>
-    </div>
+      <div class="np-author-label">Author : Candidate 014-A</div>
+
+      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+
+      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
+      <div class="np-verify-label">
+          To validate this report, visit https://neuprint.ai/verify
+      </div>
+  </div>
   </div>
 
   <!-- 1. Overview Metrics -->
