@@ -1,134 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>NeuPrint Integrated Analysis Report</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeuPrint Integrated Analysis Report</title>
 
-<!-- Open Sans Font -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Open Sans CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Tailwind (CDN) -->
-<script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-  body {
-    font-family: 'Open Sans', sans-serif;
-    background: #fff;
-    color: #1a1a1a;
-  }
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+    }
 
-  .metric-card {
-    border: 1px solid #e8e8e8;
-    border-radius: 14px;
-    padding: 20px;
-    background: #ffffff;
-    transition: all 0.25s ease;
-  }
+    /* 카드 공통 스타일 */
+    .np-card {
+      border: 1px solid #e5e7eb;
+      padding: 20px;
+      border-radius: 14px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      transition: 0.2s ease;
+    }
+    .np-card:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
 
-  .metric-card:hover {
-    border-color: #c9c9c9;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-  }
+    /* 라벨 */
+    .np-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
 
-  .section-label {
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: #6b7280;
-  }
-</style>
+    /* 큰 결과 텍스트 */
+    .np-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+  </style>
+
 </head>
 
-<body class="px-6 pt-10 pb-20">
+<body class="flex justify-center py-12">
 
-<!-- Top Container -->
-<div class="max-w-4xl mx-auto">
+<div class="w-[960px]">
 
-  <!-- Logo -->
-  <div class="flex justify-center mb-6">
-    <img src="neuprint-logo.png" alt="NeuPrint Logo" width="172" height="39">
-  </div>
+  <!-- 상단 로고 + QR -->
+  <div class="flex justify-between items-start mb-10">
+    <img src="neuprint-logo.png" alt="NeuPrint Logo" class="h-12">
 
-  <!-- Title + QR Section -->
-  <div class="flex justify-between items-start mb-8">
-
-    <!-- Left Titles -->
-    <div>
-      <p class="text-xs tracking-wide text-gray-500 mb-1">NEUPRINT COGNITIVE FORENSICS ENGINE V4.2.1</p>
-
-      <h1 class="text-2xl font-semibold text-gray-900 mb-2">
-        NeuPrint Integrated Analysis Report
-      </h1>
-
-      <h2 class="text-sm text-gray-600 leading-relaxed">
-        Integrated authorship, cognition, identity and HR-fit metrics<br>
-        derived from NeuPrint reference cohorts.
-      </h2>
-
-      <p class="text-xs text-gray-500 mt-3">
-        Analysis Timestamp: 2025-03-14 14:32:07 UTC
-      </p>
-    </div>
-
-    <!-- QR Block -->
     <div class="text-right">
-      <p class="text-sm font-semibold text-gray-700">Verification ID</p>
-      <p class="text-xs text-gray-500 mb-2">NP-2025-0314-0007</p>
+      <div class="text-sm text-gray-600">Verification ID</div>
+      <div class="text-sm font-semibold">NP-2025-0314-0007</div>
 
-      <img src="ExampleQR.png" width="94" class="mx-auto mb-1" />
-      <p class="text-xs text-gray-500">Validate at neuprint.ai/verify</p>
+      <img src="ExampleQR.png" class="mt-2 h-24 w-24"/>
+      <div class="text-xs text-gray-500 mt-1">
+        Validate at neuprint.ai/verify
+      </div>
     </div>
   </div>
 
-  <!-- Summary Snapshot Label -->
-  <p class="section-label mb-3">Summary Snapshot</p>
+  <!-- 타이틀 -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">
+      NeuPrint Integrated Analysis Report
+    </h1>
 
-  <!-- 4 Cards Row -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <p class="text-gray-600 text-sm mt-1 leading-relaxed">
+      Integrated authorship, reasoning, identity and HR-fit metrics derived from NeuPrint reference frameworks.
+      Built for education, HR and decision teams requiring trustworthy cognitive analysis.
+    </p>
 
-    <!-- Card #1 -->
-    <div class="metric-card">
-      <p class="section-label mb-1">Authorship Verification</p>
-      <p class="text-lg font-semibold">Human</p>
-      <p class="text-xs text-gray-500 mt-1">Confidence 92 percent</p>
-      <p class="text-xs text-gray-600 mt-2">
-        Deep reflective pattern consistent with human reference profiles.
+    <p class="text-xs text-gray-500 mt-3">
+      Analysis Timestamp: 2025-03-14 14:32:07 UTC
+    </p>
+  </div>
+
+  <!-- Summary Snapshot Section -->
+  <h2 class="text-xs font-semibold text-gray-500 tracking-wide mt-10 mb-3">
+    SUMMARY SNAPSHOT
+  </h2>
+
+  <div class="grid grid-cols-4 gap-4">
+
+    <!-- 1. Authorship -->
+    <div class="np-card">
+      <div class="np-label">Authorship Verification</div>
+      <div class="np-value">Human</div>
+      <div class="text-xs text-gray-600 mt-2">Confidence 92 percent</div>
+      <p class="text-xs text-gray-500 leading-relaxed mt-2">
+        Deep reflective pattern consistent with human-authored reference profiles.
       </p>
     </div>
 
-    <!-- Card #2 -->
-    <div class="metric-card">
-      <p class="section-label mb-1">ARC Reasoning Level</p>
-      <p class="text-lg font-semibold">L4 · Integrated Reasoning</p>
-      <p class="text-xs text-gray-500 mt-1">ARC Reliability 0.89</p>
-      <p class="text-xs text-gray-600 mt-2">
-        High-level interpretation, evaluation and cognitive integration.
+    <!-- 2. ARC Level -->
+    <div class="np-card">
+      <div class="np-label">ARC Reasoning Level</div>
+      <div class="np-value">L4 · Integrated Reasoning</div>
+      <div class="text-xs text-gray-600 mt-2">ARC Reliability 0.89</div>
+      <p class="text-xs text-gray-500 leading-relaxed mt-2">
+        Strong integration of interpretation, evaluation and multistep reasoning.
       </p>
     </div>
 
-    <!-- Card #3 -->
-    <div class="metric-card">
-      <p class="section-label mb-1">Identity Consistency (TPS-H)</p>
-      <p class="text-lg font-semibold">Same Author Likely</p>
-      <p class="text-xs text-gray-500 mt-1">Similarity Score 0.87</p>
-      <p class="text-xs text-gray-600 mt-2">
-        Stable CFF-Prime 8 pattern with low reasoning drift.
+    <!-- 3. Identity -->
+    <div class="np-card">
+      <div class="np-label">Identity Consistency (TPS-H)</div>
+      <div class="np-value">Same Author Likely</div>
+      <div class="text-xs text-gray-600 mt-2">Similarity Score 0.87</div>
+      <p class="text-xs text-gray-500 leading-relaxed mt-2">
+        Stable CFF-Prime 8 pattern with low temporal drift across samples.
       </p>
     </div>
 
-    <!-- Card #4 -->
-    <div class="metric-card">
-      <p class="section-label mb-1">HR Role Recommendation</p>
-      <p class="text-lg font-semibold">Strategy · Analysis · Policy</p>
-      <p class="text-xs text-gray-500 mt-1">Fit Reliability 0.82</p>
-      <p class="text-xs text-gray-600 mt-2">
-        Cognitive pattern aligned with analytical, strategic and decision roles.
+    <!-- 4. HR Role -->
+    <div class="np-card">
+      <div class="np-label">HR Role Recommendation</div>
+      <div class="np-value">Strategy · Analysis · Policy</div>
+      <div class="text-xs text-gray-600 mt-2">Fit Reliability 0.82</div>
+      <p class="text-xs text-gray-500 leading-relaxed mt-2">
+        Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
       </p>
     </div>
 
   </div>
+
 </div>
 
 </body>
