@@ -6,10 +6,7 @@
   <title>NeuPrint Integrated Analysis Report</title>
 
   <!-- Open Sans -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
     * {
@@ -19,20 +16,21 @@
     }
 
     body {
-      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
-        sans-serif;
+      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: #ffffff;
       color: #000000;
     }
 
-    /* 페이지 컨테이너 */
+    /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
     .np-page {
       max-width: 980px;
       margin: 0 auto;
       padding: 48px 40px 64px 40px;
     }
 
-    /* 헤더 영역 (좌: 로고/텍스트, 우: Author + QR) */
+    /* =========================
+       A. HEADER ROW (텍스트 + QR)
+       ========================= */
     .np-header-row {
       display: flex;
       justify-content: space-between;
@@ -74,6 +72,7 @@
       font-weight: 500;
     }
 
+    /* QR + 검증 텍스트: 모두 우측정렬 */
     .np-verify-panel {
       display: flex;
       flex-direction: column;
@@ -86,6 +85,7 @@
       font-size: 13px;
       font-weight: 700;
       margin-bottom: 25px;
+      text-align: right;
     }
 
     .np-qr {
@@ -101,7 +101,29 @@
       font-weight: 500;
     }
 
-    /* 1. Overview Metrics */
+    .np-verify-id {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .np-verify-label-secondary {
+      font-size: 11px;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+
+    .np-verify-link {
+      font-size: 11px;
+      font-weight: 500;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       B. 1. Overview Metrics
+       ========================= */
     .np-section-title-small {
       font-size: 13px;
       font-weight: 700;
@@ -124,7 +146,9 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
-    /* 2. Content Summary */
+    /* =========================
+       C. 2. Content Summary
+       ========================= */
     .np-section-title-row {
       display: flex;
       justify-content: space-between;
@@ -144,6 +168,7 @@
       color: #444444;
     }
 
+    /* Content Summary 카드: 폭 900px, 페이지 안에서 중앙 정렬 */
     .np-summary-container {
       width: 900px;
       max-width: 100%;
@@ -181,429 +206,342 @@
       background: #eeeeee;
     }
 
+    /* =========================
+       D. 3. AI Usage Classification
+       ========================= */
+    .np-ai-section {
+      margin-top: 40px;  /* 2번 섹션과 동일한 상단 여백 */
+    }
+
+    .np-ai-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .np-ai-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .np-ai-submeta {
+      font-size: 11px;
+      font-weight: 500;
+      color: #555;
+      text-align: right;
+    }
+
+    .np-ai-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.6fr; /* 좌측: 믹스, 우측: 요약 */
+      gap: 16px;
+    }
+
+    .np-ai-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px 18px;
+      background: #ffffff;
+    }
+
+    .np-ai-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .np-ai-card-text {
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .np-ai-bar-wrap {
+      margin-top: 6px;
+      margin-bottom: 8px;
+    }
+
+    .np-ai-bar-label {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .np-ai-bar {
+      width: 100%;
+      height: 18px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #f3f4f6;
+      display: flex;
+    }
+
+    /* 새 색상 3조합 */
+    .np-ai-bar-seg-human {
+      background: #0f766e;  /* teal */
+    }
+
+    .np-ai-bar-seg-hybrid {
+      background: #6366f1;  /* indigo */
+    }
+
+    .np-ai-bar-seg-ai {
+      background: #f59e0b;  /* amber */
+    }
+
+    .np-ai-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .np-ai-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .np-ai-legend-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+    }
+
+    .np-ai-note-list {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #444;
+      line-height: 1.4;
+    }
+
+    .np-ai-note-list li {
+      margin-left: 14px;
+      margin-bottom: 2px;
+    }
+
     @media (max-width: 980px) {
       .np-page {
         padding: 32px 20px 48px 20px;
       }
     }
 
-<!-- ====== 스타일 추가 (기존 <style> 안 가장 아래쪽에 붙이기) ====== -->
-  .np-ai-section {
-    margin-top: 40px;
-  }
+    @media (max-width: 900px) {
+      .np-ai-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .np-ai-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 12px;
-  }
-
-  .np-ai-title {
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-  .np-ai-submeta {
-    font-size: 11px;
-    color: #555;
-    font-weight: 500;
-  }
-
-  .np-ai-grid {
-    display: grid;
-    grid-template-columns: 2fr 1.2fr;
-    gap: 16px;
-  }
-
-  .np-ai-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 16px 18px;
-    background: #ffffff;
-  }
-
-  .np-ai-card-title {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-
-  .np-ai-card-text {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-
-  .np-ai-badge-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
-    margin-bottom: 10px;
-  }
-
-  .np-ai-badge-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: #555;
-  }
-
-  .np-ai-badge {
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: #eef4ff;
-    border: 1px solid #d0e0ff;
-    color: #1a57d2;
-  }
-
-  .np-ai-bar-wrap {
-    margin-top: 6px;
-    margin-bottom: 8px;
-  }
-
-  .np-ai-bar-label {
-    font-size: 11px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-
-  .np-ai-bar {
-    width: 100%;
-    height: 12px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: #f3f4f6;
-    display: flex;
-  }
-
-  .np-ai-bar-seg-human {
-    background: #111827;
-  }
-
-  .np-ai-bar-seg-hybrid {
-    background: #9ca3af;
-  }
-
-  .np-ai-bar-seg-ai {
-    background: #e5e7eb;
-  }
-
-  .np-ai-legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 6px;
-  }
-
-  .np-ai-legend-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 500;
-  }
-
-  .np-ai-legend-swatch {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-  }
-
-  .np-ai-note-list {
-    margin-top: 8px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #444;
-    line-height: 1.4;
-  }
-
-  .np-ai-note-list li {
-    margin-left: 14px;
-    margin-bottom: 2px;
-  }
-
-  @media (max-width: 900px) {
-    .np-ai-grid {
-      grid-template-columns: 1fr;
+      .np-ai-submeta {
+        text-align: left;
+        margin-top: 4px;
+      }
     }
-  }
- 
   </style>
 </head>
 
 <body>
-  <div class="np-page">
-    <!-- HEADER -->
-    <div class="np-header-row">
-      <div class="np-left-header">
-        <img
-          src="neuprint-logo.png"
-          alt="NeuPrint Logo"
-          class="np-logo"
-        />
+<div class="np-page">
 
-        <div class="np-header-title-line1">
-          Neuprint Cognitive Forensics Engine v4.2.1
-        </div>
-        <div class="np-header-title-main">
-          NeuPrint Integrated Analysis Report
-        </div>
-        <div class="np-header-sub">
-          Integrated authorship, cognition, identity and HR-fit analysis
-        </div>
-        <div class="np-header-timestamp">
-          Analysis Timestamp : 2025-03-14 14:32:07 UTC
-        </div>
+  <!-- HEADER -->
+  <div class="np-header-row">
+    <div class="np-left-header">
+      <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
+
+      <div class="np-header-title-line1">
+        Neuprint Cognitive Forensics Engine v4.2.1
       </div>
-
-      <div class="np-verify-panel">
-        <div class="np-author-label">
-          Author : Candidate 014-A
-        </div>
-
-        <img
-          src="ExampleQR.png"
-          alt="NeuPrint QR Code"
-          class="np-qr"
-        />
-
-        <div class="np-verify-label">
-          Verification ID : NP-2025-0314-0007
-        </div>
-        <div class="np-verify-label">
-          To validate this report, visit https://neuprint.ai/verify
-        </div>
+      <div class="np-header-title-main">
+        NeuPrint Integrated Analysis Report
+      </div>
+      <div class="np-header-sub">
+        Integrated authorship, cognition, identity and HR-fit analysis
+      </div>
+      <div class="np-header-timestamp">
+        Analysis Timestamp : 2025-03-14 14:32:07 UTC
       </div>
     </div>
 
-    <!-- 1. Overview Metrics -->
-    <section>
-      <div class="np-section-title-small">
-        1. Overview Metrics
+    <div class="np-verify-panel">
+      <div class="np-author-label">Author : Candidate 014-A</div>
+
+      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+
+      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
+      <div class="np-verify-label">
+        To validate this report, visit https://neuprint.ai/verify
       </div>
-
-      <div class="np-metric-grid">
-        <article class="np-metric-card">
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;"
-          >
-            Authorship Verification
-          </div>
-          <div
-            style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;"
-          >
-            Human
-          </div>
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;"
-          >
-            Confidence 92%
-          </div>
-          <div
-            style="font-size:11px; font-weight:500; line-height:1.6;"
-          >
-            Deep reflective pattern consistent with human-authored reference
-            profiles.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;"
-          >
-            ARC Reasoning Level
-          </div>
-          <div
-            style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;"
-          >
-            L4 · Integrated Reasoning
-          </div>
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;"
-          >
-            ARC Reliability 0.89
-          </div>
-          <div
-            style="font-size:11px; font-weight:500; line-height:1.6;"
-          >
-            Strong integration of interpretation, evaluation and multistep
-            reasoning.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;"
-          >
-            Identity Consistency
-          </div>
-          <div
-            style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;"
-          >
-            Same Author Likely
-          </div>
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;"
-          >
-            Similarity Score 0.87
-          </div>
-          <div
-            style="font-size:11px; font-weight:500; line-height:1.6;"
-          >
-            Stable CFF-Prime 8 pattern with low temporal drift across samples.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;"
-          >
-            HR Role Recommendation
-          </div>
-          <div
-            style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;"
-          >
-            Strategy · Analysis · Policy
-          </div>
-          <div
-            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;"
-          >
-            Fit Reliability 0.82
-          </div>
-          <div
-            style="font-size:11px; font-weight:500; line-height:1.6;"
-          >
-            Cognitive pattern aligned with analytical, strategic and
-            policy-oriented tasks.
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 2. Content Summary -->
-    <section>
-      <div class="np-section-title-row">
-        <div class="np-section-title">
-          2. Content Summary
-        </div>
-        <div class="np-meta-inline">
-          Word : 486 / Sentence : 22 / Paragraphs : 3
-        </div>
-      </div>
-
-      <div class="np-summary-container">
-        <div class="np-label">Prompt :</div>
-        <div class="np-text">
-          Should schools allow AI-assisted writing in formal assessments?
-        </div>
-
-        <div class="np-label">Summary :</div>
-        <div class="np-text">
-          This essay examines whether schools should allow AI assisted writing
-          in formal assessments. The writer explains how AI can improve surface
-          quality while making fairness and genuine thinking harder to evaluate.
-          Rather than a simple ban, the essay proposes personal criteria and
-          conditions for transparent and accountable AI use.
-        </div>
-
-        <div class="np-tag-list">
-          <span class="np-tag">AI assisted writing</span>
-          <span class="np-tag">Fair assessment</span>
-          <span class="np-tag">Student agency</span>
-          <span class="np-tag">School policy</span>
-        </div>
-      </div>
-    </section>
-
-<!-- ====== 본문 섹션 추가 (예: 2. Content Summary 다음에) ====== -->
-<section class="np-ai-section">
-  <div class="np-ai-title-row">
-    <div class="np-ai-title">3. AI Usage Classification</div>
-    <div class="np-ai-submeta">Final decision · Human (Confidence 88%)</div>
+    </div>
   </div>
 
-  <div class="np-ai-grid">
-    <!-- 좌측: 요약 설명 -->
-    <article class="np-ai-card">
-      <div class="np-ai-card-title">Decision Summary</div>
-      <p class="np-ai-card-text">
-        Final decision is <strong>Human</strong>. Pattern label is
-        <strong>deep reflective human in a stable context</strong>.
-        A confidence of 88% indicates that the classifier produces the same
-        decision under small perturbations of the text. The sample sits within
-        the <strong>top 22 percentile</strong> of the human reference group
-        for the same grade band.
-      </p>
+  <!-- 1. Overview Metrics -->
+  <section>
+    <div class="np-section-title-small">
+      1. Overview Metrics
+    </div>
 
-      <div class="np-ai-badge-row" style="margin-top:10px;">
-        <span class="np-ai-badge-label">Pattern</span>
-        <span class="np-ai-badge">deep_reflective_human</span>
+    <div class="np-metric-grid">
 
-        <span class="np-ai-badge-label">Reliability band</span>
-        <span class="np-ai-badge">high</span>
-
-        <span class="np-ai-badge-label">Interpretation</span>
-        <span class="np-ai-badge">Human-led with light AI phrasing support</span>
-      </div>
-    </article>
-
-    <!-- 우측: 비율 바 + 상세 해석 -->
-    <article class="np-ai-card">
-      <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
-
-      <div class="np-ai-bar-wrap">
-        <div class="np-ai-bar-label">Classification share</div>
-        <div class="np-ai-bar">
-          <div
-            class="np-ai-bar-seg-human"
-            style="width:82%;"
-          ></div>
-          <div
-            class="np-ai-bar-seg-hybrid"
-            style="width:9%;"
-          ></div>
-          <div
-            class="np-ai-bar-seg-ai"
-            style="width:9%;"
-          ></div>
+      <article class="np-metric-card">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+          Authorship Verification
         </div>
-        <div class="np-ai-legend">
-          <div class="np-ai-legend-item">
-            <span
-              class="np-ai-legend-swatch"
-              style="background:#111827;"
-            ></span>
-            Human 82%
-          </div>
-          <div class="np-ai-legend-item">
-            <span
-              class="np-ai-legend-swatch"
-              style="background:#9ca3af;"
-            ></span>
-            Hybrid 9%
-          </div>
-          <div class="np-ai-legend-item">
-            <span
-              class="np-ai-legend-swatch"
-              style="background:#e5e7eb;"
-            ></span>
-            AI 9%
-          </div>
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          Human
         </div>
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+          Confidence 92%
+        </div>
+        <div style="font-size:11px; font-weight:500; line-height:1.6;">
+          Deep reflective pattern consistent with human-authored reference profiles.
+        </div>
+      </article>
+
+      <article class="np-metric-card">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+          ARC Reasoning Level
+        </div>
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          L4 · Integrated Reasoning
+        </div>
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+          ARC Reliability 0.89
+        </div>
+        <div style="font-size:11px; font-weight:500; line-height:1.6;">
+          Strong integration of interpretation, evaluation and multistep reasoning.
+        </div>
+      </article>
+
+      <article class="np-metric-card">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+          Identity Consistency
+        </div>
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          Same Author Likely
+        </div>
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+          Similarity Score 0.87
+        </div>
+        <div style="font-size:11px; font-weight:500; line-height:1.6;">
+          Stable CFF-Prime 8 pattern with low temporal drift across samples.
+        </div>
+      </article>
+
+      <article class="np-metric-card">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+          HR Role Recommendation
+        </div>
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+          Strategy · Analysis · Policy
+        </div>
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+          Fit Reliability 0.82
+        </div>
+        <div style="font-size:11px; font-weight:500; line-height:1.6;">
+          Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- 2. Content Summary -->
+  <section>
+    <div class="np-section-title-row">
+      <div class="np-section-title">
+        2. Content Summary
+      </div>
+      <div class="np-meta-inline">
+        Word : 486 / Sentence : 22 / Paragraphs : 3
+      </div>
+    </div>
+
+    <div class="np-summary-container">
+      <div class="np-label">Prompt :</div>
+      <div class="np-text">
+        Should schools allow AI-assisted writing in formal assessments?
       </div>
 
-      <ul class="np-ai-note-list">
-        <li><strong>Human</strong> · non-linear reasoning with self-revision traces</li>
-        <li><strong>Hybrid</strong> · local phrasing support and polishing</li>
-        <li><strong>AI</strong> · fully AI-generated outcome is unlikely</li>
-      </ul>
-    </article>
-  </div>
-</section>
-    
-  </div>
+      <div class="np-label">Summary :</div>
+      <div class="np-text">
+        This essay examines whether schools should allow AI assisted writing in formal assessments.
+        The writer explains how AI can improve surface quality while making fairness and genuine
+        thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
+        and conditions for transparent and accountable AI use.
+      </div>
+
+      <div class="np-tag-list">
+        <span class="np-tag">AI assisted writing</span>
+        <span class="np-tag">Fair assessment</span>
+        <span class="np-tag">Student agency</span>
+        <span class="np-tag">School policy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. AI Usage Classification -->
+  <section class="np-ai-section">
+    <div class="np-ai-title-row">
+      <div class="np-ai-title">3. AI Usage Classification</div>
+      <div class="np-ai-submeta">
+        Final decision · Human (Confidence 88%)<br />
+        Pattern deep_reflective_human · Reliability band high · Interpretation Human-led with light AI phrasing support
+      </div>
+    </div>
+
+    <div class="np-ai-grid">
+      <!-- 왼쪽: Human / Hybrid / AI Mix -->
+      <article class="np-ai-card">
+        <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
+
+        <div class="np-ai-bar-wrap">
+          <div class="np-ai-bar-label">Classification share</div>
+          <div class="np-ai-bar">
+            <div class="np-ai-bar-seg-human" style="width:82%;"></div>
+            <div class="np-ai-bar-seg-hybrid" style="width:9%;"></div>
+            <div class="np-ai-bar-seg-ai" style="width:9%;"></div>
+          </div>
+
+          <div class="np-ai-legend">
+            <div class="np-ai-legend-item">
+              <span class="np-ai-legend-swatch" style="background:#0f766e;"></span>
+              Human 82%
+            </div>
+            <div class="np-ai-legend-item">
+              <span class="np-ai-legend-swatch" style="background:#6366f1;"></span>
+              Hybrid 9%
+            </div>
+            <div class="np-ai-legend-item">
+              <span class="np-ai-legend-swatch" style="background:#f59e0b;"></span>
+              AI 9%
+            </div>
+          </div>
+        </div>
+
+        <ul class="np-ai-note-list">
+          <li><strong>Human</strong> · non-linear reasoning with self-revision traces</li>
+          <li><strong>Hybrid</strong> · local phrasing support and polishing</li>
+          <li><strong>AI</strong> · fully AI-generated outcome is unlikely</li>
+        </ul>
+      </article>
+
+      <!-- 오른쪽: Decision Summary -->
+      <article class="np-ai-card">
+        <div class="np-ai-card-title">Decision Summary</div>
+        <p class="np-ai-card-text">
+          Final decision is <strong>Human</strong>. Pattern label is
+          <strong>deep reflective human in a stable context</strong>. A confidence of
+          <strong>88%</strong> indicates that the classifier produces the same decision
+          under small perturbations of the text. The sample sits within the
+          <strong>top 22 percentile</strong> of the human reference group for the same grade band.
+        </p>
+      </article>
+    </div>
+  </section>
+
+</div>
 </body>
 </html>
