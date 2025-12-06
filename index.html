@@ -1,411 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NeuPrint Integrated Analysis Report</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeuPrint Integrated Analysis Report</title>
 
-  <!-- Open Sans -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <style>
-    /* ========== GLOBAL ========== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --np-pt-11: 11px;
-      --np-pt-13: 13px;
-      --np-pt-18: 18px;
-      --np-pt-30: 30px;
-    }
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #fff;
+  color: #000;
+}
 
-    body {
-      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
-        sans-serif;
-      background: #ffffff;
-      color: #000000;
-    }
+.np-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 40px;
+}
 
-    .np-page {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 48px 40px 64px 40px;
-    }
+/* ================================================================= */
+/*  A. HEADER(로고 + 타이틀 + QR) 를 하나의 ROW 로 묶는 구조  */
+/* ================================================================= */
 
-    /* 공통 타이포 유틸 */
-    .np-pt-11 {
-      font-size: var(--np-pt-11);
-    }
-    .np-pt-13 {
-      font-size: var(--np-pt-13);
-    }
-    .np-pt-18 {
-      font-size: var(--np-pt-18);
-    }
-    .np-pt-30 {
-      font-size: var(--np-pt-30);
-    }
+.np-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
-    .np-medium {
-      font-weight: 500;
-    }
-    .np-bold {
-      font-weight: 700;
-    }
+.np-left-header { 
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
 
-    .np-tight {
-      line-height: 1.25;
-    }
-    .np-body {
-      line-height: 1.4;
-    }
-    .np-body-loose {
-      line-height: 1.6;
-    }
+.np-logo {
+  width: 172px;
+  height: auto;
+}
 
-    /* ========== TOP BAR ========== */
-    .np-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 28px;
-    }
+.np-header-title-line1 {
+  font-size: 13px;
+  font-weight: 500;
+}
+.np-header-title-main {
+  font-size: 30pt;
+  font-weight: 700;
+}
+.np-header-sub {
+  font-size: 13px;
+  font-weight: 500;
+}
+.np-header-timestamp {
+  font-size: 13px;
+  font-weight: 500;
+}
 
-    .np-logo {
-      width: 172px;
-      height: auto;
-      display: block;
-    }
+.np-verify-panel {
+  text-align: right;
+}
 
-    .np-verify-panel {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-    }
+.np-verify-label {
+  font-size: 13px;
+  font-weight: 500;
+}
 
-    .np-verify-text {
-      text-align: right;
-    }
+.np-verify-id {
+  font-size: 13px;
+  font-weight: 700;
+}
 
-    .np-qr {
-      width: 96px;
-      height: 96px;
-      object-fit: contain;
-      display: block;
-    }
+.np-verify-link {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
-    /* ========== OVERVIEW METRICS ========== */
-    .np-metric-section-title {
-      margin-top: 32px;
-      margin-bottom: 12px;
-    }
+.np-qr {
+  width: 96px;
+  height: 96px;
+  margin-top: 6px;
+}
 
-    .np-metric-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 12px;
-    }
 
-    .np-metric-card {
-      border: 1px solid #eeeeee;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-    }
+/* ============================================================= */
+/*  B. Content Summary – 900px 고정 너비 및 중앙정렬              */
+/* ============================================================= */
 
-    /* ========== B-1 CONTENT SUMMARY ========== */
-    .np-section-title {
-      margin-top: 40px;
-      margin-bottom: 16px;
-    }
+.np-section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
 
-    .np-content-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-      width: 100%;
-      align-items: flex-start;
-    }
+.np-section-title {
+  font-size: 18px;
+  font-weight: 700;
+}
 
-    .np-summary-card,
-    .np-tags-card {
-      background: #ffffff;
-      border: 1px solid #d7d7d7;
-      border-radius: 12px;
-      padding: 20px;
-    }
+.np-meta-inline {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
 
-    .np-meta-block {
-      margin-bottom: 12px;
-    }
+.np-summary-container {
+  width: 900px;
+  margin: 0 auto;
+  border: 1px solid #D7D7D7;
+  border-radius: 12px;
+  padding: 20px;
+}
 
-    .np-meta-label {
-      display: block;
-      margin-bottom: 4px;
-    }
+.np-label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
 
-    .np-summary-text {
-      margin-top: 8px;
-    }
+.np-text {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
 
-    .np-tags-title {
-      margin-bottom: 12px;
-    }
+.np-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
-    .np-tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
+.np-tag {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 16px;
+  background: #eeeeee;
+}
 
-    /* 토픽 태그: 13px medium, 배경만 #eeeeee, border 없음 */
-    .np-tag {
-      padding: 6px 12px;
-      border-radius: 20px;
-      background: #eeeeee;
-      border: none;
-      font-size: 13px;
-      font-weight: 500;
-      color: #000000;
-      white-space: nowrap;
-    }
+</style>
 
-    .np-tags-desc {
-      line-height: 1.45;
-    }
-
-    /* ========== RESPONSIVE ========== */
-    @media (max-width: 1240px) {
-      .np-page {
-        padding: 32px 20px 40px 20px;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .np-metric-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .np-content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      .np-top-bar {
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      .np-verify-panel {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .np-metric-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
 </head>
-
 <body>
-  <div class="np-page">
-    <!-- ========== TOP BAR ========== -->
-    <header class="np-top-bar">
-      <div>
-        <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
-      </div>
 
-      <div class="np-verify-panel">
-        <div class="np-verify-text">
-          <div class="np-pt-13 np-medium np-tight">Verification ID</div>
-          <div class="np-pt-13 np-bold np-tight" style="margin-top:2px;">
-            NP-2025-0314-0007
-          </div>
+<div class="np-page">
 
-          <div class="np-pt-13 np-medium np-tight" style="margin-top:8px;">
-            To validate this report, visit
-          </div>
-          <div
-            class="np-pt-13 np-medium np-tight"
-            style="
-              margin-top: 2px;
-              text-decoration: underline;
-              text-decoration-thickness: 1px;
-              text-underline-offset: 2px;
-            "
-          >
-            https://neuprint.ai/verify
-          </div>
-        </div>
+<!-- ============================================================= -->
+<!-- A. HEADER ROW (로고 + 텍스트 + QR)                            -->
+<!-- ============================================================= -->
+<div class="np-header-row">
 
-        <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
-      </div>
-    </header>
+  <!-- 왼쪽: 로고 + 텍스트 -->
+  <div class="np-left-header">
+      <img src="neuprint-logo.png" class="np-logo"/>
 
-    <!-- ========== HEADER TEXT ========== -->
-    <section>
-      <!-- Neuprint Cognitive Forensics Engine v4.2.1 - 13pt medium -->
-      <div class="np-pt-13 np-medium np-tight">
-        Neuprint Cognitive Forensics Engine v4.2.1
-      </div>
-
-      <!-- NeuPrint Integrated Analysis Report - 30pt bold -->
-      <div class="np-pt-30 np-bold np-tight" style="margin-top:4px;">
-        NeuPrint Integrated Analysis Report
-      </div>
-
-      <!-- Integrated authorship... - 13pt medium -->
-      <div class="np-pt-13 np-medium np-body" style="margin-top:8px;">
-        Integrated authorship, cognition, identity and HR-fit analysis
-      </div>
-
-      <!-- Timestamp - 13pt medium -->
-      <div class="np-pt-13 np-medium np-tight" style="margin-top:6px;">
-        Analysis Timestamp : 2025-03-14 14:32:07 UTC
-      </div>
-    </section>
-
-    <!-- ========== 1. OVERVIEW METRICS ========== -->
-    <section>
-      <div
-        class="np-metric-section-title np-pt-13 np-bold np-tight"
-      >
-        1. Overview Metrics
-      </div>
-
-      <div class="np-metric-grid">
-        <!-- 1) Authorship Verification -->
-        <article class="np-metric-card">
-          <div class="np-pt-13 np-bold np-tight" style="margin-bottom:4px;">
-            Authorship<br />Verification
-          </div>
-
-          <div class="np-pt-18 np-bold np-tight" style="margin-bottom:4px;">
-            Human
-          </div>
-
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:8px;">
-            Confidence 92%
-          </div>
-
-          <div class="np-pt-11 np-medium np-body-loose">
-            Deep reflective pattern consistent with human-authored reference profiles.
-          </div>
-        </article>
-
-        <!-- 2) ARC Reasoning Level -->
-        <article class="np-metric-card">
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:4px;">
-            ARC Reasoning<br />Level
-          </div>
-
-          <div class="np-pt-18 np-bold np-tight" style="margin-bottom:4px;">
-            L4 Integrated<br />Reasoning
-          </div>
-
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:8px;">
-            ARC Reliability 0.89
-          </div>
-
-          <div class="np-pt-11 np-medium np-body-loose">
-            Strong integration of interpretation, evaluation and multistep reasoning.
-          </div>
-        </article>
-
-        <!-- 3) Identity Consistency -->
-        <article class="np-metric-card">
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:4px;">
-            Identity Consistency<br />(TPS-H)
-          </div>
-
-          <div class="np-pt-18 np-bold np-tight" style="margin-bottom:4px;">
-            Same Author<br />Likely
-          </div>
-
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:8px;">
-            Similarity Score 0.87
-          </div>
-
-          <div class="np-pt-11 np-medium np-body-loose">
-            Stable CFF-Prime 8 pattern with low temporal drift across samples.
-          </div>
-        </article>
-
-        <!-- 4) HR Role Recommendation -->
-        <article class="np-metric-card">
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:4px;">
-            HR Role<br />Recommendation
-          </div>
-
-          <div class="np-pt-18 np-bold np-tight" style="margin-bottom:4px;">
-            Strategy ·<br />Analysis ·<br />Policy
-          </div>
-
-          <div class="np-pt-13 np-medium np-tight" style="margin-bottom:8px;">
-            Fit Reliability 0.82
-          </div>
-
-          <div class="np-pt-11 np-medium np-body-loose">
-            Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ========== 2. CONTENT SUMMARY ========== -->
-    <section>
-      <h2 class="np-section-title np-pt-13 np-bold np-tight">
-        2. Content Summary
-      </h2>
-            <p class="np-meta-value np-pt-11 np-medium np-body">
-              Word : 486 / Sentence : 22 / Paragraphs: 3
-            </p>
-
-      <div class="np-content-grid">
-        <!-- LEFT: Summary -->
-        <div class="np-summary-card">
-          <div class="np-meta-block">
-            <span class="np-meta-label np-pt-13 np-bold np-tight">
-              Prompt : 
-            </span>
-            <p class="np-meta-value np-pt-13 np-medium np-body">
-              Should schools allow AI-assisted writing in formal assessments?
-            </p>
-          </div>
-
-          <div class="np-meta-block">
-            <span class="np-meta-label np-pt-13 np-bold np-tight">
-              Summary : 
-            </span>
-          </div>
-
-          <p class="np-summary-text np-pt-13 np-medium np-body-loose">
-            This essay examines whether schools should allow AI assisted writing in formal
-            assessments. The writer explains how AI can improve surface quality while making
-            fairness and genuine thinking harder to evaluate. Rather than a simple ban,
-            the essay proposes personal criteria and conditions for transparent and
-            accountable AI use.
-          </p>
-          <div class="np-tag-list">
-            <span class="np-tag">AI assisted writing</span>
-            <span class="np-tag">Fair assessment</span>
-            <span class="np-tag">Student agency</span>
-            <span class="np-tag">School policy</span>
-          </div>
-        </div>
-      </div>
-    </section>
+      <div class="np-header-title-line1">Neuprint Cognitive Forensics Engine v4.2.1</div>
+      <div class="np-header-title-main">NeuPrint Integrated Analysis Report</div>
+      <div class="np-header-sub">Integrated authorship, cognition, identity and HR-fit analysis</div>
+      <div class="np-header-timestamp">Analysis Timestamp : 2025-03-14 14:32:07 UTC</div>
   </div>
+
+  <!-- 오른쪽: QR + 검증텍스트 -->
+  <div class="np-verify-panel">
+      <div class="np-verify-label">Verification ID</div>
+      <div class="np-verify-id">NP-2025-0314-0007</div>
+
+      <div class="np-verify-label" style="margin-top:8px;">To validate this report, visit</div>
+      <div class="np-verify-link">https://neuprint.ai/verify</div>
+
+      <img src="ExampleQR.png" class="np-qr"/>
+  </div>
+
+</div>
+
+
+
+<!-- ============================================================= -->
+<!-- 2. CONTENT SUMMARY                                            -->
+<!-- ============================================================= -->
+
+<div class="np-section-title-row">
+    <div class="np-section-title">2. Content Summary</div>
+
+    <div class="np-meta-inline">
+      Word : 486 / Sentence : 22 / Paragraphs : 3
+    </div>
+</div>
+
+
+<div class="np-summary-container">
+
+    <div class="np-label">Prompt :</div>
+    <div class="np-text">
+        Should schools allow AI-assisted writing in formal assessments?
+    </div>
+
+    <div class="np-label">Summary :</div>
+    <div class="np-text">
+        This essay examines whether schools should allow AI assisted writing in formal assessments.
+        The writer explains how AI can improve surface quality while making fairness and genuine
+        thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
+        and conditions for transparent and accountable AI use.
+    </div>
+
+    <div class="np-tag-list">
+        <div class="np-tag">AI assisted writing</div>
+        <div class="np-tag">Fair assessment</div>
+        <div class="np-tag">Student agency</div>
+        <div class="np-tag">School policy</div>
+    </div>
+
+</div>
+
+
+</div>
 </body>
 </html>
