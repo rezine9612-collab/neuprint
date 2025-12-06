@@ -186,6 +186,151 @@
         padding: 32px 20px 48px 20px;
       }
     }
+
+<!-- ====== 스타일 추가 (기존 <style> 안 가장 아래쪽에 붙이기) ====== -->
+  .np-ai-section {
+    margin-top: 40px;
+  }
+
+  .np-ai-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .np-ai-title {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .np-ai-submeta {
+    font-size: 11px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  .np-ai-grid {
+    display: grid;
+    grid-template-columns: 2fr 1.2fr;
+    gap: 16px;
+  }
+
+  .np-ai-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px 18px;
+    background: #ffffff;
+  }
+
+  .np-ai-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .np-ai-card-text {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .np-ai-badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 10px;
+  }
+
+  .np-ai-badge-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  .np-ai-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eef4ff;
+    border: 1px solid #d0e0ff;
+    color: #1a57d2;
+  }
+
+  .np-ai-bar-wrap {
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
+
+  .np-ai-bar-label {
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .np-ai-bar {
+    width: 100%;
+    height: 12px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+  }
+
+  .np-ai-bar-seg-human {
+    background: #111827;
+  }
+
+  .np-ai-bar-seg-hybrid {
+    background: #9ca3af;
+  }
+
+  .np-ai-bar-seg-ai {
+    background: #e5e7eb;
+  }
+
+  .np-ai-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  .np-ai-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .np-ai-legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+  }
+
+  .np-ai-note-list {
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #444;
+    line-height: 1.4;
+  }
+
+  .np-ai-note-list li {
+    margin-left: 14px;
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .np-ai-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+ 
   </style>
 </head>
 
@@ -372,6 +517,93 @@
         </div>
       </div>
     </section>
+
+<!-- ====== 본문 섹션 추가 (예: 2. Content Summary 다음에) ====== -->
+<section class="np-ai-section">
+  <div class="np-ai-title-row">
+    <div class="np-ai-title">3. AI Usage Classification</div>
+    <div class="np-ai-submeta">Final decision · Human (Confidence 88%)</div>
+  </div>
+
+  <div class="np-ai-grid">
+    <!-- 좌측: 요약 설명 -->
+    <article class="np-ai-card">
+      <div class="np-ai-card-title">Decision Summary</div>
+      <p class="np-ai-card-text">
+        Final decision is <strong>Human</strong>. Pattern label is
+        <strong>deep reflective human in a stable context</strong>.
+        A confidence of 88% indicates that the classifier produces the same
+        decision under small perturbations of the text. The sample sits within
+        the <strong>top 22 percentile</strong> of the human reference group
+        for the same grade band.
+      </p>
+
+      <div class="np-ai-badge-row" style="margin-top:10px;">
+        <span class="np-ai-badge-label">Pattern</span>
+        <span class="np-ai-badge">deep_reflective_human</span>
+
+        <span class="np-ai-badge-label">Reliability band</span>
+        <span class="np-ai-badge">high</span>
+
+        <span class="np-ai-badge-label">Interpretation</span>
+        <span class="np-ai-badge">Human-led with light AI phrasing support</span>
+      </div>
+    </article>
+
+    <!-- 우측: 비율 바 + 상세 해석 -->
+    <article class="np-ai-card">
+      <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
+
+      <div class="np-ai-bar-wrap">
+        <div class="np-ai-bar-label">Classification share</div>
+        <div class="np-ai-bar">
+          <div
+            class="np-ai-bar-seg-human"
+            style="width:82%;"
+          ></div>
+          <div
+            class="np-ai-bar-seg-hybrid"
+            style="width:9%;"
+          ></div>
+          <div
+            class="np-ai-bar-seg-ai"
+            style="width:9%;"
+          ></div>
+        </div>
+        <div class="np-ai-legend">
+          <div class="np-ai-legend-item">
+            <span
+              class="np-ai-legend-swatch"
+              style="background:#111827;"
+            ></span>
+            Human 82%
+          </div>
+          <div class="np-ai-legend-item">
+            <span
+              class="np-ai-legend-swatch"
+              style="background:#9ca3af;"
+            ></span>
+            Hybrid 9%
+          </div>
+          <div class="np-ai-legend-item">
+            <span
+              class="np-ai-legend-swatch"
+              style="background:#e5e7eb;"
+            ></span>
+            AI 9%
+          </div>
+        </div>
+      </div>
+
+      <ul class="np-ai-note-list">
+        <li><strong>Human</strong> · non-linear reasoning with self-revision traces</li>
+        <li><strong>Hybrid</strong> · local phrasing support and polishing</li>
+        <li><strong>AI</strong> · fully AI-generated outcome is unlikely</li>
+      </ul>
+    </article>
+  </div>
+</section>
+    
   </div>
 </body>
 </html>
