@@ -102,131 +102,94 @@
 <style>
   /* ===== B-1. Content Summary Section ===== */
 
-  .np-section-title-b1 {
-    margin-top: 40px;
-    margin-bottom: 14px;
-    font-size: 17.33px; /* 13pt */
-    font-weight: 700;
-    line-height: 1.25;
-  }
+/* GRID FIX — 중요! */
+.np-content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  align-items: start;
+}
 
-  .np-content-grid {
-    display: grid;
-    grid-template-columns: 2fr 1.4fr;
-    gap: 20px;
-    align-items: stretch;
-  }
+/* Typography (너의 스타일 가이드 반영) */
+.np-section-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18pt;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 16px;
+}
 
-  /* 왼쪽 Summary 카드 */
-  .np-summary-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 18px 20px;
-    background: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-  }
+/* Summary card */
+.np-summary-card {
+  background: #fff;
+  border: 1px solid #D7D7D7;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Open Sans', sans-serif;
+}
 
-  .np-field-label {
-    font-size: 14.67px; /* 11pt~12pt 느낌 */
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #6b7280;
-    margin-bottom: 6px;
-  }
+.np-summary {
+  font-size: 13pt;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-top: 10px;
+  color: #000;
+}
 
-  .np-prompt-text {
-    font-size: 14.67px;
-    font-weight: 500;
-    line-height: 1.6;
-    color: #111827;
-    margin-bottom: 14px;
-  }
+/* Metadata */
+.np-meta-label {
+  display: block;
+  font-size: 11pt;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
 
-  .np-summary-text {
-    font-size: 14.67px;
-    font-weight: 500;
-    line-height: 1.6;
-    color: #111827;
-  }
+.np-meta-value {
+  font-size: 11pt;
+  margin-bottom: 12px;
+}
 
-  /* 오른쪽 패널 (태그 + 메타데이터) */
-  .np-side-panel {
-    border-radius: 10px;
-    padding: 18px 20px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-  }
+/* Tags */
+.np-tags-card {
+  background: #fff;
+  border: 1px solid #D7D7D7;
+  padding: 20px;
+  border-radius: 12px;
+  font-family: 'Open Sans', sans-serif;
+}
 
-  .np-tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 18px;
-  }
+.np-tags-title {
+  font-size: 13pt;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
 
-  .np-tag-chip {
-    font-size: 13px;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: #e0f2fe;
-    color: #0f172a;
-    border: 1px solid #bae6fd;
-    white-space: nowrap;
-  }
+.np-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
 
-  .np-metadata-list {
-    margin: 4px 0 6px 0;
-    padding: 0;
-    list-style: none;
-  }
+.np-tag {
+  background: #eef4ff;
+  border: 1px solid #aecbff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11pt;
+  font-weight: 600;
+  color: #1a57d2;
+}
 
-  .np-metadata-list li {
-    font-size: 13.5px;
-    font-weight: 500;
-    line-height: 1.5;
-    color: #111827;
-    margin-bottom: 2px;
-  }
+/* Tag description */
+.np-tags-desc {
+  font-size: 11pt;
+  font-weight: 400;
+  color: #000;
+  line-height: 1.45;
+}
 
-  .np-metadata-note {
-    margin-top: 6px;
-    font-size: 12.5px;
-    color: #6b7280;
-    line-height: 1.5;
-  }
-
-  /* 하단 설명 카드 */
-  .np-explanation-card {
-    margin-top: 16px;
-    border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    padding: 16px 18px;
-    background: #ffffff;
-  }
-
-  .np-explanation-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-
-  .np-explanation-text {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: #111827;
-  }
-
-  .np-explanation-text + .np-explanation-text {
-    margin-top: 6px;
-  }
-
-  @media (max-width: 900px) {
-    .np-content-grid {
-      grid-template-columns: 1fr;
-    }
-  }
 </style>
   
 </head>
@@ -368,76 +331,59 @@
 
   </div>
 <!-- B-1. Content Summary Section -->
-<section>
-  <div class="np-section-title-b1">
-    2. Content Summary
-  </div>
+<!-- Content Summary Section -->
+<section class="np-section">
+  <h2 class="np-section-title">2. Content Summary</h2>
 
   <div class="np-content-grid">
-    <!-- 왼쪽: Prompt + Summary 카드 -->
-    <article class="np-summary-card">
-      <!-- Essay Prompt -->
-      <div class="np-field-label">Essay Prompt</div>
-      <p class="np-prompt-text">
-        Should schools allow AI-assisted writing in formal assessments?
-        Write an essay discussing potential benefits, risks, and the conditions
-        under which AI support may be acceptable.
-      </p>
+    
+    <!-- LEFT: Summary Text -->
+    <div class="np-summary-card">
+      <div class="np-meta">
+        <span class="np-meta-label">Prompt / Writing Task</span>
+        <p class="np-meta-value">
+          “Should schools allow AI-assisted writing in formal assessments?”
+        </p>
+      </div>
 
-      <!-- Content Summary -->
-      <div class="np-field-label">Content Summary</div>
-      <p class="np-summary-text">
+      <div class="np-meta">
+        <span class="np-meta-label">Text Metadata</span>
+        <p class="np-meta-value">
+          Word Count: 486 words<br>
+          Sentence Count: 22 sentences<br>
+          Avg. Sentence Length: 22.1 words
+        </p>
+      </div>
+
+      <p class="np-summary">
         This essay examines whether schools should allow AI assisted writing in formal assessments.
         The writer explains how AI can improve surface quality while making fairness and genuine
         thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
         and conditions for transparent and accountable AI use.
       </p>
-    </article>
+    </div>
 
-    <!-- 오른쪽: Key Topics + Metadata -->
-    <aside class="np-side-panel">
-      <!-- Key Topics -->
-      <div class="np-field-label">Key Topics</div>
-      <div class="np-tag-row">
-        <span class="np-tag-chip">AI assisted writing</span>
-        <span class="np-tag-chip">Fair assessment</span>
-        <span class="np-tag-chip">Student agency</span>
-        <span class="np-tag-chip">School policy</span>
+    <!-- RIGHT: Key Topic Chips -->
+    <div class="np-tags-card">
+      <div class="np-tags-title">Key Topics</div>
+
+      <div class="np-tag-list">
+        <span class="np-tag">AI assisted writing</span>
+        <span class="np-tag">Fair assessment</span>
+        <span class="np-tag">Student agency</span>
+        <span class="np-tag">School policy</span>
       </div>
 
-      <!-- Text Metadata -->
-      <div class="np-field-label">Text Metadata</div>
-      <ul class="np-metadata-list">
-        <li>Word Count: <strong>237 words</strong></li>
-        <li>Sentence Count: <strong>12 sentences</strong></li>
-        <li>Average Sentence Length: <strong>19.7 words / sentence</strong></li>
-        <li>Paragraphs: <strong>3 paragraphs</strong></li>
-        <li>Readability Estimate: <strong>Flesch–Kincaid Grade 9.8</strong></li>
-      </ul>
-      <div class="np-metadata-note">
-        Length and readability metrics help educators and HR reviewers quickly gauge
-        complexity, density of reasoning, and expected reading difficulty.
-      </div>
-    </aside>
-  </div>
+      <p class="np-tags-desc">
+        NeuPrint automatically extracts frequently appearing conceptual clusters such as “AI assisted
+        writing”, “fairness”, and “policy conditions”. Topic relevance is derived from keyword density,
+        semantic grouping, and positional weight across the text.
+      </p>
+    </div>
 
-  <!-- 하단 설명 블록 -->
-  <div class="np-explanation-card">
-    <div class="np-explanation-title">What this section shows</div>
-    <p class="np-explanation-text">
-      The essay responds to a policy-oriented question about whether schools should allow
-      AI-assisted writing. Rather than a simple yes-or-no stance, the writer focuses on fairness,
-      conditions for use, and the role of student agency.
-    </p>
-    <p class="np-explanation-text">
-      NeuPrint’s summarizer extracts recurring concepts and explicit judgment sentences
-      to form the content summary, while key topics are generated from usage patterns of terms
-      such as “AI assisted writing”, “fairness”, “policy”, and “agency”. Structural metadata
-      (word count, sentence count, readability) is used to support downstream analytics,
-      filters, and dashboards.
-    </p>
   </div>
 </section>
+
   
 </body>
 </html>
