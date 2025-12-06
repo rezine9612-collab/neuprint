@@ -1,196 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>NeuPrint Integrated Analysis Report</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>NeuPrint Integrated Analysis Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f5f7ff',
-              100: '#e8f0ff',
-              200: '#d6e4ff',
-              300: '#b9ccff',
-              400: '#7eaaff',
-              500: '#4a87ff',
-              600: '#3563e6',
-              700: '#2a4ac6',
-              800: '#213a9a',
-              900: '#1a2f74',
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              // chatgpt / relay 스타일 system-ui 폰트
+              sans: [
+                'system-ui',
+                '-apple-system',
+                'BlinkMacSystemFont',
+                '"Segoe UI"',
+                'sans-serif',
+              ],
             },
-            ink: {
-              50: '#f7f7fb',
-              100: '#eef1f7',
-              200: '#e0e6f3',
-              300: '#cbd5e1',
-              500: '#2b2f36',
-              700: '#1f2430',
-              900: '#11131a',
+            boxShadow: {
+              neu: '0 18px 45px rgba(15,23,42,0.14)',
             },
           },
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Noto Sans KR', 'Arial'],
-            mono: ['ui-monospace', 'SFMono-Regular', 'Monaco', 'Consolas', 'Courier New'],
-          },
-          boxShadow: {
-            'soft': '0 8px 24px rgba(0,0,0,.04)',
-            'xl-soft': '0 20px 40px rgba(0,0,0,.08)',
-          },
-          gradientColorStops: {
-            'glow': 'rgba(90, 140, 255, 0.25)',
-          }
-        }
-      }
-    }
-  </script>
-</head>
+        },
+      };
+    </script>
+  </head>
 
-<body class="bg-white text-slate-900 font-sans antialiased">
-  <!-- Global Container -->
-  <header class="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 md:h-20">
-        <!-- Left: Logo & Title -->
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-500 to-brand-600 flex items-center justify-center text-white font-semibold shadow-soft">
-            NP
-          </div>
+  <body class="bg-white text-slate-900 font-sans">
+    <main class="min-h-screen">
+      <div class="max-w-[960px] mx-auto px-4 py-10">
+        <!-- 상단 헤더: 로고 + 검증 정보 -->
+        <header
+          class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-6"
+        >
+          <!-- 로고 -->
           <div>
-            <div class="text-sm font-medium text-brand-600">NeuPrint Cognitive Forensics</div>
-            <div class="text-lg font-semibold tracking-tight text-slate-900">NeuPrint Integrated Analysis Report</div>
+            <img
+              src="neuprint-logo.png"
+              alt="NeuPrint"
+              width="172"
+              height="39"
+              class="h-9 w-auto"
+            />
           </div>
-        </div>
 
-        <!-- Right: Nav -->
-        <nav class="hidden md:flex items-center space-x-8">
-          <a href="#" class="text-slate-700 hover:text-brand-600 text-sm font-medium transition">리포트</a>
-          <a href="#" class="text-slate-700 hover:text-brand-600 text-sm font-medium transition">리소스</a>
-          <a href="#" class="text-slate-700 hover:text-brand-600 text-sm font-medium transition">팀</a>
-          <a href="#" class="text-slate-700 hover:text-brand-600 text-sm font-medium transition">GitHub</a>
-        </nav>
+          <!-- Verification 정보 (QR는 조용하게 작은 이미지로만) -->
+          <div class="flex flex-col items-start md:items-end gap-2 text-xs">
+            <div class="text-right">
+              <p class="font-medium text-slate-700">
+                Verification ID
+              </p>
+              <p class="font-mono text-emerald-700">
+                NP-2025-0314-0007
+              </p>
+              <p class="text-[11px] text-slate-500">
+                Validate at neuprint.ai/verify
+              </p>
+            </div>
+            <img
+              src="ExampleQR.png"
+              alt="Verification QR"
+              class="h-10 w-10 object-contain"
+            />
+          </div>
+        </header>
 
-        <!-- CTA -->
-        <div class="flex items-center gap-3">
-          <a href="#" class="hidden md:inline-flex items-center px-4 py-2 border border-brand-600 text-brand-600 rounded-md hover:bg-brand-50 transition">
-            시작하기
-          </a>
-          <button class="md:hidden p-2 rounded-md border border-slate-200" aria-label="Menu">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-5 h-5">
-              <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- 메인 -->
-  <main class="min-h-screen">
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <!-- Hero & Verification Row (1-column on mobile, 2-column on desktop) -->
-      <div class="grid md:grid-cols-2 gap-8 items-stretch">
-        <!-- Left: Hero -->
-        <div class="rounded-xl bg-gradient-to-br from-white to-slate-50 shadow-xl border border-slate-200 p-6 md:p-8 flex flex-col justify-between">
-          <div class="space-y-3">
-            <span class="inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600 border border-slate-200 rounded-full bg-white">
-              NeuPrint Cognitive Forensics Engine
+        <!-- 타이틀 영역 -->
+        <section class="mb-8 space-y-3">
+          <div class="flex flex-wrap items-center gap-2 text-[11px]">
+            <span
+              class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 uppercase tracking-wide text-slate-600"
+            >
+              NeuPrint Cognitive Forensics Engine v4.2.1
             </span>
-
-            <h1 class="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-slate-900">
-              Integrated Analysis Report
-            </h1>
-
-            <p class="text-sm md:text-base text-slate-600 leading-relaxed">
-              AI 기반 인사이트를 한곳에. 사고력, 저작성, 신원 일관성 및 HR 적합도까지 다각도로 분석한 최신 리포트 템플릿.
-            </p>
+            <span
+              class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-slate-500"
+            >
+              Integrated authorship, reasoning, identity and HR-fit metrics
+            </span>
           </div>
 
-          <div class="mt-6 flex flex-wrap gap-3">
-            <button class="px-5 py-3 rounded-full bg-brand-600 text-white font-medium hover:bg-brand-700 transition-shadow hover:shadow-xl">
-              샘플 보기
-            </button>
-            <button class="px-5 py-3 rounded-full bg-white border border-brand-600 text-brand-600 font-medium hover:bg-brand-50 transition">
-              시작하기
-            </button>
-          </div>
+          <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+            NeuPrint Integrated Analysis Report
+          </h1>
 
-          <!-- Highlights -->
-          <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="p-3 border border-slate-200 rounded-lg bg-white shadow-soft">
-              <p class="text-xs uppercase tracking-wide text-slate-500">구조적 분석</p>
-              <p class="font-semibold text-slate-700">명확한 의사결정 트리</p>
-            </div>
-            <div class="p-3 border border-slate-200 rounded-lg bg-white shadow-soft">
-              <p class="text-xs uppercase tracking-wide text-slate-500">신뢰도</p>
-              <p class="font-semibold text-slate-700">ARC 0.89</p>
-            </div>
-            <div class="p-3 border border-slate-200 rounded-lg bg-white shadow-soft">
-              <p class="text-xs uppercase tracking-wide text-slate-500">HR 적합성</p>
-              <p class="font-semibold text-slate-700">전략적 역량 매칭</p>
-            </div>
-          </div>
-        </div>
+          <p class="text-[14px] md:text-[15px] text-slate-600 max-w-xl leading-relaxed">
+            Summary of cognitive and authorship indicators derived from NeuPrint
+            reference cohorts, prepared for education, HR and decision teams.
+          </p>
 
-        <!-- Right: Verification -->
-        <aside class="bg-white border border-slate-200 rounded-2xl p-5 shadow-xl flex flex-col items-center justify-center gap-3">
-          <div class="h-28 w-28 rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden shadow-soft">
-            <img src="ExampleQR.png" alt="Verification QR" class="h-full w-full object-contain" />
+          <p class="text-[11px] font-mono text-slate-500">
+            Analysis Timestamp: 2025-03-14 14:32:07 UTC
+          </p>
+        </section>
+
+        <!-- 히어로 요약 섹션: 4개의 카드가 메인 -->
+        <section
+          class="rounded-3xl border border-slate-100 bg-slate-50 px-4 py-5 md:px-6 md:py-6"
+        >
+          <p class="text-[11px] uppercase tracking-wide text-slate-500 mb-3">
+            Summary snapshot
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <!-- 카드 공통 스타일: 위에 컬러 스트립 + 큰 값 -->
+            <!-- 카드 1 -->
+            <article
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
+            >
+              <div class="h-0.5 w-full bg-sky-500/70 mb-2"></div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-600">
+                Authorship Verification
+              </p>
+              <p class="text-xl font-semibold">
+                Human
+              </p>
+              <p class="text-[11px] text-slate-500">
+                Confidence 92 percent
+              </p>
+              <p class="text-xs leading-snug text-slate-600">
+                Deep reflective pattern consistent with human-authored reference
+                profiles.
+              </p>
+            </article>
+
+            <!-- 카드 2 -->
+            <article
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
+            >
+              <div class="h-0.5 w-full bg-emerald-500/70 mb-2"></div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-600">
+                ARC Reasoning Level
+              </p>
+              <p class="text-xl font-semibold">
+                L4 · Integrated Reasoning
+              </p>
+              <p class="text-[11px] text-slate-500">
+                ARC Reliability 0.89
+              </p>
+              <p class="text-xs leading-snug text-slate-600">
+                Strong integration of interpretation, evaluation and multistep
+                reasoning.
+              </p>
+            </article>
+
+            <!-- 카드 3 -->
+            <article
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
+            >
+              <div class="h-0.5 w-full bg-indigo-500/70 mb-2"></div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-600">
+                Identity Consistency (TPS-H)
+              </p>
+              <p class="text-xl font-semibold">
+                Same Author Likely
+              </p>
+              <p class="text-[11px] text-slate-500">
+                Similarity Score 0.87
+              </p>
+              <p class="text-xs leading-snug text-slate-600">
+                Stable CFF-Prime 8 profile with low temporal drift across samples.
+              </p>
+            </article>
+
+            <!-- 카드 4 -->
+            <article
+              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
+            >
+              <div class="h-0.5 w-full bg-amber-500/70 mb-2"></div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-600">
+                HR Role Recommendation
+              </p>
+              <p class="text-xl font-semibold">
+                Strategy · Analysis · Policy
+              </p>
+              <p class="text-[11px] text-slate-500">
+                Fit Reliability 0.82
+              </p>
+              <p class="text-xs leading-snug text-slate-600">
+                Cognitive pattern aligned with analytical and policy-oriented
+                decision roles.
+              </p>
+            </article>
           </div>
-          <div class="text-center">
-            <p class="text-xs font-medium text-slate-700">Verification ID</p>
-            <p class="text-xs font-mono text-emerald-700 tracking-widest">NP-2025-0314-0007</p>
-            <p class="text-xs text-slate-500 mt-1">
-              Validate this report at:
-              <span class="block font-mono text-emerald-700">neuprint.ai/verify</span>
-            </p>
-          </div>
-        </aside>
+        </section>
       </div>
-
-      <!-- KPI Cards Row -->
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
-        <article class="border border-slate-200 bg-white rounded-2xl p-5 shadow-xl transition transform hover:-translate-y-1 hover:shadow-2xl">
-          <p class="text-xs uppercase tracking-wide text-slate-600">Authorship Verification</p>
-          <p class="mt-1 text-xl font-semibold text-slate-800">Human</p>
-          <p class="text-xs text-slate-500 mt-1">Confidence 92%</p>
-          <p class="mt-2 text-sm text-slate-600">Deep reflective pattern consistent with human-authored reference profiles.</p>
-        </article>
-
-        <article class="border border-slate-200 bg-white rounded-2xl p-5 shadow-xl transition transform hover:-translate-y-1 hover:shadow-2xl">
-          <p class="text-xs uppercase tracking-wide text-slate-600">ARC Reasoning Level</p>
-          <p class="mt-1 text-xl font-semibold text-slate-800">L4 · Integrated Reasoning</p>
-          <p class="text-xs text-slate-500 mt-1">ARC Reliability 0.89</p>
-          <p class="mt-2 text-sm text-slate-600">Strong integration of interpretation, evaluation and multistep reasoning.</p>
-        </article>
-
-        <article class="border border-slate-200 bg-white rounded-2xl p-5 shadow-xl transition transform hover:-translate-y-1 hover:shadow-2xl">
-          <p class="text-xs uppercase tracking-wide text-slate-600">Identity Consistency</p>
-          <p class="mt-1 text-xl font-semibold text-slate-800">Same Author Likely</p>
-          <p class="text-xs text-slate-500 mt-1">Similarity Score 0.87</p>
-          <p class="mt-2 text-sm text-slate-600">Stable CFF-Prime 8 profile with low temporal drift across samples.</p>
-        </article>
-
-        <article class="border border-slate-200 bg-white rounded-2xl p-5 shadow-xl transition transform hover:-translate-y-1 hover:shadow-2xl">
-          <p class="text-xs uppercase tracking-wide text-slate-600">HR Role Recommendation</p>
-          <p class="mt-1 text-xl font-semibold text-slate-800">Strategy · Analysis · Policy</p>
-          <p class="text-xs text-slate-500 mt-1">Fit Reliability 0.82</p>
-          <p class="mt-2 text-sm text-slate-600">Cognitive pattern aligned with analytical and policy-oriented decision roles.</p>
-        </article>
-      </section>
-    </section>
-  </main>
-
-  <!-- Footer (Optional) -->
-  <footer class="border-t border-slate-200 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs text-slate-500 text-center">
-      © 2025 NeuPrint. All rights reserved.
-    </div>
-  </footer>
-</body>
+    </main>
+  </body>
 </html>
