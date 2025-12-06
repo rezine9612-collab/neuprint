@@ -1,137 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>NeuPrint Integrated Analysis Report</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NeuPrint Integrated Analysis Report</title>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: [
-                'system-ui',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'sans-serif',
-              ],
-            },
-          },
-        },
-      };
-    </script>
-  </head>
+<!-- Open Sans Font -->
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <body class="bg-white text-slate-900 font-sans">
-    <main class="min-h-screen">
-      <div class="max-w-[960px] mx-auto px-4 py-10">
-        <!-- 상단 헤더: 로고 + 타이틀 + QR -->
-        <header
-          class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-8"
-        >
-          <!-- 왼쪽 블록: 로고 + 엔진정보 + 타이틀 -->
-          <section class="space-y-2">
-            <!-- 로고 (여백 최소화) -->
-            <img
-              src="neuprint-logo.png"
-              alt="NeuPrint"
-              width="172"
-              height="39"
-              class="h-9 w-auto"
-            />
+<!-- Tailwind (CDN) -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-            <!-- 엔진 버전: 얇은 텍스트 한 줄 -->
-            <p class="text-[11px] uppercase tracking-wide text-slate-500">
-              NeuPrint Cognitive Forensics Engine v4.2.1
-            </p>
+<style>
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background: #fff;
+    color: #1a1a1a;
+  }
 
-            <!-- 메인 타이틀 -->
-            <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-              NeuPrint Integrated Analysis Report
-            </h1>
+  .metric-card {
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    padding: 20px;
+    background: #ffffff;
+    transition: all 0.25s ease;
+  }
 
-            <!-- 타이틀 바로 아래 들어가는 한 줄 설명 -->
-            <p class="text-[13px] md:text-[14px] text-slate-600">
-              Integrated authorship, reasoning, identity and HR-fit metrics.
-            </p>
+  .metric-card:hover {
+    border-color: #c9c9c9;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
 
-            <!-- 그 아래 요약 설명 -->
-            <p class="text-[13px] md:text-[14px] text-slate-600 max-w-xl leading-relaxed">
-              Summary of cognitive and authorship indicators derived from NeuPrint
-              reference cohorts, prepared for education, HR and decision teams.
-            </p>
+  .section-label {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #6b7280;
+  }
+</style>
+</head>
 
-            <!-- Timestamp: 일반 폰트 -->
-            <p class="text-[11px] text-slate-500">
-              Analysis Timestamp: 2025-03-14 14:32:07 UTC
-            </p>
-          </section>
+<body class="px-6 pt-10 pb-20">
 
-          <!-- 오른쪽 블록: Verification 정보 + 큰 QR -->
-          <aside class="flex flex-col items-end gap-2 text-xs">
-            <div class="text-right space-y-1">
-              <p class="font-medium text-slate-700">
-                Verification ID
-              </p>
-              <p class="font-mono text-emerald-700">
-                NP-2025-0314-0007
-              </p>
-              <p class="text-[11px] text-slate-500">
-                Validate at neuprint.ai/verify
-              </p>
-            </div>
-            <!-- QR: 크게, 박스 없이 -->
-            <img
-              src="ExampleQR.png"
-              alt="Verification QR"
-              class="h-20 w-20 object-contain"
-            />
-          </aside>
-        </header>
+<!-- Top Container -->
+<div class="max-w-4xl mx-auto">
 
-        <!-- SUMMARY SNAPSHOT 섹션 (기존 구조 유지, 살짝 정리만) -->
-        <section
-          class="rounded-3xl border border-slate-100 bg-slate-50 px-4 py-5 md:px-6 md:py-6"
-        >
-          <p class="text-[11px] uppercase tracking-wide text-slate-500 mb-3">
-            Summary snapshot
-          </p>
+  <!-- Logo -->
+  <div class="flex justify-center mb-6">
+    <img src="neuprint-logo.png" alt="NeuPrint Logo" width="172" height="39">
+  </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <!-- 카드 1 -->
-            <article
-              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
-            >
-              <div class="h-0.5 w-full bg-sky-500/70 mb-2"></div>
-              <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                Authorship Verification
-              </p>
-              <p class="text-xl font-semibold">
-                Human
-              </p>
-              <p class="text-[11px] text-slate-500">
-                Confidence 92 percent
-              </p>
-              <p class="text-xs leading-snug text-slate-600">
-                Deep reflective pattern consistent with human-authored reference
-                profiles.
-              </p>
-            </article>
+  <!-- Title + QR Section -->
+  <div class="flex justify-between items-start mb-8">
 
-            <!-- 카드 2 -->
-            <article
-              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
-            >
-              <div class="h-0.5 w-full bg-emerald-500/70 mb-2"></div>
-              <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                ARC Reasoning Level
-              </p>
-              <p class="text-xl font-semibold">
-                L4 · Integrated Reasoning
-              </p>
-              <p class="text-[11px] text-slate-500">
-                ARC Reliability 0.89
+    <!-- Left Titles -->
+    <div>
+      <p class="text-xs tracking-wide text-gray-500 mb-1">NEUPRINT COGNITIVE FORENSICS ENGINE V4.2.1</p>
+
+      <h1 class="text-2xl font-semibold text-gray-900 mb-2">
+        NeuPrint Integrated Analysis Report
+      </h1>
+
+      <h2 class="text-sm text-gray-600 leading-relaxed">
+        Integrated authorship, cognition, identity and HR-fit metrics<br>
+        derived from NeuPrint reference cohorts.
+      </h2>
+
+      <p class="text-xs text-gray-500 mt-3">
+        Analysis Timestamp: 2025-03-14 14:32:07 UTC
+      </p>
+    </div>
+
+    <!-- QR Block -->
+    <div class="text-right">
+      <p class="text-sm font-semibold text-gray-700">Verification ID</p>
+      <p class="text-xs text-gray-500 mb-2">NP-2025-0314-0007</p>
+
+      <img src="ExampleQR.png" width="94" class="mx-auto mb-1" />
+      <p class="text-xs text-gray-500">Validate at neuprint.ai/verify</p>
+    </div>
+  </div>
+
+  <!-- Summary Snapshot Label -->
+  <p class="section-label mb-3">Summary Snapshot</p>
+
+  <!-- 4 Cards Row -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+    <!-- Card #1 -->
+    <div class="metric-card">
+      <p class="section-label mb-1">Authorship Verification</p>
+      <p class="text-lg font-semibold">Human</p>
+      <p class="text-xs text-gray-500 mt-1">Confidence 92 percent</p>
+      <p class="text-xs text-gray-600 mt-2">
+        Deep reflective pattern consistent with human reference profiles.
+      </p>
+    </div>
+
+    <!-- Card #2 -->
+    <div class="metric-card">
+      <p class="section-label mb-1">ARC Reasoning Level</p>
+      <p class="text-lg font-semibold">L4 · Integrated Reasoning</p>
+      <p class="text-xs text-gray-500 mt-1">ARC Reliability 0.89</p>
+      <p class="text-xs text-gray-600 mt-2">
+        High-level interpretation, evaluation and cognitive integration.
+      </p>
+    </div>
+
+    <!-- Card #3 -->
+    <div class="metric-card">
+      <p class="section-label mb-1">Identity Consistency (TPS-H)</p>
+      <p class="text-lg font-semibold">Same Author Likely</p>
+      <p class="text-xs text-gray-500 mt-1">Similarity Score 0.87</p>
+      <p class="text-xs text-gray-600 mt-2">
+        Stable CFF-Prime 8 pattern with low reasoning drift.
+      </p>
+    </div>
+
+    <!-- Card #4 -->
+    <div class="metric-card">
+      <p class="section-label mb-1">HR Role Recommendation</p>
+      <p class="text-lg font-semibold">Strategy · Analysis · Policy</p>
+      <p class="text-xs text-gray-500 mt-1">Fit Reliability 0.82</p>
+      <p class="text-xs text-gray-600 mt-2">
+        Cognitive pattern aligned with analytical, strategic and decision roles.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
