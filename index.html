@@ -1,213 +1,341 @@
-<!-- 헤드 안에 공통으로 포함 -->
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeuPrint Integrated Analysis Report</title>
 
-<style>
-  /* ===========================
-     NeuPrint Global Style Tokens
-     =========================== */
+  <!-- Open Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  :root {
-    /* Font family */
-    --np-font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  <style>
+    /* ===========================
+       NeuPrint Global Style Tokens
+       =========================== */
+    :root {
+      --np-font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
-    /* Colors */
-    --np-color-text-main: #000000;
-    --np-color-text-muted: #4b5563;
-    --np-color-page-bg: #ffffff;
+      --np-color-text-main: #000000;
+      --np-color-text-muted: #4b5563;
+      --np-color-page-bg: #ffffff;
 
-    /* Font sizes (pt 환산, 16px 기준 rem으로 고정) */
-    --np-fs-11pt: 0.9rem;   /* 약 14.5px  → 설명 문장 */
-    --np-fs-13pt: 1.1rem;   /* 약 17.3px → 메타, 라벨 */
-    --np-fs-18pt: 1.5rem;   /* 약 24px   → 카드 메인 값 */
-    --np-fs-30pt: 2.5rem;   /* 약 40px   → 리포트 메인 타이틀 */
+      /* 16px 기준 pt 환산 */
+      --np-fs-11pt: 0.9rem;  /* 설명용 작은 텍스트 */
+      --np-fs-13pt: 1.1rem;  /* 메타, 라벨 */
+      --np-fs-18pt: 1.5rem;  /* 카드 메인 값 */
+      --np-fs-30pt: 2.5rem;  /* 메인 타이틀 */
 
-    /* Line-height */
-    --np-lh-tight: 1.2;
-    --np-lh-normal: 1.4;
-    --np-lh-relaxed: 1.6;
-  }
+      --np-lh-tight: 1.2;
+      --np-lh-normal: 1.4;
+      --np-lh-relaxed: 1.6;
+    }
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: var(--np-font-family);
-    background: var(--np-color-page-bg);
-    color: var(--np-color-text-main);
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .np-report-page {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 48px 40px;
-  }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--np-font-family);
+      background: var(--np-color-page-bg);
+      color: var(--np-color-text-main);
+    }
 
-  /* ===========================
-     Header / Meta 영역
-     =========================== */
+    .np-report-page {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 40px 64px 40px;
+    }
 
-  /* Neuprint Cognitive Forensics Engine v4.2.1 */
-  .np-header-engine {
-    font-size: var(--np-fs-13pt);
-    font-weight: 500; /* medium */
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-  }
+    /* ===========================
+       상단 로고 + 검증 패널
+       =========================== */
+    .np-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
 
-  /* NeuPrint Integrated Analysis Report */
-  .np-header-title-main {
-    margin-top: 4px;
-    font-size: var(--np-fs-30pt);
-    font-weight: 700; /* bold */
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-  }
+    .np-logo {
+      width: 172px;
+      height: 39px;
+      object-fit: contain;
+      display: block;
+    }
 
-  /* Integrated authorship, cognition, identity and HR-fit analysis */
-  .np-header-subtitle {
-    margin-top: 8px;
-    font-size: var(--np-fs-13pt);
-    font-weight: 500;
-    line-height: var(--np-lh-normal);
-    color: var(--np-color-text-main);
-  }
+    .np-verify-panel {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
 
-  /* Analysis Timestamp: 2025-03-14 14:32:07 UTC */
-  .np-header-timestamp {
-    margin-top: 6px;
-    font-size: var(--np-fs-13pt);
-    font-weight: 500;
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-  }
+    .np-verify-text-block {
+      text-align: right;
+    }
 
-  /* Verification ID / 검증 안내 영역 */
-  .np-verify-block {
-    margin-top: 12px;
-    font-size: var(--np-fs-13pt);
-    font-weight: 500;
-    line-height: var(--np-lh-normal);
-    color: var(--np-color-text-main);
-  }
+    .np-verify-label {
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  .np-verify-block strong {
-    font-weight: 600;
-  }
+    .np-verify-id {
+      margin-top: 2px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 600;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  .np-verify-link {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-  }
+    .np-verify-url-label {
+      margin-top: 8px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  /* ===========================
-     섹션 타이틀 / 카드 구조
-     =========================== */
+    .np-verify-url {
+      margin-top: 2px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 2px;
+    }
 
-  /* 1. Overview Metrics */
-  .np-section-title {
-    margin-top: 32px;
-    margin-bottom: 10px;
-    font-size: var(--np-fs-13pt);
-    font-weight: 700; /* bold */
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-  }
+    .np-qr {
+      width: 96px;
+      height: 96px;
+      object-fit: contain;
+      display: block;
+    }
 
-  .np-metric-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 16px;
-  }
+    /* ===========================
+       헤더 텍스트 영역
+       =========================== */
 
-  .np-metric-card {
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 16px 18px;
-    background: #ffffff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-  }
+    /* Neuprint Cognitive Forensics Engine v4.2.1 */
+    .np-header-engine {
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  /* Authorship Verification */
-  .np-metric-label {
-    font-size: var(--np-fs-13pt);
-    font-weight: 500;
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-    margin-bottom: 4px;
-  }
+    /* NeuPrint Integrated Analysis Report */
+    .np-header-title-main {
+      margin-top: 4px;
+      font-size: var(--np-fs-30pt);
+      font-weight: 700;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  /* Human */
-  .np-metric-value {
-    font-size: var(--np-fs-18pt);
-    font-weight: 700;
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-    margin-bottom: 4px;
-  }
+    /* Integrated authorship, cognition, identity and HR-fit analysis */
+    .np-header-subtitle {
+      margin-top: 8px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-normal);
+      color: var(--np-color-text-main);
+    }
 
-  /* Confidence 92% */
-  .np-metric-meta {
-    font-size: var(--np-fs-13pt);
-    font-weight: 500;
-    line-height: var(--np-lh-tight);
-    color: var(--np-color-text-main);
-    margin-bottom: 6px;
-  }
+    /* Analysis Timestamp: 2025-03-14 14:32:07 UTC */
+    .np-header-timestamp {
+      margin-top: 6px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-  /* Deep reflective pattern ... */
-  .np-metric-caption {
-    font-size: var(--np-fs-11pt);
-    font-weight: 500;
-    line-height: var(--np-lh-relaxed);
-    color: var(--np-color-text-main);
-  }
-</style>
+    /* ===========================
+       섹션 / 카드
+       =========================== */
 
+    .np-section-title {
+      margin-top: 32px;
+      margin-bottom: 12px;
+      font-size: var(--np-fs-13pt);
+      font-weight: 700;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+    }
 
-<div class="np-report-page">
+    .np-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
 
-  <!-- 상단 텍스트 블록 -->
-  <div class="np-header-engine">
-    Neuprint Cognitive Forensics Engine v4.2.1
-  </div>
+    .np-metric-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 16px 18px;
+      background: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    }
 
-  <div class="np-header-title-main">
-    NeuPrint Integrated Analysis Report
-  </div>
+    .np-metric-label {
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+      margin-bottom: 4px;
+    }
 
-  <div class="np-header-subtitle">
-    Integrated authorship, cognition, identity and HR-fit analysis
-  </div>
+    .np-metric-value {
+      font-size: var(--np-fs-18pt);
+      font-weight: 700;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+      margin-bottom: 4px;
+    }
 
-  <div class="np-header-timestamp">
-    Analysis Timestamp: 2025-03-14 14:32:07 UTC
-  </div>
+    .np-metric-meta {
+      font-size: var(--np-fs-13pt);
+      font-weight: 500;
+      line-height: var(--np-lh-tight);
+      color: var(--np-color-text-main);
+      margin-bottom: 6px;
+    }
 
-  <div class="np-verify-block">
-    <div><strong>Verification ID :</strong> NP-2025-0314-0007</div>
-    <div>
-      <strong>To validate this report, visit :</strong>
-      <span class="np-verify-link">https://neuprint.ai/verify</span>
-    </div>
-  </div>
+    .np-metric-caption {
+      font-size: var(--np-fs-11pt);
+      font-weight: 500;
+      line-height: var(--np-lh-relaxed);
+      color: var(--np-color-text-main);
+    }
 
-  <!-- Overview Metrics 섹션 -->
-  <div class="np-section-title">
-    1. Overview Metrics
-  </div>
+    /* 간단한 반응형 처리 */
+    @media (max-width: 900px) {
+      .np-report-page {
+        padding: 32px 20px 40px 20px;
+      }
 
-  <div class="np-metric-grid">
+      .np-metric-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
 
-    <!-- Authorship 카드 예시 -->
-    <div class="np-metric-card">
-      <div class="np-metric-label">Authorship Verification</div>
-      <div class="np-metric-value">Human</div>
-      <div class="np-metric-meta">Confidence 92%</div>
-      <div class="np-metric-caption">
-        Deep reflective pattern consistent with human-authored reference profiles.
+    @media (max-width: 640px) {
+      .np-top-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+
+      .np-verify-panel {
+        align-self: stretch;
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .np-verify-text-block {
+        text-align: left;
+      }
+
+      .np-metric-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="np-report-page">
+
+    <!-- 상단 로고 + 검증 패널 -->
+    <header class="np-top-bar">
+      <div>
+        <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
       </div>
-    </div>
 
-    <!-- 나머지 3개 카드도 동일 클래스 재사용 -->
+      <div class="np-verify-panel">
+        <div class="np-verify-text-block">
+          <div class="np-verify-label">Verification ID</div>
+          <div class="np-verify-id">NP-2025-0314-0007</div>
+
+          <div class="np-verify-url-label">To validate this report, visit</div>
+          <div class="np-verify-url">https://neuprint.ai/verify</div>
+        </div>
+
+        <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+      </div>
+    </header>
+
+    <!-- 헤더 텍스트 영역 -->
+    <section>
+      <div class="np-header-engine">
+        Neuprint Cognitive Forensics Engine v4.2.1
+      </div>
+
+      <div class="np-header-title-main">
+        NeuPrint Integrated Analysis Report
+      </div>
+
+      <div class="np-header-subtitle">
+        Integrated authorship, cognition, identity and HR-fit analysis
+      </div>
+
+      <div class="np-header-timestamp">
+        Analysis Timestamp: 2025-03-14 14:32:07 UTC
+      </div>
+    </section>
+
+    <!-- 1. Overview Metrics -->
+    <section>
+      <div class="np-section-title">1. Overview Metrics</div>
+
+      <div class="np-metric-grid">
+        <!-- 1) Authorship Verification -->
+        <article class="np-metric-card">
+          <div class="np-metric-label">Authorship Verification</div>
+          <div class="np-metric-value">Human</div>
+          <div class="np-metric-meta">Confidence 92%</div>
+          <div class="np-metric-caption">
+            Deep reflective pattern consistent with human-authored reference profiles.
+          </div>
+        </article>
+
+        <!-- 2) ARC Reasoning Level 예시 -->
+        <article class="np-metric-card">
+          <div class="np-metric-label">ARC Reasoning Level</div>
+          <div class="np-metric-value">L4 Integrated</div>
+          <div class="np-metric-meta">ARC Reliability 0.89</div>
+          <div class="np-metric-caption">
+            Strong integration of interpretation, evaluation and multistep reasoning.
+          </div>
+        </article>
+
+        <!-- 3) Identity Consistency 예시 -->
+        <article class="np-metric-card">
+          <div class="np-metric-label">Identity Consistency (TPS-H)</div>
+          <div class="np-metric-value">Same Author Likely</div>
+          <div class="np-metric-meta">Similarity Score 0.87</div>
+          <div class="np-metric-caption">
+            Stable CFF Prime 8 pattern with low temporal drift across samples.
+          </div>
+        </article>
+
+        <!-- 4) HR Role Recommendation 예시 -->
+        <article class="np-metric-card">
+          <div class="np-metric-label">HR Role Recommendation</div>
+          <div class="np-metric-value">Strategy · Analysis · Policy</div>
+          <div class="np-metric-meta">Fit Reliability 0.82</div>
+          <div class="np-metric-caption">
+            Cognitive pattern aligned with analytical, strategic and policy oriented tasks.
+          </div>
+        </article>
+      </div>
+    </section>
+
   </div>
-</div>
+</body>
+</html>
