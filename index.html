@@ -6,7 +6,10 @@
   <title>NeuPrint Integrated Analysis Report</title>
 
   <!-- Open Sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 
   <style>
     * {
@@ -16,22 +19,20 @@
     }
 
     body {
-      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont,
+        sans-serif;
       background: #ffffff;
       color: #000000;
     }
 
-    /* 페이지 아트보드:
-       900px 카드 + 좌우 padding 40px = 980px */
+    /* 페이지 컨테이너 */
     .np-page {
       max-width: 980px;
       margin: 0 auto;
       padding: 48px 40px 64px 40px;
     }
 
-    /* =========================
-       A. HEADER ROW (텍스트 + QR)
-       ========================= */
+    /* 헤더 영역 (좌: 로고/텍스트, 우: Author + QR) */
     .np-header-row {
       display: flex;
       justify-content: space-between;
@@ -53,12 +54,12 @@
     }
 
     .np-header-title-line1 {
-      font-size: 13px;   /* 13px ≒ 9.75pt */
+      font-size: 13px;
       font-weight: 500;
     }
 
     .np-header-title-main {
-      font-size: 30px;   /* 30px ≒ 22.5pt */
+      font-size: 30px;
       font-weight: 700;
       line-height: 1.2;
     }
@@ -73,28 +74,26 @@
       font-weight: 500;
     }
 
-    /* QR + 검증 텍스트: 모두 우측정렬 */
     .np-verify-panel {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    margin-top: 20px;   /* ← 추가 */
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+      margin-top: 20px;
     }
 
     .np-author-label {
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 25px;
-    text-align: right;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 25px;
     }
-      
+
     .np-qr {
       width: 74px;
       height: 74px;
       object-fit: contain;
       display: block;
-      margin-bottom: 8px;   /* QR 위, 아래 여백 */
+      margin-bottom: 8px;
     }
 
     .np-verify-label {
@@ -102,29 +101,7 @@
       font-weight: 500;
     }
 
-    .np-verify-id {
-      font-size: 11px;
-      font-weight: 700;
-      margin-top: 2px;
-    }
-
-    .np-verify-label-secondary {
-      font-size: 11px;
-      font-weight: 500;
-      margin-top: 8px;
-    }
-
-    .np-verify-link {
-      font-size: 11px;
-      font-weight: 500;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      margin-top: 2px;
-    }
-
-    /* =========================
-       B. 1. Overview Metrics
-       ========================= */
+    /* 1. Overview Metrics */
     .np-section-title-small {
       font-size: 13px;
       font-weight: 700;
@@ -147,9 +124,7 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     }
 
-    /* =========================
-       C. 2. Content Summary
-       ========================= */
+    /* 2. Content Summary */
     .np-section-title-row {
       display: flex;
       justify-content: space-between;
@@ -169,11 +144,9 @@
       color: #444444;
     }
 
-    /* Content Summary 카드:
-       폭 900px, 페이지 안에서 중앙 정렬 */
     .np-summary-container {
       width: 900px;
-      max-width: 100%;            /* 화면이 더 좁을 때는 100%로 축소 */
+      max-width: 100%;
       margin: 0 auto;
       border: 1px solid #d7d7d7;
       border-radius: 12px;
@@ -201,11 +174,11 @@
     }
 
     .np-tag {
-      font-size: 11px;      /* 11px medium */
+      font-size: 11px;
       font-weight: 500;
       padding: 6px 12px;
       border-radius: 16px;
-      background: #eeeeee;  /* 외곽선 없음, 면색 eeeeee */
+      background: #eeeeee;
     }
 
     @media (max-width: 980px) {
@@ -217,145 +190,67 @@
 </head>
 
 <body>
-<div class="np-page">
+  <div class="np-page">
+    <!-- HEADER -->
+    <div class="np-header-row">
+      <div class="np-left-header">
+        <img
+          src="neuprint-logo.png"
+          alt="NeuPrint Logo"
+          class="np-logo"
+        />
 
-  <!-- HEADER -->
-  <div class="np-header-row">
-    <div class="np-left-header">
-      <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
-
-      <div class="np-header-title-line1">
-        Neuprint Cognitive Forensics Engine v4.2.1
+        <div class="np-header-title-line1">
+          Neuprint Cognitive Forensics Engine v4.2.1
+        </div>
+        <div class="np-header-title-main">
+          NeuPrint Integrated Analysis Report
+        </div>
+        <div class="np-header-sub">
+          Integrated authorship, cognition, identity and HR-fit analysis
+        </div>
+        <div class="np-header-timestamp">
+          Analysis Timestamp : 2025-03-14 14:32:07 UTC
+        </div>
       </div>
-      <div class="np-header-title-main">
-        NeuPrint Integrated Analysis Report
-      </div>
-      <div class="np-header-sub">
-        Integrated authorship, cognition, identity and HR-fit analysis
-      </div>
-      <div class="np-header-timestamp">
-        Analysis Timestamp : 2025-03-14 14:32:07 UTC
-      </div>
-    </div>
 
-  <div class="np-verify-panel">
+      <div class="np-verify-panel">
+        <div class="np-author-label">
+          Author : Candidate 014-A
+        </div>
 
-      <div class="np-author-label">Author : Candidate 014-A</div>
+        <img
+          src="ExampleQR.png"
+          alt="NeuPrint QR Code"
+          class="np-qr"
+        />
 
-      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
-
-      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
-      <div class="np-verify-label">
+        <div class="np-verify-label">
+          Verification ID : NP-2025-0314-0007
+        </div>
+        <div class="np-verify-label">
           To validate this report, visit https://neuprint.ai/verify
-      </div>
-  </div>
-  </div>
-
-  <!-- 1. Overview Metrics -->
-  <section>
-    <div class="np-section-title-small">
-      1. Overview Metrics
-    </div>
-
-    <div class="np-metric-grid">
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Authorship Verification
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
-          Human
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
-          Confidence 92%
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Deep reflective pattern consistent with human-authored reference profiles.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          ARC Reasoning Level
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
-          L4 · Integrated Reasoning
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
-          ARC Reliability 0.89
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Strong integration of interpretation, evaluation and multistep reasoning.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Identity Consistency
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
-          Same Author Likely
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
-          Similarity Score 0.87
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Stable CFF-Prime 8 pattern with low temporal drift across samples.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          HR Role Recommendation
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
-          Strategy · Analysis · Policy
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
-          Fit Reliability 0.82
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- 2. Content Summary -->
-  <section>
-    <div class="np-section-title-row">
-      <div class="np-section-title">
-        2. Content Summary
-      </div>
-      <div class="np-meta-inline">
-        Word : 486 / Sentence : 22 / Paragraphs : 3
       </div>
     </div>
 
-    <div class="np-summary-container">
-      <div class="np-label">Prompt :</div>
-      <div class="np-text">
-        Should schools allow AI-assisted writing in formal assessments?
+    <!-- 1. Overview Metrics -->
+    <section>
+      <div class="np-section-title-small">
+        1. Overview Metrics
       </div>
 
-      <div class="np-label">Summary :</div>
-      <div class="np-text">
-        This essay examines whether schools should allow AI assisted writing in formal assessments.
-        The writer explains how AI can improve surface quality while making fairness and genuine
-        thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
-        and conditions for transparent and accountable AI use.
-      </div>
-
-      <div class="np-tag-list">
-        <span class="np-tag">AI assisted writing</span>
-        <span class="np-tag">Fair assessment</span>
-        <span class="np-tag">Student agency</span>
-        <span class="np-tag">School policy</span>
-      </div>
-    </div>
-  </section>
-
-</div>
-</body>
-</html>
+      <div class="np-metric-grid">
+        <article class="np-metric-card">
+          <div
+            style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;"
+          >
+            Authorship Verification
+          </div>
+          <div
+            style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;"
+          >
+            Human
+          </div>
+          <div
+            style="font-size:13px; font
