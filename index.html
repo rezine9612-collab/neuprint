@@ -12,7 +12,6 @@
         theme: {
           extend: {
             fontFamily: {
-              // chatgpt / relay 스타일 system-ui 폰트
               sans: [
                 'system-ui',
                 '-apple-system',
@@ -20,9 +19,6 @@
                 '"Segoe UI"',
                 'sans-serif',
               ],
-            },
-            boxShadow: {
-              neu: '0 18px 45px rgba(15,23,42,0.14)',
             },
           },
         },
@@ -33,12 +29,13 @@
   <body class="bg-white text-slate-900 font-sans">
     <main class="min-h-screen">
       <div class="max-w-[960px] mx-auto px-4 py-10">
-        <!-- 상단 헤더: 로고 + 검증 정보 -->
+        <!-- 상단 헤더: 로고 + 타이틀 + QR -->
         <header
-          class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-6"
+          class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-8"
         >
-          <!-- 로고 -->
-          <div>
+          <!-- 왼쪽 블록: 로고 + 엔진정보 + 타이틀 -->
+          <section class="space-y-2">
+            <!-- 로고 (여백 최소화) -->
             <img
               src="neuprint-logo.png"
               alt="NeuPrint"
@@ -46,11 +43,37 @@
               height="39"
               class="h-9 w-auto"
             />
-          </div>
 
-          <!-- Verification 정보 (QR는 조용하게 작은 이미지로만) -->
-          <div class="flex flex-col items-start md:items-end gap-2 text-xs">
-            <div class="text-right">
+            <!-- 엔진 버전: 얇은 텍스트 한 줄 -->
+            <p class="text-[11px] uppercase tracking-wide text-slate-500">
+              NeuPrint Cognitive Forensics Engine v4.2.1
+            </p>
+
+            <!-- 메인 타이틀 -->
+            <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+              NeuPrint Integrated Analysis Report
+            </h1>
+
+            <!-- 타이틀 바로 아래 들어가는 한 줄 설명 -->
+            <p class="text-[13px] md:text-[14px] text-slate-600">
+              Integrated authorship, reasoning, identity and HR-fit metrics.
+            </p>
+
+            <!-- 그 아래 요약 설명 -->
+            <p class="text-[13px] md:text-[14px] text-slate-600 max-w-xl leading-relaxed">
+              Summary of cognitive and authorship indicators derived from NeuPrint
+              reference cohorts, prepared for education, HR and decision teams.
+            </p>
+
+            <!-- Timestamp: 일반 폰트 -->
+            <p class="text-[11px] text-slate-500">
+              Analysis Timestamp: 2025-03-14 14:32:07 UTC
+            </p>
+          </section>
+
+          <!-- 오른쪽 블록: Verification 정보 + 큰 QR -->
+          <aside class="flex flex-col items-end gap-2 text-xs">
+            <div class="text-right space-y-1">
               <p class="font-medium text-slate-700">
                 Verification ID
               </p>
@@ -61,44 +84,16 @@
                 Validate at neuprint.ai/verify
               </p>
             </div>
+            <!-- QR: 크게, 박스 없이 -->
             <img
               src="ExampleQR.png"
               alt="Verification QR"
-              class="h-10 w-10 object-contain"
+              class="h-20 w-20 object-contain"
             />
-          </div>
+          </aside>
         </header>
 
-        <!-- 타이틀 영역 -->
-        <section class="mb-8 space-y-3">
-          <div class="flex flex-wrap items-center gap-2 text-[11px]">
-            <span
-              class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 uppercase tracking-wide text-slate-600"
-            >
-              NeuPrint Cognitive Forensics Engine v4.2.1
-            </span>
-            <span
-              class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-slate-500"
-            >
-              Integrated authorship, reasoning, identity and HR-fit metrics
-            </span>
-          </div>
-
-          <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-            NeuPrint Integrated Analysis Report
-          </h1>
-
-          <p class="text-[14px] md:text-[15px] text-slate-600 max-w-xl leading-relaxed">
-            Summary of cognitive and authorship indicators derived from NeuPrint
-            reference cohorts, prepared for education, HR and decision teams.
-          </p>
-
-          <p class="text-[11px] font-mono text-slate-500">
-            Analysis Timestamp: 2025-03-14 14:32:07 UTC
-          </p>
-        </section>
-
-        <!-- 히어로 요약 섹션: 4개의 카드가 메인 -->
+        <!-- SUMMARY SNAPSHOT 섹션 (기존 구조 유지, 살짝 정리만) -->
         <section
           class="rounded-3xl border border-slate-100 bg-slate-50 px-4 py-5 md:px-6 md:py-6"
         >
@@ -107,7 +102,6 @@
           </p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-            <!-- 카드 공통 스타일: 위에 컬러 스트립 + 큰 값 -->
             <!-- 카드 1 -->
             <article
               class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
@@ -141,54 +135,3 @@
               </p>
               <p class="text-[11px] text-slate-500">
                 ARC Reliability 0.89
-              </p>
-              <p class="text-xs leading-snug text-slate-600">
-                Strong integration of interpretation, evaluation and multistep
-                reasoning.
-              </p>
-            </article>
-
-            <!-- 카드 3 -->
-            <article
-              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
-            >
-              <div class="h-0.5 w-full bg-indigo-500/70 mb-2"></div>
-              <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                Identity Consistency (TPS-H)
-              </p>
-              <p class="text-xl font-semibold">
-                Same Author Likely
-              </p>
-              <p class="text-[11px] text-slate-500">
-                Similarity Score 0.87
-              </p>
-              <p class="text-xs leading-snug text-slate-600">
-                Stable CFF-Prime 8 profile with low temporal drift across samples.
-              </p>
-            </article>
-
-            <!-- 카드 4 -->
-            <article
-              class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col gap-2"
-            >
-              <div class="h-0.5 w-full bg-amber-500/70 mb-2"></div>
-              <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                HR Role Recommendation
-              </p>
-              <p class="text-xl font-semibold">
-                Strategy · Analysis · Policy
-              </p>
-              <p class="text-[11px] text-slate-500">
-                Fit Reliability 0.82
-              </p>
-              <p class="text-xs leading-snug text-slate-600">
-                Cognitive pattern aligned with analytical and policy-oriented
-                decision roles.
-              </p>
-            </article>
-          </div>
-        </section>
-      </div>
-    </main>
-  </body>
-</html>
