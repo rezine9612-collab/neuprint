@@ -154,7 +154,6 @@
     .np-meta-inline {
       font-size: 11px;
       font-weight: 500;
-      color: #444444;
     }
 
     .np-summary-container {
@@ -212,6 +211,7 @@
     .np-ai-title {
       font-size: 13px;
       font-weight: 700;
+ 	  color: #000000		
     }
 
     .np-ai-submeta {
@@ -284,16 +284,17 @@
     .np-ai-bar-ai {
       background: #47b8e0;    /* AI 내부 컬러 */
     }
-/* 바 속 텍스트 */
+/* 바 속 텍스트 중앙 배치 */
 .np-ai-bar-text {
   position: absolute;
   top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 18px;
   font-weight: 700;
   color: #000000;
   pointer-events: none;
+  white-space: nowrap;
 }
 
     .np-ai-legend {
@@ -321,7 +322,6 @@
       margin-top: 8px;
       font-size: 11px;
       font-weight: 500;
-      color: #444;
       line-height: 1.4;
     }
 
@@ -399,13 +399,13 @@
     <div class="np-metric-grid">
 
       <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px; ">
           Authorship Verification
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
           Human
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
           Confidence 92%
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -417,10 +417,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           ARC Reasoning Level
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
           L4 · Integrated Reasoning
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
           ARC Reliability 0.89
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -432,10 +432,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Identity Consistency
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
           Same Author Likely
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
           Similarity Score 0.87
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -447,10 +447,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           HR Role Recommendation
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
           Strategy · Analysis · Policy
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
           Fit Reliability 0.82
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -474,12 +474,12 @@
 
     <div class="np-summary-container">
       <div class="np-label">Prompt :</div>
-      <div class="np-text">
+      <div class="np-text" style="color: #000000;">
         Should schools allow AI-assisted writing in formal assessments?
       </div>
 
       <div class="np-label">Summary :</div>
-      <div class="np-text">
+      <div class="np-text" style="color: #000000;">
         This essay examines whether schools should allow AI assisted writing in formal assessments.
         The writer explains how AI can improve surface quality while making fairness and genuine
         thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
@@ -522,15 +522,15 @@
 
   <div class="np-ai-legend">
     <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#f5c67d;"></span>
+      <span class="np-ai-legend-swatch" style="background:#f5c67d;"></span> 
       Human 82%
     </div>
     <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#f2f2f2;"></span>
+      <span class="np-ai-legend-swatch" style="background:#f2f2f2;"></span> 
       Hybrid 9%
     </div>
     <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#7ad9eb;"></span>
+      <span class="np-ai-legend-swatch" style="background:#7ad9eb;"></span> 
       AI 9%
     </div>
   </div>
@@ -547,7 +547,7 @@
       <!-- 오른쪽: Decision Summary -->
       <article class="np-ai-card">
         <div class="np-ai-card-title">Decision Summary</div>
-        <p class="np-ai-card-text">
+        <p class="np-ai-card-text" style="color: #000000;">
           Final decision is Human. Pattern label is deep reflective human in a stable context.
           A confidence of 88% indicates that the classifier produces the same decision under small
           perturbations of the text. The sample sits within the top 22 percentile of the human
