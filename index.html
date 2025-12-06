@@ -5,14 +5,14 @@
     <title>NeuPrint Integrated Analysis Report</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Tailwind -->
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             fontFamily: {
-              // chatgpt.com 과 유사한 system-ui 폰트 스택
+              // chatgpt / relay.app 스타일의 system-ui 스택
               sans: [
                 'system-ui',
                 '-apple-system',
@@ -21,170 +21,165 @@
                 'sans-serif',
               ],
             },
-            boxShadow: {
-              neu: '0 18px 45px rgba(15,23,42,0.16)',
-            },
           },
         },
       };
     </script>
   </head>
 
-  <body class="bg-slate-100 text-slate-900 font-sans">
+  <body class="bg-white text-slate-900 font-sans">
     <main class="min-h-screen">
       <div class="max-w-[960px] mx-auto px-4 py-10">
-        <!-- 메인 카드 (chatgpt 스타일, 여백 넉넉 / 색상 절제) -->
-        <div
-          class="bg-white border border-slate-200/80 rounded-3xl shadow-neu overflow-hidden"
+        <!-- 상단 헤더 영역 -->
+        <header
+          class="flex flex-col md:flex-row md:items-start md:justify-between gap-8 mb-8"
         >
-          <!-- 상단 얇은 바는 아주 절제된 톤으로 -->
-          <div class="h-1 bg-slate-200/70"></div>
+          <!-- 왼쪽: 로고 + 타이틀 -->
+          <section class="space-y-4">
+            <!-- 로고 -->
+            <img
+              src="neuprint-logo.png"
+              alt="NeuPrint"
+              width="172"
+              height="39"
+              class="h-9 w-auto"
+            />
 
-          <div class="px-6 md:px-8 pt-6 pb-8 space-y-8">
-            <!-- HEADER -->
-            <header
-              class="flex flex-col md:flex-row md:items-start md:justify-between gap-8"
-            >
-              <!-- ⬅ 좌측: 로고 + 타이틀 -->
-              <section class="space-y-4">
-                <!-- 로고만 단독 -->
-                <img
-                  src="neuprint-logo.png"
-                  alt="NeuPrint"
-                  width="172"
-                  height="39"
-                  class="h-8 w-auto"
-                />
-
-                <!-- 타이틀과 메타 정보 -->
-                <div class="space-y-2">
-                  <div class="flex flex-wrap items-center gap-2">
-                    <span
-                      class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-600"
-                    >
-                      NeuPrint Cognitive Forensics Engine v4.2.1
-                    </span>
-                    <span
-                      class="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-[11px] text-slate-500"
-                    >
-                      Integrated authorship, reasoning, identity and HR-fit metrics
-                    </span>
-                  </div>
-
-                  <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
-                    NeuPrint Integrated Analysis Report
-                  </h1>
-
-                  <p class="text-[14px] md:text-[15px] text-slate-600 max-w-xl leading-relaxed">
-                    Summary of cognitive and authorship signals derived from NeuPrint
-                    reference cohorts, prepared for education, HR and decision teams.
-                  </p>
-
-                  <p class="text-[11px] font-mono text-slate-500">
-                    Analysis Timestamp: 2025-03-14 14:32:07 UTC
-                  </p>
-                </div>
-              </section>
-
-              <!-- ➡ 우측: Verification 카드 (chatgpt 컴포넌트 느낌) -->
-              <aside
-                class="w-full md:w-64 border border-slate-200 bg-slate-50 rounded-2xl px-5 py-4 flex flex-col items-center gap-3"
-              >
-                <div
-                  class="h-28 w-28 rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden"
+            <!-- 타이틀 + 메타 -->
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2">
+                <span
+                  class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-[11px] uppercase tracking-wide text-slate-600"
                 >
-                  <img
-                    src="ExampleQR.png"
-                    alt="Verification QR"
-                    class="h-full w-full object-contain"
-                  />
-                </div>
+                  NeuPrint Cognitive Forensics Engine v4.2.1
+                </span>
+                <span
+                  class="inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-[11px] text-slate-500"
+                >
+                  Integrated authorship, reasoning, identity and HR-fit metrics
+                </span>
+              </div>
 
-                <div class="w-full text-center space-y-1">
-                  <p class="text-xs font-medium text-slate-700">
-                    Verification ID
-                  </p>
-                  <p class="text-xs font-mono text-emerald-700">
-                    NP-2025-0314-0007
-                  </p>
-                  <p class="text-[11px] text-slate-500 leading-snug">
-                    Validate this report at:
-                    <span class="block font-mono text-emerald-700">
-                      neuprint.ai/verify
-                    </span>
-                  </p>
-                </div>
-              </aside>
-            </header>
+              <h1 class="text-[22px] md:text-[24px] font-semibold tracking-tight">
+                NeuPrint Integrated Analysis Report
+              </h1>
 
-            <!-- Divider -->
-            <div class="h-px bg-slate-200/80"></div>
+              <p class="text-[14px] md:text-[15px] text-slate-600 max-w-xl leading-relaxed">
+                Summary of cognitive and authorship indicators derived from NeuPrint
+                reference cohorts, prepared for education, HR and decision teams.
+              </p>
 
-            <!-- 4 Summary Cards (chatgpt 카드 느낌, 심플 + 살짝 라운드) -->
-            <section
-              class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4"
+              <p class="text-[11px] font-mono text-slate-500">
+                Analysis Timestamp: 2025-03-14 14:32:07 UTC
+              </p>
+            </div>
+          </section>
+
+          <!-- 오른쪽: 검증 정보 -->
+          <aside
+            class="w-full md:w-64 border border-slate-200 bg-white rounded-2xl px-5 py-4 flex flex-col items-center gap-3"
+          >
+            <div
+              class="h-28 w-28 rounded-xl border border-slate-200 bg-white flex items-center justify-center overflow-hidden"
             >
-              <!-- CARD 1 -->
-              <article
-                class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-all"
-              >
-                <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                  Authorship Verification
-                </p>
-                <p class="text-lg font-semibold">Human</p>
-                <p class="text-[11px] text-slate-500">Confidence 92 percent</p>
-                <p class="text-xs leading-snug text-slate-600">
-                  Deep reflective pattern consistent with human-authored reference
-                  profiles.
-                </p>
-              </article>
+              <img
+                src="ExampleQR.png"
+                alt="Verification QR"
+                class="h-full w-full object-contain"
+              />
+            </div>
 
-              <!-- CARD 2 -->
-              <article
-                class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-all"
-              >
-                <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                  ARC Reasoning Level
-                </p>
-                <p class="text-lg font-semibold">L4 · Integrated Reasoning</p>
-                <p class="text-[11px] text-slate-500">ARC Reliability 0.89</p>
-                <p class="text-xs leading-snug text-slate-600">
-                  Strong integration of interpretation, evaluation and multistep
-                  reasoning.
-                </p>
-              </article>
+            <div class="w-full text-center space-y-1">
+              <p class="text-xs font-medium text-slate-700">
+                Verification ID
+              </p>
+              <p class="text-xs font-mono text-emerald-700">
+                NP-2025-0314-0007
+              </p>
+              <p class="text-[11px] text-slate-500 leading-snug">
+                Validate this report at:
+                <span class="block font-mono text-emerald-700">
+                  neuprint.ai/verify
+                </span>
+              </p>
+            </div>
+          </aside>
+        </header>
 
-              <!-- CARD 3 -->
-              <article
-                class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-all"
-              >
-                <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                  Identity Consistency (TPS-H)
-                </p>
-                <p class="text-lg font-semibold">Same Author Likely</p>
-                <p class="text-[11px] text-slate-500">Similarity Score 0.87</p>
-                <p class="text-xs leading-snug text-slate-600">
-                  Stable CFF-Prime 8 profile with low temporal drift across samples.
-                </p>
-              </article>
+        <!-- 상단 4개 결과 카드 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <!-- 카드 1: Authorship Verification -->
+          <article
+            class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm"
+          >
+            <p class="text-[11px] uppercase tracking-wide text-slate-600">
+              Authorship Verification
+            </p>
+            <p class="text-lg font-semibold">Human</p>
+            <p class="text-[11px] text-slate-500">
+              Confidence 92 percent
+            </p>
+            <p class="text-xs leading-snug text-slate-600">
+              Deep reflective pattern consistent with human-authored reference
+              profiles.
+            </p>
+          </article>
 
-              <!-- CARD 4 -->
-              <article
-                class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm hover:shadow-md transition-all"
-              >
-                <p class="text-[11px] uppercase tracking-wide text-slate-600">
-                  HR Role Recommendation
-                </p>
-                <p class="text-lg font-semibold">Strategy · Analysis · Policy</p>
-                <p class="text-[11px] text-slate-500">Fit Reliability 0.82</p>
-                <p class="text-xs leading-snug text-slate-600">
-                  Cognitive pattern aligned with analytical and policy-oriented
-                  decision roles.
-                </p>
-              </article>
-            </section>
-          </div>
-        </div>
+          <!-- 카드 2: ARC Reasoning Level -->
+          <article
+            class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm"
+          >
+            <p class="text-[11px] uppercase tracking-wide text-slate-600">
+              ARC Reasoning Level
+            </p>
+            <p class="text-lg font-semibold">
+              L4 · Integrated Reasoning
+            </p>
+            <p class="text-[11px] text-slate-500">
+              ARC Reliability 0.89
+            </p>
+            <p class="text-xs leading-snug text-slate-600">
+              Strong integration of interpretation, evaluation and multistep reasoning.
+            </p>
+          </article>
+
+          <!-- 카드 3: Identity Consistency -->
+          <article
+            class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm"
+          >
+            <p class="text-[11px] uppercase tracking-wide text-slate-600">
+              Identity Consistency (TPS-H)
+            </p>
+            <p class="text-lg font-semibold">
+              Same Author Likely
+            </p>
+            <p class="text-[11px] text-slate-500">
+              Similarity Score 0.87
+            </p>
+            <p class="text-xs leading-snug text-slate-600">
+              Stable CFF-Prime 8 profile with low temporal drift across samples.
+            </p>
+          </article>
+
+          <!-- 카드 4: HR Role Recommendation -->
+          <article
+            class="border border-slate-200 bg-white rounded-2xl p-4 flex flex-col gap-2 shadow-sm"
+          >
+            <p class="text-[11px] uppercase tracking-wide text-slate-600">
+              HR Role Recommendation
+            </p>
+            <p class="text-lg font-semibold">
+              Strategy · Analysis · Policy
+            </p>
+            <p class="text-[11px] text-slate-500">
+              Fit Reliability 0.82
+            </p>
+            <p class="text-xs leading-snug text-slate-600">
+              Cognitive pattern aligned with analytical and policy-oriented decision
+              roles.
+            </p>
+          </article>
+        </section>
       </div>
     </main>
   </body>
