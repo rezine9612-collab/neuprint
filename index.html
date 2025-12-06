@@ -139,11 +139,11 @@
     }
 
     .np-metric-card {
-      border: 1px solid #d7d7d7;
+      border: 1px solid #f2f2f2;   /* 연한 그레이 외곽선 */
       border-radius: 10px;
       padding: 16px 18px;
       background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      box-shadow: none;            /* 쉐도우 제거 */
     }
 
     /* =========================
@@ -155,7 +155,7 @@
       align-items: center;
       margin-top: 40px;
       margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      /* box-shadow 제거 */
     }
 
     .np-section-title {
@@ -173,9 +173,10 @@
       width: 900px;
       max-width: 100%;
       margin: 0 auto;
-      border: 1px solid #d7d7d7;
+      border: 1px solid #f2f2f2;  /* 외곽색 통일 */
       border-radius: 10px;
       padding: 20px 22px;
+      box-shadow: none;           /* 혹시 모를 쉐도우 방지 */
     }
 
     .np-label {
@@ -239,11 +240,11 @@
     }
 
     .np-ai-card {
-      border: 1px solid #d7d7d;
+      border: 1px solid #f2f2f2;  /* 외곽선 통일 */
       border-radius: 10px;
       padding: 16px 18px;
       background: #ffffff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+      box-shadow: none;           /* 쉐도우 제거 */
     }
 
     .np-ai-card-title {
@@ -276,26 +277,25 @@
       border-radius: 999px;
       overflow: hidden;
       display: flex;
-      background: #f3f4f6;
+      background: #f2f2f2;    /* 바 전체 기본 배경 */
     }
 
     .np-ai-bar-seg {
       height: 100%;
-      border-width: 1px;
-      border-style: solid;
+      border: none;           /* 외곽선 완전 제거 */
       box-sizing: border-box;
     }
 
     .np-ai-bar-human {
-      background: #f5c67d;     /* 내부 */
+      background: #f5c67d;    /* Human 내부 컬러 */
     }
 
     .np-ai-bar-hybrid {
-      background: #f2f2f2;
+      background: #f2f2f2;    /* Hybrid */
     }
 
     .np-ai-bar-ai {
-      background: #f2f2f2;
+      background: #7ad9eb;    /* AI 내부 컬러 */
     }
 
     .np-ai-legend {
