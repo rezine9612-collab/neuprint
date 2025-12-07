@@ -340,7 +340,6 @@
        E. 4. CFF Profile Section
        ========================= */
 
-    /* 번호는 박스 밖 */
     .np-cff-title-outside {
       font-size: 13px;
       font-weight: 700;
@@ -349,7 +348,6 @@
       margin-bottom: 12px;
     }
 
-    /* 아래 내용만 박스 */
     .np-cff-section {
       margin-top: 0;
       border: 1px solid #ededed;
@@ -358,90 +356,61 @@
       background: #ffffff;
     }
 
-    /* 상단 레이아웃: 타입 박스 + 패턴 해석 */
-    .np-cff-topgrid {
+    /* Fingerprint type / Secondary tendency 2열 레이아웃 */
+    .np-cff-fingerprint-grid {
       display: grid;
-      grid-template-columns: 0.9fr 1.5fr;
-      gap: 28px;
-      margin-bottom: 20px;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
     }
 
-    .np-cff-type-card {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .np-cff-type-pill {
-      background: #f7f7f7;
+    .np-cff-fp-box {
+      background: #f4f4f4;
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
     }
 
-    .np-cff-ft-label {
+    .np-cff-fp-title {
       font-size: 13px;
       font-weight: 400;
       color: #000000;
       margin-bottom: 4px;
     }
 
-    .np-cff-ft-main {
+    .np-cff-fp-value {
       font-size: 18px;
       font-weight: 700;
       color: #000000;
       margin-bottom: 4px;
     }
 
-    .np-cff-ft-sub {
+    .np-cff-fp-sub {
       font-size: 13px;
       font-weight: 400;
       color: #000000;
     }
 
-    .np-cff-ft-label-secondary {
+    .np-cff-fp-desc {
       font-size: 13px;
       font-weight: 400;
+      line-height: 1.5;
       color: #000000;
-      margin-bottom: 4px;
-    }
-
-    .np-cff-ft-secondary-value {
-      font-size: 18px;
-      font-weight: 700;
-      color: #000000;
-    }
-
-    .np-cff-interpret-card {
-      padding-top: 4px;
+      margin-bottom: 10px;
     }
 
     .np-cff-interpret-title {
       font-size: 13px;
       font-weight: 700;
+      margin: 10px 0 10px 0;
       color: #000000;
-      margin-bottom: 8px;
     }
 
-    .np-cff-desc {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin-bottom: 8px;
-    }
-
-    .np-cff-note {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin-bottom: 0;
-    }
-
-    /* 하단 레이아웃: 레이더 차트 + 인디케이터 테이블 */
-    .np-cff-bottomgrid {
+    /* CFF Radar + Indicators grid */
+    .np-cff-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1.2fr;
-      gap: 20px;
-      margin-top: 20px;
+      grid-template-columns: 1.1fr 1.3fr;
+      gap: 32px;
     }
 
     .np-cff-card {
@@ -452,25 +421,17 @@
       box-shadow: none;
     }
 
+    .np-cff-card.table-side {
+      margin-left: 20px;
+    }
+
     .np-cff-card-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 8px;
     }
-.np-cff-topgrid {
-  display: grid;
-  grid-template-columns: 0.9fr 1.5fr;
-  gap: 28px;
-  margin-bottom: 20px;
-}
 
-.np-cff-bottomgrid {
-  display: grid;
-  grid-template-columns: 1.1fr 1.2fr;
-  gap: 20px;
-  margin-top: 20px;
-}
     .np-cff-card-title {
       font-size: 12px;
       font-weight: 700;
@@ -575,9 +536,16 @@
         margin-top: 4px;
       }
 
-      .np-cff-topgrid,
-      .np-cff-bottomgrid {
+      .np-cff-grid {
         grid-template-columns: 1fr;
+      }
+
+      .np-cff-fingerprint-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .np-cff-card.table-side {
+        margin-left: 0;
       }
     }
   </style>
@@ -632,10 +600,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Authorship Verification
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
           Human
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
           Confidence 92%
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -647,10 +615,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           ARC Reasoning Level
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
           L4 · Integrated Reasoning
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
           ARC Reliability 0.89
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -662,10 +630,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Identity Consistency
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
           Same Author Likely
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
           Similarity Score 0.87
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -677,10 +645,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           HR Role Recommendation
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
           Strategy · Analysis · Policy
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
           Fit Reliability 0.82
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -704,12 +672,12 @@
 
     <div class="np-summary-container">
       <div class="np-label">Prompt :</div>
-      <div class="np-text">
+      <div class="np-text" style="color:#000000;">
         Should schools allow AI-assisted writing in formal assessments?
       </div>
 
       <div class="np-label">Summary :</div>
-      <div class="np-text">
+      <div class="np-text" style="color:#000000;">
         This essay examines whether schools should allow AI assisted writing in formal assessments.
         The writer explains how AI can improve surface quality while making fairness and genuine
         thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
@@ -740,7 +708,7 @@
         <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
 
         <div class="np-ai-bar-wrap">
-          <div class="np-ai-bar-label">Classification share</div>
+          <div class="np-ai-bar-label" style="color:#000000;">Classification share</div>
 
           <div class="np-ai-bar">
             <span class="np-ai-bar-text">Human 82%</span>
@@ -776,7 +744,7 @@
       <!-- 오른쪽: Decision Summary -->
       <article class="np-ai-card">
         <div class="np-ai-card-title">Decision Summary</div>
-        <p class="np-ai-card-text">
+        <p class="np-ai-card-text" style="color:#000000;">
           Final decision is Human. Pattern label is deep reflective human in a stable context.
           A confidence of 88% indicates that the classifier produces the same decision under small
           perturbations of the text. The sample sits within the top 22 percentile of the human
@@ -793,104 +761,134 @@
   </section>
 
   <!-- 4. Cognitive Fingerprint Profile (CFF) -->
+
   <div class="np-cff-title-outside">4. Cognitive Fingerprint Profile (CFF)</div>
 
- <section class="np-cff-section">
+  <section class="np-cff-section">
 
-  <!-- 상단: 타입 + 패턴 해석 -->
-  <div class="np-cff-topgrid">
-    <!-- 왼쪽: 타입 박스 두 개 -->
-    <article class="np-cff-type-card">
-      <div class="np-cff-type-pill">
-        <div class="np-cff-ft-label">Fingerprint type</div>
-        <div class="np-cff-ft-main">Reflective Explorer</div>
-        <div class="np-cff-ft-sub">Confidence: 83%</div>
-      </div>
+    <!-- 좌측 Fingerprint 박스 + 우측 패턴 해석 -->
+    <div class="np-cff-fingerprint-grid">
+      <!-- 왼쪽: 타입/세컨더리 박스 -->
+      <div>
+        <div class="np-cff-fp-box">
+          <div class="np-cff-fp-title">Fingerprint type</div>
+          <div class="np-cff-fp-value">Reflective Explorer</div>
+          <div class="np-cff-fp-sub">Confidence: 83%</div>
+        </div>
 
-      <div class="np-cff-type-pill">
-        <div class="np-cff-ft-label-secondary">Secondary tendency</div>
-        <div class="np-cff-ft-secondary-value">Evidence Weaver</div>
-      </div>
-    </article>
-
-    <!-- 오른쪽: CFF Pattern Interpretation + 설명 -->
-    <article class="np-cff-interpret-card">
-      <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
-
-      <p class="np-cff-desc">
-        CFF decomposes the essay into eight indicators that capture argument structure,
-        transitions, revision depth and diversity of evidence.
-      </p>
-
-      <p class="np-cff-note">
-        In this profile, high HI together with RDX is typical of a Reflective Explorer pattern,
-        where self-revision is dense and the human rhythm is recognisable. Combinations of lower HI
-        with higher CTF and RMD, when they appear, tend to move closer to smoother, more machine-like
-        patterns that are characteristic of the Evidence Weaver side of the profile.
-      </p>
-    </article>
-  </div>
-
-  <!-- 하단: 레이더 차트 + 인디케이터 테이블 -->
-  <div class="np-cff-bottomgrid">
-    <!-- 왼쪽: 레이다 차트 -->
-    <article class="np-cff-card">
-      <div class="np-cff-card-title-row">
-        <div class="np-cff-card-title">CFF Radar</div>
-        <div class="np-cff-pill">
-          AAS · CTF · RMD · RDX · EDS · HI · IFD · KPF
+        <div class="np-cff-fp-box">
+          <div class="np-cff-fp-title">Secondary tendency</div>
+          <div class="np-cff-fp-value">Evidence Weaver</div>
         </div>
       </div>
 
-      <div class="np-cff-chart-wrap">
-        <canvas id="cffRadarChart" aria-label="CFF Radar Chart"></canvas>
+      <!-- 오른쪽: CFF Pattern Interpretation + 설명 -->
+      <div>
+        <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
+
+        <p class="np-cff-fp-desc">
+          CFF decomposes the essay into eight indicators that capture argument structure,
+          transitions, revision depth and diversity of evidence.
+        </p>
+        <p class="np-cff-fp-desc">
+          In this profile, high HI together with RDX is typical of a Reflective Explorer pattern,
+          where self-revision is dense and the human rhythm is recognisable.
+          Combinations of lower HI with higher CTF and RMD, when they appear, tend to move
+          closer to smoother, more machine-like patterns that are characteristic of the
+          Evidence Weaver side of the profile.
+        </p>
       </div>
+    </div>
 
-      <div class="np-cff-legend">
-        <span class="np-cff-legend-swatch"></span>
-        <span>Filled blue area, CFF profile score (0–1 scale)</span>
-      </div>
+    <div class="np-cff-grid">
+      <!-- 왼쪽: 레이다 차트 -->
+      <article class="np-cff-card">
+        <div class="np-cff-card-title-row">
+          <div class="np-cff-card-title">CFF Radar</div>
+          <div class="np-cff-pill">
+            AAS · CTF · RMD · RDX · EDS · HI · IFD · KPF
+          </div>
+        </div>
 
-      <div class="np-cff-chart-caption">
-        The blue polygon and fill represent the overall cognitive fingerprint pattern.
-        Larger distance from the center indicates stronger expression of that indicator
-        in the current sample.
-      </div>
-    </article>
+        <div class="np-cff-chart-wrap">
+          <canvas id="cffRadarChart" aria-label="CFF Radar Chart"></canvas>
+        </div>
 
-    <!-- 오른쪽: CFF Indicators 테이블 -->
-    <article class="np-cff-card">
-      <div class="np-cff-card-title-row">
-        <div class="np-cff-card-title">CFF Indicators</div>
-        <div class="np-cff-pill">Score range 0.00 to 1.00</div>
-      </div>
+        <div class="np-cff-legend">
+          <span class="np-cff-legend-swatch"></span>
+          <span>Filled blue area, CFF profile score (0–1 scale)</span>
+        </div>
 
-      <div class="np-cff-table-wrap">
-        <table class="np-cff-table">
-          <thead>
-            <tr>
-              <th style="width:60px;">Code</th>
-              <th>Indicator</th>
-              <th style="width:70px;">Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><span class="np-cff-code">AAS</span></td><td>Argument Architecture</td><td>0.63</td></tr>
-            <tr><td><span class="np-cff-code">CTF</span></td><td>Cognitive Transition</td><td>0.71</td></tr>
-            <tr><td><span class="np-cff-code">RMD</span></td><td>Reasoning Momentum</td><td>0.58</td></tr>
-            <tr><td><span class="np-cff-code">RDX</span></td><td>Revision Depth</td><td>0.74</td></tr>
-            <tr><td><span class="np-cff-code">EDS</span></td><td>Evidence Diversity</td><td>0.62</td></tr>
-            <tr><td><span class="np-cff-code">HI</span></td><td>Human Rhythm</td><td>0.79</td></tr>
-            <tr><td><span class="np-cff-code">IFD</span></td><td>Intent Friction</td><td>0.33</td></tr>
-            <tr><td><span class="np-cff-code">KPF</span></td><td>Keystroke Pattern</td><td>0.15</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </article>
-  </div>
+        <div class="np-cff-chart-caption">
+          The blue polygon and fill represent the overall cognitive fingerprint pattern.
+          Larger distance from the center indicates stronger expression of that indicator
+          in the current sample.
+        </div>
+      </article>
 
-</section>
+      <!-- 오른쪽: CFF Indicators 테이블 -->
+      <article class="np-cff-card table-side">
+        <div class="np-cff-card-title-row">
+          <div class="np-cff-card-title">CFF Indicators</div>
+          <div class="np-cff-pill">Score range 0.00 to 1.00</div>
+        </div>
 
+        <div class="np-cff-table-wrap">
+          <table class="np-cff-table">
+            <thead>
+              <tr>
+                <th style="width:60px;">Code</th>
+                <th>Indicator</th>
+                <th style="width:70px;">Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="np-cff-code">AAS</span></td>
+                <td>Argument Architecture</td>
+                <td>0.63</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">CTF</span></td>
+                <td>Cognitive Transition</td>
+                <td>0.71</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">RMD</span></td>
+                <td>Reasoning Momentum</td>
+                <td>0.58</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">RDX</span></td>
+                <td>Revision Depth</td>
+                <td>0.74</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">EDS</span></td>
+                <td>Evidence Diversity</td>
+                <td>0.62</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">HI</span></td>
+                <td>Human Rhythm</td>
+                <td>0.79</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">IFD</span></td>
+                <td>Intent Friction</td>
+                <td>0.33</td>
+              </tr>
+              <tr>
+                <td><span class="np-cff-code">KPF</span></td>
+                <td>Keystroke Pattern</td>
+                <td>0.15</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </section>
 
 </div>
 
