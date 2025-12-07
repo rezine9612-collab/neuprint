@@ -336,222 +336,216 @@
       margin-top: 10px;
     }
 
-    /* =========================
-       E. 4. CFF Profile Section
-       ========================= */
+/* =========================
+   E. 4. CFF Profile Section
+   ========================= */
 
-    .np-cff-title-outside {
-      font-size: 13px;
-      font-weight: 700;
-      color: #000000;
-      margin-top: 40px;
-      margin-bottom: 12px;
-    }
+.np-cff-title-outside {
+  font-size: 13px;
+  font-weight: 700;
+  color: #000000;
+  margin-top: 40px;
+  margin-bottom: 12px;
+}
 
-    .np-cff-section {
-      margin-top: 0;
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 20px 22px 22px 22px;
-      background: #ffffff;
-    }
+.np-cff-section {
+  margin-top: 0;
+  border: 1px solid #ededed;
+  border-radius: 10px;
+  padding: 20px 22px 22px 22px;
+  background: #ffffff;
+}
 
-    /* Fingerprint type / Secondary tendency 2열 레이아웃 */
-    .np-cff-fingerprint-grid {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
+/* Fingerprint type / Secondary tendency 2열 레이아웃 */
+.np-cff-fingerprint-grid {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+  align-items: flex-start;
+}
 
-    .np-cff-fp-box {
-      background: #f4f4f4;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-    }
+.np-cff-fp-left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-    .np-cff-fp-title {
-      font-size: 13px;
-      font-weight: 400;
-      color: #000000;
-      margin-bottom: 4px;
-    }
+.np-cff-fp-right {
+  display: flex;
+  flex-direction: column;
+}
 
-    .np-cff-fp-value {
-      font-size: 18px;
-      font-weight: 700;
-      color: #000000;
-      margin-bottom: 4px;
-    }
+.np-cff-fp-box {
+  background: #f4f4f4;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
 
-    .np-cff-fp-sub {
-      font-size: 13px;
-      font-weight: 400;
-      color: #000000;
-    }
+.np-cff-fp-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  margin-bottom: 4px;
+}
 
-    .np-cff-fp-desc {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #000000;
-      margin-bottom: 10px;
-    }
+.np-cff-fp-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 4px;
+}
 
-    .np-cff-interpret-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin: 10px 0 10px 0;
-      color: #000000;
-    }
+.np-cff-fp-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+}
 
-    .np-cff-interpret {
-      padding-top: 4px;
-    }
+.np-cff-interpret-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 4px 0 10px 0;
+  color: #000000;
+}
 
-    /* CFF Radar + Indicators grid */
-    .np-cff-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1.3fr;
-      gap: 32px;
-    }
+.np-cff-fp-desc {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000000;
+  margin-bottom: 8px;
+}
 
-    .np-cff-card {
-      border: none;
-      border-radius: 0;
-      padding: 12px 0 0 0;
-      background: transparent;
-      box-shadow: none;
-    }
+/* CFF Radar + Indicators grid */
+.np-cff-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 32px;
+}
 
-    .np-cff-card.table-side {
-      margin-left: 20px;
-    }
+.np-cff-card {
+  border: none;
+  border-radius: 0;
+  padding: 12px 0 0 0;
+  background: transparent;
+  box-shadow: none;
+}
 
-    .np-cff-card-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
+.np-cff-card.table-side {
+  margin-left: 20px;
+}
 
-    .np-cff-card-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+.np-cff-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
 
-    .np-cff-pill {
-      font-size: 11px;
-      font-weight: 400;
-    }
+.np-cff-card-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
 
-    .np-cff-chart-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 0 4px 0;
-      min-height: 260px;
-    }
+.np-cff-pill {
+  font-size: 11px;
+  font-weight: 400;
+}
 
-    #cffRadarChart {
-      max-width: 320px;
-      max-height: 320px;
-    }
+.np-cff-chart-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 4px 0;
+  min-height: 260px;
+}
 
-    .np-cff-legend {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 6px;
-      font-size: 11px;
-      font-weight: 400;
-      color: #374151;
-    }
+#cffRadarChart {
+  max-width: 320px;
+  max-height: 320px;
+}
 
-    .np-cff-legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(71, 184, 224, 0.22);
-      border: 1px solid #47b8e0;
-    }
+.np-cff-legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #374151;
+}
 
-    .np-cff-chart-caption {
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 1.4;
-      margin-top: 6px;
-    }
+.np-cff-legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(71, 184, 224, 0.22);
+  border: 1px solid #47b8e0;
+}
 
-    .np-cff-table-wrap {
-      overflow: hidden;
-      border-radius: 8px;
-      border: 1px solid #ededed;
-    }
+.np-cff-chart-caption {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.4;
+  margin-top: 6px;
+}
 
-    .np-cff-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+.np-cff-table-wrap {
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #ededed;
+}
 
-    .np-cff-table th,
-    .np-cff-table td {
-      padding: 8px 12px;
-    }
+.np-cff-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
 
-    .np-cff-table th {
-      text-align: left;
-      font-weight: 600;
-      border-bottom: 1px solid #e5e7eb;
-    }
+.np-cff-table th,
+.np-cff-table td {
+  padding: 8px 12px;
+}
 
-    .np-cff-table td {
-      border-bottom: 1px solid #f3f4f6;
-    }
+.np-cff-table th {
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+}
 
-    .np-cff-table td:last-child,
-    .np-cff-table th:last-child {
-      text-align: right;
-    }
+.np-cff-table td {
+  border-bottom: 1px solid #f3f4f6;
+}
 
-    .np-cff-code {
-      font-weight: 400;
-      font-size: 11px;
-      text-decoration: none;
-    }
+.np-cff-table td:last-child,
+.np-cff-table th:last-child {
+  text-align: right;
+}
 
-    @media (max-width: 980px) {
-      .np-page {
-        padding: 32px 20px 48px 20px;
-      }
-    }
+.np-cff-code {
+  font-weight: 400;
+  font-size: 11px;
+  text-decoration: none;
+}
 
-    @media (max-width: 900px) {
-      .np-ai-grid {
-        grid-template-columns: 1fr;
-      }
+/* 반응형 */
+@media (max-width: 900px) {
+  .np-cff-grid {
+    grid-template-columns: 1fr;
+  }
 
-      .np-ai-submeta {
-        text-align: left;
-        margin-top: 4px;
-      }
+  .np-cff-fingerprint-grid {
+    grid-template-columns: 1fr;
+  }
 
-      .np-cff-grid {
-        grid-template-columns: 1fr;
-      }
+  .np-cff-card.table-side {
+    margin-left: 0;
+  }
+}
 
-      .np-cff-fingerprint-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-card.table-side {
-        margin-left: 0;
-      }
-    }
   </style>
 
   <!-- Chart.js for CFF radar -->
@@ -764,7 +758,7 @@
     </div>
   </section>
 
-  <!-- 4. Cognitive Fingerprint Profile (CFF) -->
+    <!-- 4. Cognitive Fingerprint Profile (CFF) -->
 
   <div class="np-cff-title-outside">4. Cognitive Fingerprint Profile (CFF)</div>
 
@@ -773,7 +767,7 @@
     <!-- 좌측 Fingerprint 박스 + 우측 패턴 해석 -->
     <div class="np-cff-fingerprint-grid">
       <!-- 왼쪽: 타입/세컨더리 박스 -->
-      <div>
+      <div class="np-cff-fp-left">
         <div class="np-cff-fp-box">
           <div class="np-cff-fp-title">Fingerprint type</div>
           <div class="np-cff-fp-value">Reflective Explorer</div>
@@ -787,7 +781,7 @@
       </div>
 
       <!-- 오른쪽: CFF Pattern Interpretation + 설명 -->
-      <div class="np-cff-interpret">
+      <div class="np-cff-fp-right">
         <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
 
         <p class="np-cff-fp-desc">
@@ -804,6 +798,7 @@
       </div>
     </div>
 
+    <!-- 아래: 레이더 + 테이블 -->
     <div class="np-cff-grid">
       <!-- 왼쪽: 레이다 차트 -->
       <article class="np-cff-card">
@@ -840,53 +835,53 @@
         <div class="np-cff-table-wrap">
           <table class="np-cff-table">
             <thead>
-              <tr>
-                <th style="width:60px;">Code</th>
-                <th>Indicator</th>
-                <th style="width:70px;">Score</th>
-              </tr>
+            <tr>
+              <th style="width:60px;">Code</th>
+              <th>Indicator</th>
+              <th style="width:70px;">Score</th>
+            </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><span class="np-cff-code">AAS</span></td>
-                <td>Argument Architecture</td>
-                <td>0.63</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">CTF</span></td>
-                <td>Cognitive Transition</td>
-                <td>0.71</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">RMD</span></td>
-                <td>Reasoning Momentum</td>
-                <td>0.58</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">RDX</span></td>
-                <td>Revision Depth</td>
-                <td>0.74</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">EDS</span></td>
-                <td>Evidence Diversity</td>
-                <td>0.62</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">HI</span></td>
-                <td>Human Rhythm</td>
-                <td>0.79</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">IFD</span></td>
-                <td>Intent Friction</td>
-                <td>0.33</td>
-              </tr>
-              <tr>
-                <td><span class="np-cff-code">KPF</span></td>
-                <td>Keystroke Pattern</td>
-                <td>0.15</td>
-              </tr>
+            <tr>
+              <td><span class="np-cff-code">AAS</span></td>
+              <td>Argument Architecture</td>
+              <td>0.63</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">CTF</span></td>
+              <td>Cognitive Transition</td>
+              <td>0.71</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">RMD</span></td>
+              <td>Reasoning Momentum</td>
+              <td>0.58</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">RDX</span></td>
+              <td>Revision Depth</td>
+              <td>0.74</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">EDS</span></td>
+              <td>Evidence Diversity</td>
+              <td>0.62</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">HI</span></td>
+              <td>Human Rhythm</td>
+              <td>0.79</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">IFD</span></td>
+              <td>Intent Friction</td>
+              <td>0.33</td>
+            </tr>
+            <tr>
+              <td><span class="np-cff-code">KPF</span></td>
+              <td>Keystroke Pattern</td>
+              <td>0.15</td>
+            </tr>
             </tbody>
           </table>
         </div>
