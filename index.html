@@ -388,26 +388,44 @@
       margin-bottom: 16px;
     }
 
+/* 캡션 제목 */
 .np-cff-ft-label {
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 4px;
   color: #000000;
+  margin-bottom: 4px;
 }
 
+/* 메인 타입 이름 */
 .np-cff-ft-main {
   font-size: 20px;
   font-weight: 700;
   color: #000000;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
+/* Confidence 표시 */
 .np-cff-ft-sub {
   font-size: 13px;
   font-weight: 500;
   color: #000000;
-  line-height: 1.45;
+  margin-bottom: 14px; /* 여기서 한 칸(공백) 만드는 역할 */
+}
+
+/* Secondary tendency label */
+.np-cff-ft-label-secondary {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000000;
   margin-bottom: 4px;
+}
+
+/* Secondary tendency 값 (18px bold) */
+.np-cff-ft-secondary-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 14px;
 }
 
     
@@ -765,18 +783,11 @@
   <section class="np-cff-section">
 
 <div class="np-cff-ft-label">Fingerprint type</div>
+<div class="np-cff-ft-main">Reflective Explorer</div>
+<div class="np-cff-ft-sub">Confidence: 83%</div>
 
-<div class="np-cff-ft-main">
-  Reflective Explorer
-</div>
-
-<div class="np-cff-ft-sub">
-  Confidence: 83%
-</div>
-
-<div class="np-cff-ft-sub">
-  Secondary tendency: Evidence Weaver
-</div>
+<div class="np-cff-ft-label-secondary">Secondary tendency</div>
+<div class="np-cff-ft-secondary-value">Evidence Weaver</div>
 
 <p class="np-cff-desc">
   CFF decomposes the essay into eight indicators that capture argument structure,
@@ -787,6 +798,7 @@
   High HI together with RDX points to dense self revision and a recognisable human rhythm.
   Combinations of low HI with high CTF and RMD can move closer to smoother machine like patterns.
 </p>
+
 
 
 
