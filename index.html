@@ -841,10 +841,11 @@
   margin-top: 6px;
 }
 
-    /* Semi Gauge Chart */
+/* Semi-circular gauge */
 .np-ident-gauge-wrap {
   width: 100%;
   max-width: 260px;
+  height: 140px;        /* 반원 높이 */
   margin: 12px auto 4px auto;
 }
 
@@ -856,6 +857,7 @@
   color: #6b7280;
   padding: 0 4px;
 }
+
 
 
 @media (max-width: 900px) {
@@ -1385,7 +1387,8 @@
   </div>
 
   <div class="np-ident-note">
-    The gauge indicates how this match compares with known same-author and different-author pairs.
+    The gauge indicates how this match compares with known same-author
+    and different-author pairs in the reference dataset.
   </div>
 </div>
 
@@ -1482,39 +1485,50 @@
       });
     }
 
-const gctx = document.getElementById("identGaugeChart");
+ // Identity similarity semi-circular gauge
+  const gctx = document.getElementById("identGaugeChart");
 
-if (gctx) {
-  const score = 0.87; // 0~1 → 동일인 유사도 점수
-  const angleValue = score * 180; // 180도 반원 중 어디까지 채울지
+  if (gctx) {
+    const similarity = 0.87; // 0 ~ 1 사이, 동일인 유사도 점수
+    // 0 → Low, 0.5 → Medium, 1.0 → High
 
-  new Chart(gctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Score', 'Remainder'],
-      datasets: [{
-        data: [score, 1 - score],
-        backgroundColor: [
-          // 왼쪽→오른쪽 점진적 블루 계열
-          "rgba(37, 99, 235, 0.85)", 
-          "rgba(229, 231, 235, 0.4)"
-        ],
-        borderWidth: 0,
-        cutout: "70%",
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      rotation: -90 * (Math.PI / 180),   // 0도 위치 위쪽 → 왼쪽으로 이동
-      circumference: 180 * (Math.PI / 180), // 반원만
-      plugins: {
-        legend: { display: false },
-        tooltip: { enabled: false }
+    new Chart(gctx, {
+      type: "doughnut",
+      data: {
+        labels: ["Filled", "Empty"],
+        datasets: [
+          // 1) 전체 트랙 (회색 반원)
+          {
+            data: [1, 0],
+            backgroundColor: ["#e5e7eb", "transparent"],
+            borderWidth: 0,
+            cutout: "70%"
+          },
+          // 2) 점수에 해당하는 채워진 아크
+          {
+            data: [similarity, 1 - similarity],
+            backgroundColor: [
+              "rgba(37, 99, 235, 0.9)",   // 파란 채워진 부분
+              "transparent"               // 나머지 투명
+            ],
+            borderWidth: 0,
+            cutout: "70%"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        // 반원: 왼쪽(Low) → 가운데(Medium) → 오른쪽(High)
+        rotation: -Math.PI,                  // 시작 각도(왼쪽)
+        circumference: Math.PI,              // 180도만 사용
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false }
+        }
       }
-    }
-  });
-}
+    });
+  }
     
   </script>
 </body>
