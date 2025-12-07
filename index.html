@@ -679,7 +679,7 @@
       margin-bottom: 4px;
     }
 
-    /* =========================
+        /* =========================
        G. RESPONSIVE
        ========================= */
     @media (max-width: 980px) {
@@ -715,39 +715,8 @@
         grid-template-columns: 1fr;
       }
 
-    /* =========================
-       G. RESPONSIVE
-       ========================= */
-    @media (max-width: 980px) {
-      .np-page {
-        padding: 32px 20px 48px 20px;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .np-ai-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-ai-submeta {
-        text-align: left;
-        margin-top: 4px;
-      }
-
-      .np-cff-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-fingerprint-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-card.table-side {
-        margin-left: 0;
-      }
-
-      .np-arc-band-row,
-      .np-arc-strength-row {
+      /* 좁은 화면에서 Identity도 1열로 */
+      .np-ident-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -825,7 +794,7 @@
 
     .np-ident-bar-fill {
       height: 100%;
-      width: 87%; /* Similarity Score 0.87 → 87% 위치 */
+      width: 87%; /* 0.87 → 87% */
       background: linear-gradient(to right, #bfdbfe, #2563eb);
     }
 
@@ -871,6 +840,7 @@
       color: #6b7280;
       margin-top: 6px;
     }
+
 
     @media (max-width: 900px) {
       .np-ident-grid {
@@ -1366,12 +1336,12 @@
     </section>
 
  <!-- 6. Identity Consistency Analysis -->
-  <section class="np-ident-section">
-    <div class="np-section-title-row">
-      <div class="np-section-title">6. Identity Consistency Analysis</div>
-    </div>
+<section class="np-ident-section">
+  <div class="np-section-title-row">
+    <div class="np-section-title">6. Identity Consistency Analysis</div>
+  </div>
 
-    <div class="np-ident-grid">
+  <div class="np-ident-grid">
       <!-- 왼쪽: 지표 + 확률 바 -->
       <article class="np-ident-left-card">
         <div class="np-ident-metric-row">
@@ -1433,9 +1403,9 @@
           may still influence the match score. For any academic, administrative, or legal use,
           this result should be interpreted alongside other independent sources of evidence.
         </p>
-      </article>
-    </div>
-  </section>
+    </article>
+  </div>
+</section>
 
   
   <!-- Chart.js 초기화 -->
