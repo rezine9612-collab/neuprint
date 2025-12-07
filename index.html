@@ -715,135 +715,170 @@
         grid-template-columns: 1fr;
       }
 
-/* =========================
-   G. 6. Identity Consistency Analysis
-   ========================= */
-
-.np-ident-section {
-  margin-top: 40px;
-}
-
-.np-ident-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1.7fr;
-  gap: 16px;
-  margin-top: 12px;
-}
-
-.np-ident-left-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.np-ident-metric-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 8px;
-  margin-bottom: 10px;
-}
-
-.np-ident-metric-label {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #4b5563;
-}
-
-.np-ident-metric-main {
-  font-size: 16px;
-  font-weight: 700;
-  color: #000000;
-}
-
-.np-ident-metric-sub {
-  font-size: 12px;
-  font-weight: 400;
-  color: #000000;
-}
-
-/* 시각적 확률 바 */
-.np-ident-bar-wrap {
-  margin-top: 10px;
-}
-
-.np-ident-bar-label {
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #4b5563;
-}
-
-.np-ident-bar-track {
-  width: 100%;
-  height: 10px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  overflow: hidden;
-  position: relative;
-}
-
-.np-ident-bar-fill {
-  height: 100%;
-  width: 87%; /* Similarity Score 0.87 → 87% 위치 */
-  background: linear-gradient(to right, #bfdbfe, #2563eb);
-}
-
-.np-ident-bar-scale {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
-  font-size: 10px;
-  color: #6b7280;
-}
-
-.np-ident-right-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.np-ident-subtitle {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 4px;
-  color: #4b5563;
-}
-
-.np-ident-keylist {
-  margin: 6px 0 10px 0;
-  padding-left: 14px;
-  font-size: 12px;
-  color: #111827;
-}
-
-.np-ident-keylist li {
-  margin-bottom: 2px;
-}
-
-.np-ident-note {
-  font-size: 11px;
-  color: #6b7280;
-  margin-top: 6px;
-}
-
-/* 반응형 */
-@media (max-width: 900px) {
-  .np-ident-grid {
-    grid-template-columns: 1fr;
-  }
-}
+    /* =========================
+       G. RESPONSIVE
+       ========================= */
+    @media (max-width: 980px) {
+      .np-page {
+        padding: 32px 20px 48px 20px;
+      }
     }
-      </style>
+
+    @media (max-width: 900px) {
+      .np-ai-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .np-ai-submeta {
+        text-align: left;
+        margin-top: 4px;
+      }
+
+      .np-cff-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .np-cff-fingerprint-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .np-cff-card.table-side {
+        margin-left: 0;
+      }
+
+      .np-arc-band-row,
+      .np-arc-strength-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================
+       H. 6. Identity Consistency Analysis
+       ========================= */
+
+    .np-ident-section {
+      margin-top: 40px;
+    }
+
+    .np-ident-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.7fr;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .np-ident-left-card {
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .np-ident-metric-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      row-gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .np-ident-metric-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #4b5563;
+    }
+
+    .np-ident-metric-main {
+      font-size: 16px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .np-ident-metric-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #000000;
+    }
+
+    .np-ident-bar-wrap {
+      margin-top: 10px;
+    }
+
+    .np-ident-bar-label {
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    .np-ident-bar-track {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .np-ident-bar-fill {
+      height: 100%;
+      width: 87%; /* Similarity Score 0.87 → 87% 위치 */
+      background: linear-gradient(to right, #bfdbfe, #2563eb);
+    }
+
+    .np-ident-bar-scale {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 10px;
+      color: #6b7280;
+    }
+
+    .np-ident-right-card {
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .np-ident-subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    .np-ident-keylist {
+      margin: 6px 0 10px 0;
+      padding-left: 14px;
+      font-size: 12px;
+      color: #111827;
+    }
+
+    .np-ident-keylist li {
+      margin-bottom: 2px;
+    }
+
+    .np-ident-note {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 900px) {
+      .np-ident-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
 
   <!-- Chart.js for CFF radar -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1329,9 +1364,8 @@
         </div>
       </div>
     </section>
-  </div>
 
-    <!-- 6. Identity Consistency Analysis -->
+ <!-- 6. Identity Consistency Analysis -->
   <section class="np-ident-section">
     <div class="np-section-title-row">
       <div class="np-section-title">6. Identity Consistency Analysis</div>
@@ -1367,6 +1401,10 @@
           and different-author pairs in the reference dataset.
         </div>
       </article>
+    
+  </div>
+
+   
 
       <!-- 오른쪽: 패턴 요약 + 근거와 한계 -->
       <article class="np-ident-right-card">
