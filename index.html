@@ -731,7 +731,7 @@
 
 .np-ident-grid {
   display: grid;
-  grid-template-columns: 1.3fr 1.7fr; /* 왼쪽 좁게, 오른쪽 넓게 */
+  grid-template-columns: 1.3fr 1.7fr;
   gap: 16px;
   margin-top: 12px;
 }
@@ -741,15 +741,26 @@
   padding: 14px 18px;
   background: #f9fafb;
   border: 1px solid #e5e7eb;
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-.np-ident-metric-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 8px;
-  margin-bottom: 10px;
+.np-ident-right-card {
+  border-radius: 10px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.np-ident-heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 4px;
 }
 
 .np-ident-metric-label {
@@ -767,68 +778,15 @@
 }
 
 .np-ident-metric-sub {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   color: #000000;
-}
-
-.np-ident-bar-wrap {
-  margin-top: 10px;
-}
-
-.np-ident-bar-label {
-  font-size: 11px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: #4b5563;
-}
-
-.np-ident-bar-track {
-  width: 100%;
-  height: 10px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  overflow: hidden;
-  position: relative;
-}
-
-.np-ident-bar-fill {
-  height: 100%;
-  width: 87%; /* Similarity Score 0.87 → 87% 위치 */
-  background: linear-gradient(to right, #bfdbfe, #2563eb);
-}
-
-.np-ident-bar-scale {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
-  font-size: 10px;
-  color: #6b7280;
-}
-
-.np-ident-right-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.np-ident-subtitle {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 4px;
-  color: #4b5563;
+  margin-top: 2px;
 }
 
 .np-ident-keylist {
-  margin: 6px 0 10px 0;
-  padding-left: 14px;
-  font-size: 12px;
-  color: #111827;
+  margin: 4px 0 0 0;
+  padding-left: 18px;
 }
 
 .np-ident-keylist li {
@@ -840,6 +798,7 @@
   color: #6b7280;
   margin-top: 6px;
 }
+
 
 /* Semi-circular gauge */
 .np-ident-gauge-wrap {
@@ -880,15 +839,12 @@
   fill: #374151;
 }
 
-.np-ident-gauge-scale {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 4px;
+.np-ident-gauge-label {
   font-size: 10px;
-  color: #6b7280;
-  padding: 0 4px;
+  fill: #6b7280;
 }
 
+    
 
 @media (max-width: 900px) {
   .np-ident-grid {
@@ -1391,11 +1347,11 @@
   </div>
 
   <div class="np-ident-grid">
-    <!-- 왼쪽: 지표 + 확률 바 -->
+    <!-- 왼쪽: 지표 + 반원 게이지 -->
     <article class="np-ident-left-card">
       <div class="np-ident-metric-row">
         <div>
-          <div class="np-ident-metric-label">Same author likelihood</div>
+          <div class="np-ident-metric-label">SAME AUTHOR LIKELIHOOD</div>
           <div class="np-ident-metric-main">High</div>
           <div class="np-ident-metric-sub">
             Similarity score 0.87, 92th percentile among validated same-author pairs.
@@ -1403,109 +1359,104 @@
         </div>
       </div>
 
-<div class="np-ident-bar-wrap">
-  <div class="np-ident-bar-label">Position within validation distribution</div>
+      <div class="np-ident-bar-wrap">
+        <div class="np-ident-bar-label">Position within validation distribution</div>
 
-  <div class="np-ident-gauge-wrap">
-    <svg id="identGauge" viewBox="0 0 200 120" class="np-ident-gauge">
-      <defs>
-        <!-- HalfCircularGauge 의 trackColors 에 대응하는 그라디언트 -->
-        <linearGradient id="identGaugeGradient" x1="0%" y1="100%" x2="100%" y2="100%">
-          <stop offset="0%"   stop-color="#f35f5f" />
-          <stop offset="25%"  stop-color="#f6a54c" />
-          <stop offset="50%"  stop-color="#b7e2ac" />
-          <stop offset="75%"  stop-color="#5ece9e" />
-          <stop offset="100%" stop-color="#5587a2" />
-        </linearGradient>
-      </defs>
+        <div class="np-ident-gauge-wrap">
+          <svg id="identGauge" viewBox="0 0 200 120" class="np-ident-gauge">
+            <defs>
+              <linearGradient id="identGaugeGradient" x1="0%" y1="100%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#f35f5f" />
+                <stop offset="25%"  stop-color="#f6a54c" />
+                <stop offset="50%"  stop-color="#b7e2ac" />
+                <stop offset="75%"  stop-color="#5ece9e" />
+                <stop offset="100%" stop-color="#5587a2" />
+              </linearGradient>
+            </defs>
 
-      <!-- 회색 배경 트랙 -->
-      <path
-        d="M 20 100 A 80 80 0 0 1 180 100"
-        stroke="#e5e7eb"
-        stroke-width="16"
-        fill="none"
-      />
+            <!-- 회색 배경 트랙 -->
+            <path
+              d="M 20 100 A 80 80 0 0 1 180 100"
+              stroke="#e5e7eb"
+              stroke-width="16"
+              fill="none"
+            />
 
-      <!-- 색상 트랙 (Low → High) -->
-      <path
-        d="M 20 100 A 80 80 0 0 1 180 100"
-        stroke="url(#identGaugeGradient)"
-        stroke-width="10"
-        fill="none"
-      />
+            <!-- 컬러 트랙 -->
+            <path
+              d="M 20 100 A 80 80 0 0 1 180 100"
+              stroke="url(#identGaugeGradient)"
+              stroke-width="10"
+              fill="none"
+            />
 
-      <!-- 바늘 -->
-      <line
-        id="identGauge-needle"
-        x1="100" y1="100"
-        x2="100" y2="26"
-        stroke="#111827"
-        stroke-width="3"
-        stroke-linecap="round"
-      />
+            <!-- 바늘 -->
+            <line
+              id="identGauge-needle"
+              x1="100" y1="100"
+              x2="100" y2="26"
+              stroke="#111827"
+              stroke-width="3"
+              stroke-linecap="round"
+            />
 
-      <!-- 중심 원 -->
-      <circle cx="100" cy="100" r="4" fill="#111827" />
+            <!-- 중심 원 -->
+            <circle cx="100" cy="100" r="4" fill="#111827" />
 
-      <!-- 값 표시 -->
-      <text
-        id="identGauge-value"
-        x="100" y="115"
-        text-anchor="middle"
-        class="np-ident-gauge-value"
-      >
-        0.87
-      </text>
-    </svg>
-  </div>
+            <!-- 값 텍스트 -->
+            <text
+              id="identGauge-value"
+              x="100" y="115"
+              text-anchor="middle"
+              class="np-ident-gauge-value"
+            >
+              0.87
+            </text>
 
-  <div class="np-ident-gauge-scale">
-    <span>Low</span>
-    <span>Medium</span>
-    <span>High</span>
-  </div>
-</div>
+            <!-- 반원 위의 Low / Medium / High 라벨 -->
+            <text x="38"  y="93" text-anchor="middle" class="np-ident-gauge-label">Low</text>
+            <text x="100" y="48" text-anchor="middle" class="np-ident-gauge-label">Medium</text>
+            <text x="162" y="93" text-anchor="middle" class="np-ident-gauge-label">High</text>
+          </svg>
+        </div>
+      </div>
 
-
-  <div class="np-ident-note">
-    The gauge indicates how this match compares with known same-author
-    and different-author pairs in the reference dataset.
-  </div>
-</div>
-
+      <div class="np-ident-note">
+        The gauge indicates how this match compares with known same-author and different-author pairs
+        in the reference dataset.
+      </div>
     </article>
 
-    <!-- 오른쪽: 패턴 요약 + 근거와 한계 -->
+    <!-- 오른쪽: Summary / Key indicators / Interpretation -->
     <article class="np-ident-right-card">
-      <div class="np-ident-subtitle">Summary</div>
-      <p style="margin-bottom:8px;">
-        The target sample shows a reasoning pattern, linguistic rhythm, and
-        CFF-Prime 8 distribution that are closely aligned with the reference
-        author profile. The similarity score of <strong>0.87</strong> places this
-        match in the upper range typically observed for confirmed same-author
-        pairs in validation cohorts.
+      <div class="np-ident-heading">Summary</div>
+      <p>
+        The target sample shows a reasoning pattern, linguistic rhythm, and CFF-Prime 8 distribution
+        that are closely aligned with the reference author profile. The similarity score of
+        <strong>0.87</strong> places this match in the upper range typically observed for confirmed
+        same-author pairs in validation cohorts.
       </p>
 
-      <div class="np-ident-subtitle">Key indicators</div>
+      <div class="np-ident-heading" style="margin-top:10px;">Key indicators</div>
       <ul class="np-ident-keylist">
         <li><strong>CFF-Prime 8 pattern</strong> – [[CFF_PATTERN_SUMMARY]]</li>
         <li><strong>TPS-H (temporal stability)</strong> – [[TPSH_SUMMARY]]</li>
         <li><strong>Anomalies or inconsistencies</strong> – [[ANOMALIES_OR_NONE]]</li>
       </ul>
 
-      <div class="np-ident-subtitle">Interpretation and limits</div>
+      <div class="np-ident-heading" style="margin-top:10px;">Interpretation and limits</div>
       <p>
         Overall, the pattern is consistent with a <strong>high likelihood of same authorship</strong>,
         given the proximity to known same-author distributions and the stability of the cognitive
         fingerprint over time. At the same time, this is a <strong>probabilistic estimate</strong>
-        rather than an absolute determination, and intra-author variation or context effects
-        may still influence the match score. For any academic, administrative, or legal use,
-        this result should be interpreted alongside other independent sources of evidence.
+        rather than an absolute determination, and intra-author variation or context effects may still
+        influence the match score. For any academic, administrative, or legal use, this result should
+        be interpreted alongside other independent sources of evidence.
       </p>
     </article>
   </div>
 </section>
+
 
 
   
@@ -1613,14 +1564,12 @@
   }
 
  // Identity 반원 게이지: 0 → Low, 1 → High
-  const gaugeNeedle = document.getElementById("identGauge-needle");
+ const gaugeNeedle = document.getElementById("identGauge-needle");
   const gaugeValueText = document.getElementById("identGauge-value");
 
   if (gaugeNeedle && gaugeValueText) {
-    const similarity = 0.87; // 0 ~ 1, 여기서 0.87은 87% (High 쪽)
+    const similarity = 0.87; // 0~1
 
-    // HalfCircularGauge 의 startAngle / maximumAngle 개념
-    // minAngle: 왼쪽 끝, maxAngle: 오른쪽 끝
     const minAngle = -90;  // Low
     const maxAngle = 90;   // High
 
