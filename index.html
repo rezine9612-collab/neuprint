@@ -2,570 +2,268 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <title>NeuPrint CFF Section</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NeuPrint Integrated Analysis Report</title>
 
-  <!-- Open Sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />	
+  <!-- Noto Sans -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #ffffff;
-      color:#000000;
+      font-family: "Noto Sans", system-ui, -apple-system, BlinkMacSystemFont,
+        sans-serif;
+      background-color: #f3f4f6; /* slate-100 */
+      color: #020617; /* slate-950 */
     }
 
-    /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
-    .np-page {
-      max-width: 980px;
+    /* 레이더 차트 크기 */
+    #cffRadarChart {
+      max-width: 380px;
+      max-height: 380px;
       margin: 0 auto;
-      padding: 48px 40px 64px 40px;
-    }
-
-    /* =========================
-       A. HEADER ROW (텍스트 + QR)
-       ========================= */
-    .np-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 32px;
-    }
-
-    .np-left-header {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .np-logo {
-      width: 172px;
-      height: 39px;
-      display: block;
-      margin-bottom: 12px;
-    }
-
-    .np-header-title-line1 {
-      font-size: 13px;
-      font-weight: 500;
-	  color: #000000;
-    }
-
-    .np-header-title-main {
-      font-size: 30px;
-      font-weight: 700;
-	  color: #000000;
-      line-height: 1.2;
-    }
-
-    .np-header-sub {
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .np-header-timestamp {
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    /* QR + 검증 텍스트: 모두 우측정렬 */
-    .np-verify-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-      margin-top: 10px;
-    }
-
-    .np-author-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 25px;
-      text-align: right;
-	  color: #000000;
-    }
-
-    .np-verify-label {
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .np-qr {
-      width: 74px;
-      height: 74px;
-      object-fit: contain;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-
-
-
-    /* =========================
-       B. 1. Overview Metrics
-       ========================= */
-    .np-section-title-small {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 12px;
-	  color: #000000;
-    }
-
-    .np-metric-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 12px;
-    }
-
-    .np-metric-card {
-      border: 1px solid #ededed;   /* 연한 그레이 외곽선 */
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
-      box-shadow: none;            /* 쉐도우 제거 */
-    }
-
-    /* =========================
-       C. 2. Content Summary
-       ========================= */
-    .np-section-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 40px;
-      margin-bottom: 12px;
-      /* box-shadow 제거 */
-    }
-
-    .np-section-title {
-      font-size: 13px;
-      font-weight: 700;
-	  color: #000000;
-    }
-
-    .np-meta-inline {
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .np-summary-container {
-      width: 900px;
-      max-width: 100%;
-      margin: 0 auto;
-      border: 1px solid #ededed;  /* 외곽색 통일 */
-      border-radius: 10px;
-      padding: 20px 22px;
-      box-shadow: none;           /* 혹시 모를 쉐도우 방지 */
-    }
-
-    .np-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .np-text {
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    .np-tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-
-    .np-tag {
-      font-size: 11px;
-      font-weight: 500;
-      padding: 4px 10px;
-      border-radius: 16px;
-      background: #ededed;
-	  color: #000000;		
-    }
-
-    /* =========================
-       D. 3. AI Usage Classification
-       ========================= */
-    .np-ai-section {
-      margin-top: 40px;
-    }
-
-    .np-ai-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 12px;
-    }
-
-    .np-ai-title {
-      font-size: 13px;
-      font-weight: 700;
- 	  color: #000000		
-    }
-
-    .np-ai-submeta {
-      font-size: 11px;
-      font-weight: 500;
-      text-align: right;
-    }
-
-    .np-ai-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1.6fr;
-      gap: 16px;
-    }
-
-    .np-ai-card {
-      border: 1px solid #ededed;  /* 외곽선 통일 */
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
-      box-shadow: none;           /* 쉐도우 제거 */
-    }
-
-    .np-ai-card-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .np-ai-card-text {
-      font-size: 12px;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-
-    /* --- 한 줄 스택 바 --- */
-    .np-ai-bar-wrap {
-      margin-top: 6px;
-      margin-bottom: 8px;
-    }
-
-    .np-ai-bar-label {
-      font-size: 11px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .np-ai-bar {
-      width: 100%;
-      height: 40px;
-      border-radius: 999px;
-      overflow: hidden;
-      display: flex;
-      background: #ededed;    /* 바 전체 기본 배경 */
-    }
-
-    .np-ai-bar-seg {
-      height: 100%;
-      border: none;           /* 외곽선 완전 제거 */
-      box-sizing: border-box;
-    }
-
-    .np-ai-bar-human {
-      background: #fdaa1e;    /* Human 내부 컬러 */
-    }
-
-    .np-ai-bar-hybrid {
-      background: #e5e5e5;    /* Hybrid */
-    }
-
-    .np-ai-bar-ai {
-      background: #47b8e0;    /* AI 내부 컬러 */
-    }
-/* 바 속 텍스트 중앙 배치 */
-.np-ai-bar-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-    .np-ai-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .np-ai-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      font-size: 11px;
-      font-weight: 500;
-    }
-
-    .np-ai-legend-swatch {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-	  margin-right: 2px;		
-    }
-
-    .np-ai-note-list {
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: 500;
-      line-height: 1.4;
-	  list-style: none;  		
-    }
-
-    .np-ai-note-list li {
-      margin-left: 0px;
-      margin-bottom: 2px;
-    }
-
-    .np-ai-tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 980px) {
-      .np-page {
-        padding: 32px 20px 48px 20px;
-      }
-    }
-
-    @media (max-width: 900px) {
-      .np-ai-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-ai-submeta {
-        text-align: left;
-        margin-top: 4px;
-      }
     }
   </style>
 </head>
-
-<body>
-<div class="np-page">
-
-  <!-- HEADER -->
-  <div class="np-header-row">
-    <div class="np-left-header">
-      <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
-
-      <div class="np-header-title-line1">
-        Neuprint Cognitive Forensics Engine v4.2.1
-      </div>
-      <div class="np-header-title-main">
-        NeuPrint Integrated Analysis Report
-      </div>
-      <div class="np-header-sub">
-        Integrated authorship, cognition, identity and HR-fit analysis
-      </div>
-      <div class="np-header-timestamp">
-        Analysis Timestamp : 2025-03-14 14:32:07 UTC
-      </div>
-    </div>
-
-    <div class="np-verify-panel">
-      <div class="np-author-label">Author : Candidate 014-A</div>
-
-      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
-
-      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
-      <div class="np-verify-label">
-        To validate this report, visit https://neuprint.ai/verify
-      </div>
-    </div>
-  </div>
-
-  <!-- 1. Overview Metrics -->
-  <section>
-    <div class="np-section-title-small">
-      1. Overview Metrics
-    </div>
-
-    <div class="np-metric-grid">
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px; ">
-          Authorship Verification
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
-          Human
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
-          Confidence 92%
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Deep reflective pattern consistent with human-authored reference profiles.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          ARC Reasoning Level
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
-          L4 · Integrated Reasoning
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
-          ARC Reliability 0.89
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Strong integration of interpretation, evaluation and multistep reasoning.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Identity Consistency
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
-          Same Author Likely
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
-          Similarity Score 0.87
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Stable CFF-Prime 8 pattern with low temporal drift across samples.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          HR Role Recommendation
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000">
-          Strategy · Analysis · Policy
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000">
-          Fit Reliability 0.82
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- 2. Content Summary -->
-  <section>
-    <div class="np-section-title-row">
-      <div class="np-section-title">
-        2. Content Summary
-      </div>
-      <div class="np-meta-inline">
-        Word : 486 / Sentence : 22 / Paragraphs : 3
-      </div>
-    </div>
-
-    <div class="np-summary-container">
-      <div class="np-label">Prompt :</div>
-      <div class="np-text" style="color: #000000;">
-        Should schools allow AI-assisted writing in formal assessments?
+<body class="py-10">
+  <main class="mx-auto max-w-5xl px-4">
+    <!-- CFF SECTION -->
+    <section
+      id="cff-section"
+      class="rounded-3xl bg-white p-8 shadow-sm border border-slate-200"
+    >
+      <!-- 제목 라인 -->
+      <div class="mb-6 flex items-center gap-3 border-b border-slate-200 pb-3">
+        <span
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-slate-300 text-[11px] font-semibold text-slate-700"
+        >
+          4
+        </span>
+        <h2 class="text-sm font-semibold text-slate-900">
+          Cognitive Fingerprint Profile (CFF)
+        </h2>
       </div>
 
-      <div class="np-label">Summary :</div>
-      <div class="np-text" style="color: #000000;">
-        This essay examines whether schools should allow AI assisted writing in formal assessments.
-        The writer explains how AI can improve surface quality while making fairness and genuine
-        thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
-        and conditions for transparent and accountable AI use.
-      </div>
+      <!-- 설명 텍스트 -->
+      <p class="mb-2 text-sm leading-relaxed text-slate-800">
+        <span class="font-semibold">Fingerprint type:</span>
+        Reflective Explorer, type confidence 83 percent, with a secondary
+        tendency toward an Evidence Weaver style. CFF decomposes the essay into
+        eight indicators that capture argument structure, transitions, revision
+        depth, and diversity of evidence.
+      </p>
+      <p class="mb-6 text-xs leading-relaxed text-slate-500">
+        High HI together with RDX points to dense self revision and a
+        recognisable human rhythm. Combinations of low HI with high CTF and RMD
+        can move closer to smoother machine like patterns.
+      </p>
 
-      <div class="np-tag-list">
-        <span class="np-tag">AI assisted writing</span>
-        <span class="np-tag">Fair assessment</span>
-        <span class="np-tag">Student agency</span>
-        <span class="np-tag">School policy</span>
-      </div>
-    </div>
-  </section>
+      <!-- 레이더 + 인디케이터 그리드 -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <!-- 좌측: 레이더 차트 카드 -->
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col"
+        >
+          <div class="mb-3 flex items-center justify-between">
+            <h3
+              class="text-xs font-semibold tracking-wide text-slate-600 uppercase"
+            >
+              CFF Radar
+            </h3>
+            <span
+              class="rounded-full bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-500"
+            >
+              AAS · CTF · RMD · RDX · EDS · HI · IFD · KPF
+            </span>
+          </div>
 
-  <!-- 3. AI Usage Classification -->
-  <section class="np-ai-section">
-    <div class="np-ai-title-row">
-      <div class="np-ai-title">3. AI Usage Classification</div>
-      <div class="np-ai-submeta">
-        Human (Confidence 88%)
-      </div>
-    </div>
-
-    <div class="np-ai-grid">
-      <!-- 왼쪽: Human / Hybrid / AI Mix -->
-      <article class="np-ai-card">
-        <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
-
-<div class="np-ai-bar-wrap">
-  <div class="np-ai-bar-label" style="color: #000000;">Classification share</div>
-
-  <div class="np-ai-bar" style="position: relative;">
-    <span class="np-ai-bar-text">Human 82%</span>
-
-    <div class="np-ai-bar-seg np-ai-bar-human" style="width:82%;"></div>
-    <div class="np-ai-bar-seg np-ai-bar-hybrid" style="width:9%;"></div>
-    <div class="np-ai-bar-seg np-ai-bar-ai" style="width:9%;"></div>
-  </div>
-
-  <div class="np-ai-legend">
-    <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#fdaa1e;"></span> 
-      Human 82%
-    </div>
-    <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#e5e5e5;"></span> 
-      Hybrid 9%
-    </div>
-    <div class="np-ai-legend-item">
-      <span class="np-ai-legend-swatch" style="background:#47b8e0"></span> 
-      AI 9%
-    </div>
-  </div>
-</div>
-
-
-        <ul class="np-ai-note-list">
-          <li>Human · non-linear reasoning with self-revision traces</li>
-          <li>Hybrid · local phrasing support and polishing</li>
-          <li>AI · fully AI-generated outcome is unlikely</li>
-        </ul>
-      </article>
-
-      <!-- 오른쪽: Decision Summary -->
-      <article class="np-ai-card">
-        <div class="np-ai-card-title">Decision Summary</div>
-        <p class="np-ai-card-text" style="color: #000000;">
-          Final decision is Human. Pattern label is deep reflective human in a stable context.
-          A confidence of 88% indicates that the classifier produces the same decision under small
-          perturbations of the text. The sample sits within the top 22 percentile of the human
-          reference group for the same grade band.
-        </p>
-
-        <div class="np-ai-tag-list">
-          <span class="np-tag">Pattern deep_reflective_human</span>
-          <span class="np-tag">Reliability band high</span>
-          <span class="np-tag">Interpretation Human-led with light AI phrasing support</span>
+          <div class="flex flex-1 items-center justify-center">
+            <!-- Chart.js가 여기에 렌더링 -->
+            <canvas
+              id="cffRadarChart"
+              aria-label="CFF Radar Chart"
+              role="img"
+            ></canvas>
+          </div>
         </div>
-      </article>
-    </div>
-  </section>
 
-</div>
+        <!-- 우측: CFF Indicators 테이블 카드 -->
+        <div
+          class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm flex flex-col"
+        >
+          <div class="mb-3 flex items-center justify-between">
+            <h3
+              class="text-xs font-semibold tracking-wide text-slate-600 uppercase"
+            >
+              CFF Indicators
+            </h3>
+            <span
+              class="rounded-full bg-slate-50 px-3 py-1 text-[11px] font-medium text-slate-500"
+            >
+              Score range 0.00–1.00
+            </span>
+          </div>
+
+          <div class="overflow-hidden rounded-xl border border-slate-100">
+            <table class="min-w-full divide-y divide-slate-100 text-xs">
+              <thead class="bg-slate-50">
+                <tr>
+                  <th
+                    scope="col"
+                    class="w-16 px-4 py-2 text-left font-semibold text-slate-600"
+                  >
+                    Code
+                  </th>
+                  <th
+                    scope="col"
+                    class="px-4 py-2 text-left font-semibold text-slate-600"
+                  >
+                    Indicator
+                  </th>
+                  <th
+                    scope="col"
+                    class="w-16 px-4 py-2 text-right font-semibold text-slate-600"
+                  >
+                    Score
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 bg-white">
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">AAS</td>
+                  <td class="px-4 py-2 text-slate-800">
+                    Argument Architecture
+                  </td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.63
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">CTF</td>
+                  <td class="px-4 py-2 text-slate-800">
+                    Cognitive Transition
+                  </td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.71
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">RMD</td>
+                  <td class="px-4 py-2 text-slate-800">
+                    Reasoning Momentum
+                  </td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.58
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">RDX</td>
+                  <td class="px-4 py-2 text-slate-800">Revision Depth</td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.74
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">EDS</td>
+                  <td class="px-4 py-2 text-slate-800">Evidence Diversity</td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.62
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">HI</td>
+                  <td class="px-4 py-2 text-slate-800">Human Rhythm</td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.79
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">IFD</td>
+                  <td class="px-4 py-2 text-slate-800">Intent Friction</td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.33
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-2 font-semibold text-sky-700">KPF</td>
+                  <td class="px-4 py-2 text-slate-800">Keystroke Pattern</td>
+                  <td class="px-4 py-2 text-right font-semibold text-slate-900">
+                    0.15
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chart.js 초기화 스크립트 -->
+  <script>
+    const ctx = document.getElementById("cffRadarChart");
+
+    if (ctx) {
+      new Chart(ctx, {
+        type: "radar",
+        data: {
+          labels: ["AAS", "CTF", "RMD", "RDX", "EDS", "HI", "IFD", "KPF"],
+          datasets: [
+            {
+              label: "CFF Profile",
+              data: [0.63, 0.71, 0.58, 0.74, 0.62, 0.79, 0.33, 0.15],
+              borderColor: "#2563eb", // blue-600
+              borderWidth: 2,
+              pointBackgroundColor: "#2563eb",
+              pointBorderColor: "#ffffff",
+              pointBorderWidth: 2,
+              backgroundColor: "rgba(37, 99, 235, 0.12)",
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              suggestedMin: 0,
+              suggestedMax: 1,
+              ticks: {
+                display: false,
+              },
+              grid: {
+                color: "#e2e8f0", // slate-200
+              },
+              angleLines: {
+                color: "#e2e8f0",
+              },
+              pointLabels: {
+                color: "#475569", // slate-600
+                font: {
+                  size: 11,
+                  weight: "600",
+                  family: "Noto Sans, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+                },
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        },
+      });
+    }
+  </script>
 </body>
 </html>
