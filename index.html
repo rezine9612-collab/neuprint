@@ -729,11 +729,50 @@
   margin-top: 40px;
 }
 
+/* 상단 3개 카드 */
+.np-ident-top-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.np-ident-top-card {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.np-ident-top-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+.np-ident-top-main {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #000000;
+}
+
+.np-ident-top-sub {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+}
+
+/* 본문 좌우 2열 레이아웃 */
 .np-ident-grid {
   display: grid;
   grid-template-columns: 1.3fr 1.7fr;
   gap: 16px;
-  margin-top: 12px;
+  margin-top: 4px;
 }
 
 .np-ident-left-card {
@@ -742,25 +781,14 @@
   background: #f9fafb;
   border: 1px solid #e5e7eb;
   font-size: 13px;
-  font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-.np-ident-right-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.6;
-}
-
-.np-ident-heading {
-  font-size: 13px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 4px;
+.np-ident-metric-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 8px;
+  margin-bottom: 10px;
 }
 
 .np-ident-metric-label {
@@ -781,76 +809,73 @@
   font-size: 13px;
   font-weight: 400;
   color: #000000;
-  margin-top: 2px;
 }
 
-.np-ident-keylist {
-  margin: 4px 0 0 0;
-  padding-left: 18px;
-}
-
-.np-ident-keylist li {
-  margin-bottom: 2px;
-}
-
-.np-ident-note {
-  font-size: 11px;
-  color: #6b7280;
-  margin-top: 6px;
-}
-
-
-/* Semi-circular gauge */
+/* 반원 게이지 영역 */
 .np-ident-gauge-wrap {
-  width: 100%;
-  max-width: 260px;
-  height: 140px;        /* 반원 높이 */
-  margin: 12px auto 4px auto;
+  margin: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.np-ident-gauge-scale {
+.np-ident-gauge-svg {
+  width: 200px;
+  height: 110px;
+}
+
+/* Low / Medium / High 라벨 */
+.np-ident-gauge-label-row {
   display: flex;
   justify-content: space-between;
+  width: 200px;
   margin-top: 4px;
-  font-size: 10px;
-  color: #6b7280;
-  padding: 0 4px;
-}
-
-.np-ident-gauge-wrap {
-  width: 100%;
-  max-width: 260px;
-  margin: 12px auto 4px auto;
-}
-
-.np-ident-gauge {
-  width: 100%;
-  height: 120px;
-  display: block;
-}
-
-/* 바늘 회전 기준점 */
-#identGauge-needle {
-  transform-origin: 100px 100px;
-}
-
-.np-ident-gauge-value {
   font-size: 11px;
-  fill: #374151;
+  color: #6b7280;
 }
 
-.np-ident-gauge-label {
-  font-size: 10px;
-  fill: #6b7280;
+.np-ident-bar-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 8px;
 }
 
-    
+/* 오른쪽 텍스트 카드 */
+.np-ident-right-card {
+  border-radius: 10px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  line-height: 1.6;
+}
 
+/* Summary / Key indicators / Interpretation 제목들 */
+.np-ident-subtitle {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #000000;
+}
+
+.np-ident-text {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  margin-bottom: 12px;
+}
+
+/* 반응형 */
 @media (max-width: 900px) {
+  .np-ident-top-grid {
+    grid-template-columns: 1fr;
+  }
+
   .np-ident-grid {
-    grid-template-columns: 1fr; /* 모바일에서는 세로 1열 */
+    grid-template-columns: 1fr;
   }
 }
+
 
   </style>
 
@@ -1346,12 +1371,41 @@
     <div class="np-section-title">6. Identity Consistency Analysis</div>
   </div>
 
+  <!-- 상단 3개 카드 -->
+  <div class="np-ident-top-grid">
+    <article class="np-ident-top-card">
+      <div class="np-ident-top-title">CFF-Prime 8 pattern</div>
+      <div class="np-ident-top-main">Human associative profile</div>
+      <div class="np-ident-top-sub">
+        Strong alignment with human associative reasoning, high evidence diversity,  
+        and stable revision depth.
+      </div>
+    </article>
+
+    <article class="np-ident-top-card">
+      <div class="np-ident-top-title">TPS-H (temporal stability)</div>
+      <div class="np-ident-top-main">0.91</div>
+      <div class="np-ident-top-sub">
+        Stable across three segments with consistent linguistic rhythm and revision density.
+      </div>
+    </article>
+
+    <article class="np-ident-top-card">
+      <div class="np-ident-top-title">Anomalies or inconsistencies</div>
+      <div class="np-ident-top-main">None observed</div>
+      <div class="np-ident-top-sub">
+        No abnormal shifts in pattern, no abrupt style breaks relative to reference samples.
+      </div>
+    </article>
+  </div>
+
+  <!-- 하단 2열: 왼쪽 게이지 / 오른쪽 설명 -->
   <div class="np-ident-grid">
     <!-- 왼쪽: 지표 + 반원 게이지 -->
     <article class="np-ident-left-card">
       <div class="np-ident-metric-row">
         <div>
-          <div class="np-ident-metric-label">SAME AUTHOR LIKELIHOOD</div>
+          <div class="np-ident-metric-label">Same author likelihood</div>
           <div class="np-ident-metric-main">High</div>
           <div class="np-ident-metric-sub">
             Similarity score 0.87, 92th percentile among validated same-author pairs.
@@ -1359,99 +1413,79 @@
         </div>
       </div>
 
-      <div class="np-ident-bar-wrap">
-        <div class="np-ident-bar-label">Position within validation distribution</div>
+      <div class="np-ident-gauge-wrap">
+        <!-- 반원 게이지 (0 ~ 180도, 값 0.87 → 156.6도 부근) -->
+        <svg viewBox="0 0 200 110" class="np-ident-gauge-svg">
+          <!-- 트랙 반원 -->
+          <path d="M 10 100 A 90 90 0 0 1 190 100"
+                fill="none"
+                stroke="#e5e7eb"
+                stroke-width="12" />
 
-        <div class="np-ident-gauge-wrap">
-          <svg id="identGauge" viewBox="0 0 200 120" class="np-ident-gauge">
-            <defs>
-              <linearGradient id="identGaugeGradient" x1="0%" y1="100%" x2="100%" y2="100%">
-                <stop offset="0%"   stop-color="#f35f5f" />
-                <stop offset="25%"  stop-color="#f6a54c" />
-                <stop offset="50%"  stop-color="#b7e2ac" />
-                <stop offset="75%"  stop-color="#5ece9e" />
-                <stop offset="100%" stop-color="#5587a2" />
-              </linearGradient>
-            </defs>
+          <!-- 색상 반원 (왼쪽 빨강 → 중간 주황 → 오른쪽 초록 느낌) -->
+          <defs>
+            <linearGradient id="identGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f97373" />
+              <stop offset="50%" stop-color="#facc6b" />
+              <stop offset="100%" stop-color="#4ade80" />
+            </linearGradient>
+          </defs>
 
-            <!-- 회색 배경 트랙 -->
-            <path
-              d="M 20 100 A 80 80 0 0 1 180 100"
-              stroke="#e5e7eb"
-              stroke-width="16"
-              fill="none"
-            />
+          <!-- 값에 해당하는 호 (0.87 * 180 ≒ 157도) -->
+          <!-- 각도 180도 → x=10, y=100 / 0도 → x=190, y=100 기준 -->
+          <!-- 여기서는 단순히 0~180도 전체를 컬러로 채우고, 바늘로 0.87 위치를 강조 -->
+          <path d="M 10 100 A 90 90 0 0 1 190 100"
+                fill="none"
+                stroke="url(#identGaugeGrad)"
+                stroke-width="12" />
 
-            <!-- 컬러 트랙 -->
-            <path
-              d="M 20 100 A 80 80 0 0 1 180 100"
-              stroke="url(#identGaugeGradient)"
-              stroke-width="10"
-              fill="none"
-            />
+          <!-- 바늘: 0.87 * 180 = 156.6도 근처 -->
+          <!-- 중심점 (100,100), 반지름 80 -->
+          <!-- 각도 180도 기준 좌→우, 각도 0도 기준 우측,  
+               여기서는 180도 기준으로 시계 반대 방향: angle = 180 - 0.87*180 -->
+          <line id="ident-needle"
+                x1="100" y1="100"
+                x2="33" y2="118"
+                stroke="#111827"
+                stroke-width="3"
+                stroke-linecap="round" />
 
-            <!-- 바늘 -->
-            <line
-              id="identGauge-needle"
-              x1="100" y1="100"
-              x2="100" y2="26"
-              stroke="#111827"
-              stroke-width="3"
-              stroke-linecap="round"
-            />
+          <!-- 바늘 중심 원 -->
+          <circle cx="100" cy="100" r="4" fill="#111827" />
+        </svg>
 
-            <!-- 중심 원 -->
-            <circle cx="100" cy="100" r="4" fill="#111827" />
-
-            <!-- 값 텍스트 -->
-            <text
-              id="identGauge-value"
-              x="100" y="115"
-              text-anchor="middle"
-              class="np-ident-gauge-value"
-            >
-              0.87
-            </text>
-
-            <!-- 반원 위의 Low / Medium / High 라벨 -->
-            <text x="38"  y="93" text-anchor="middle" class="np-ident-gauge-label">Low</text>
-            <text x="100" y="48" text-anchor="middle" class="np-ident-gauge-label">Medium</text>
-            <text x="162" y="93" text-anchor="middle" class="np-ident-gauge-label">High</text>
-          </svg>
+        <!-- Low / Medium / High 라벨 -->
+        <div class="np-ident-gauge-label-row">
+          <span>Low</span>
+          <span>Medium</span>
+          <span>High</span>
         </div>
       </div>
 
-      <div class="np-ident-note">
+      <div class="np-ident-bar-note">
         The gauge indicates how this match compares with known same-author and different-author pairs
         in the reference dataset.
       </div>
     </article>
 
-    <!-- 오른쪽: Summary / Key indicators / Interpretation -->
+    <!-- 오른쪽: Summary + Interpretation -->
     <article class="np-ident-right-card">
-      <div class="np-ident-heading">Summary</div>
-      <p>
+      <div class="np-ident-subtitle">Summary</div>
+      <p class="np-ident-text">
         The target sample shows a reasoning pattern, linguistic rhythm, and CFF-Prime 8 distribution
         that are closely aligned with the reference author profile. The similarity score of
-        0.87 places this match in the upper range typically observed for confirmed
+        <strong>0.87</strong> places this match in the upper range typically observed for confirmed
         same-author pairs in validation cohorts.
       </p>
 
-      <div class="np-ident-heading" style="margin-top:10px;">Key indicators</div>
-      <p>
-        CFF-Prime 8 pattern : Strong alignment with human associative reasoning, high evidence diversity, and stable revision depth.
-        TPS-H (temporal stability) : 0.91, stable across three segments with consistent linguistic rhythm.
-        Anomalies or inconsistencies : None observed.
-      </p>
-
-      <div class="np-ident-heading" style="margin-top:10px;">Interpretation and limits</div>
-      <p>
-        Overall, the pattern is consistent with a high likelihood of same authorship,
+      <div class="np-ident-subtitle">Interpretation and limits</div>
+      <p class="np-ident-text">
+        Overall, the pattern is consistent with a <strong>high likelihood of same authorship</strong>,
         given the proximity to known same-author distributions and the stability of the cognitive
-        fingerprint over time. At the same time, this is a probabilistic estimate
-        rather than an absolute determination, and intra-author variation or context effects may still
-        influence the match score. For any academic, administrative, or legal use, this result should
-        be interpreted alongside other independent sources of evidence.
+        fingerprint over time. At the same time, this is a <strong>probabilistic estimate</strong>
+        rather than an absolute determination, and intra-author variation or context effects may
+        still influence the match score. For any academic, administrative, or legal use, this result
+        should be interpreted alongside other independent sources of evidence.
       </p>
     </article>
   </div>
