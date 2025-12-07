@@ -388,65 +388,69 @@
       margin-bottom: 16px;
     }
 
-/* 캡션 제목 */
-.np-cff-ft-label {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 4px;
-}
+    /* ===== Fingerprint type / Secondary tendency 2열 레이아웃 ===== */
 
-/* 메인 타입 이름 */
-.np-cff-ft-main {
-  font-size: 18px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 4px;
-}
+    .np-cff-fingerprint-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr; /* 좌측 박스, 우측 설명 */
+      gap: 24px;
+      margin-bottom: 24px;
+    }
 
-/* Confidence 표시 */
-.np-cff-ft-sub {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 14px; /* 여기서 한 칸(공백) 만드는 역할 */
-}
+    .np-cff-fp-box {
+      background: #f4f4f4;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
 
-/* Secondary tendency label */
-.np-cff-ft-label-secondary {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 4px;
-}
+    .np-cff-fp-title {
+      font-size: 13px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 4px;
+    }
 
-/* Secondary tendency 값 (18px bold) */
-.np-cff-ft-secondary-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 14px;
-}
+    .np-cff-fp-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 4px;
+    }
 
-    
-.np-cff-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1.3fr;
-  gap: 32px;
-}
+    .np-cff-fp-sub {
+      font-size: 13px;
+      font-weight: 400;
+      color: #000000;
+    }
+
+    .np-cff-fp-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #000000;
+      margin-bottom: 10px;
+    }
+
+    /* CFF Radar + Indicators grid */
+    .np-cff-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr;
+      gap: 32px;
+    }
 
     .np-cff-card {
-      border: none;          
+      border: none;
       border-radius: 0;
       padding: 12px 0 0 0;
       background: transparent;
       box-shadow: none;
     }
 
-.np-cff-card.table-side {
-  margin-left: 20px;
-}
-    
+    .np-cff-card.table-side {
+      margin-left: 20px;
+    }
+
     .np-cff-card-title-row {
       display: flex;
       justify-content: space-between;
@@ -560,6 +564,14 @@
 
       .np-cff-grid {
         grid-template-columns: 1fr;
+      }
+
+      .np-cff-fingerprint-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .np-cff-card.table-side {
+        margin-left: 0;
       }
     }
   </style>
@@ -782,26 +794,32 @@
   <!-- 아래 내용만 박스에 포함 -->
   <section class="np-cff-section">
 
-<div class="np-cff-ft-label">Fingerprint type</div>
-<div class="np-cff-ft-main">Reflective Explorer</div>
-<div class="np-cff-ft-sub">Confidence: 83%</div>
+    <!-- 좌측 Fingerprint 박스 + 우측 설명 -->
+    <div class="np-cff-fingerprint-grid">
+      <div>
+        <div class="np-cff-fp-box">
+          <div class="np-cff-fp-title">Fingerprint type</div>
+          <div class="np-cff-fp-value">Reflective Explorer</div>
+          <div class="np-cff-fp-sub">Confidence: 83%</div>
+        </div>
 
-<div class="np-cff-ft-label-secondary">Secondary tendency</div>
-<div class="np-cff-ft-secondary-value">Evidence Weaver</div>
+        <div class="np-cff-fp-box">
+          <div class="np-cff-fp-title">Secondary tendency</div>
+          <div class="np-cff-fp-value">Evidence Weaver</div>
+        </div>
+      </div>
 
-<p class="np-cff-desc">
-  CFF decomposes the essay into eight indicators that capture argument structure,
-  transitions, revision depth, and diversity of evidence.
-</p>
-
-<p class="np-cff-note">
-  High HI together with RDX points to dense self revision and a recognisable human rhythm.
-  Combinations of low HI with high CTF and RMD can move closer to smoother machine like patterns.
-</p>
-
-
-
-
+      <div>
+        <p class="np-cff-fp-desc">
+          CFF decomposes the essay into eight indicators that capture argument structure,
+          transitions, revision depth, and diversity of evidence.
+        </p>
+        <p class="np-cff-fp-desc">
+          High HI together with RDX points to dense self revision and a recognisable human rhythm.
+          Combinations of low HI with high CTF and RMD can move closer to smoother machine like patterns.
+        </p>
+      </div>
+    </div>
 
     <div class="np-cff-grid">
       <!-- 왼쪽: 레이다 차트 -->
