@@ -389,12 +389,11 @@
       margin-bottom: 16px;
     }
 
-    .np-cff-grid {
-      display: grid;
-      /* 기존: 1.1fr 1.4fr → 오른쪽 폭 줄이고 간격 확보 */
-      grid-template-columns: 1.1fr 1.2fr;
-      gap: 24px;
-    }
+.np-cff-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr; /* 오른쪽 축소, 왼쪽 확대 */
+  gap: 32px; /* 기존 16px → 32px 로 증가 */
+}
 
     .np-cff-card {
       border: none;          /* 내부 카드 라운드/보더 제거 */
@@ -404,6 +403,11 @@
       box-shadow: none;
     }
 
+    .np-cff-card.table-side {
+  max-width: 360px; /* 기존 가로폭보다 약간 축소 */
+  margin-left: auto; /* 오른쪽 정렬 */
+}
+    
     .np-cff-card-title-row {
       display: flex;
       justify-content: space-between;
@@ -781,7 +785,7 @@
       </article>
 
       <!-- 오른쪽: CFF Indicators 테이블 -->
-      <article class="np-cff-card">
+      <article class="np-cff-card table-side">
         <div class="np-cff-card-title-row">
           <div class="np-cff-card-title">CFF Indicators</div>
           <div class="np-cff-pill">Score range 0.00 to 1.00</div>
