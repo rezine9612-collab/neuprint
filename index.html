@@ -217,11 +217,12 @@
       text-align: right;
     }
 
-    .np-ai-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1.6fr;
-      gap: 16px;
-    }
+.np-ai-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));  /* 또는 1fr 1fr; */
+  gap: 16px;
+}
+
 
     .np-ai-card {
       border: 1px solid #ededed;
