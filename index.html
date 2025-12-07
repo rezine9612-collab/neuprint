@@ -858,6 +858,36 @@
   padding: 0 4px;
 }
 
+.np-ident-gauge-wrap {
+  width: 100%;
+  max-width: 260px;
+  margin: 12px auto 4px auto;
+}
+
+.np-ident-gauge {
+  width: 100%;
+  height: 120px;
+  display: block;
+}
+
+/* 바늘 회전 기준점 */
+#identGauge-needle {
+  transform-origin: 100px 100px;
+}
+
+.np-ident-gauge-value {
+  font-size: 11px;
+  fill: #374151;
+}
+
+.np-ident-gauge-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #6b7280;
+  padding: 0 4px;
+}
 
 
 @media (max-width: 900px) {
@@ -1377,7 +1407,57 @@
   <div class="np-ident-bar-label">Position within validation distribution</div>
 
   <div class="np-ident-gauge-wrap">
-    <canvas id="identGaugeChart"></canvas>
+    <svg id="identGauge" viewBox="0 0 200 120" class="np-ident-gauge">
+      <defs>
+        <!-- HalfCircularGauge 의 trackColors 에 대응하는 그라디언트 -->
+        <linearGradient id="identGaugeGradient" x1="0%" y1="100%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#f35f5f" />
+          <stop offset="25%"  stop-color="#f6a54c" />
+          <stop offset="50%"  stop-color="#b7e2ac" />
+          <stop offset="75%"  stop-color="#5ece9e" />
+          <stop offset="100%" stop-color="#5587a2" />
+        </linearGradient>
+      </defs>
+
+      <!-- 회색 배경 트랙 -->
+      <path
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        stroke="#e5e7eb"
+        stroke-width="16"
+        fill="none"
+      />
+
+      <!-- 색상 트랙 (Low → High) -->
+      <path
+        d="M 20 100 A 80 80 0 0 1 180 100"
+        stroke="url(#identGaugeGradient)"
+        stroke-width="10"
+        fill="none"
+      />
+
+      <!-- 바늘 -->
+      <line
+        id="identGauge-needle"
+        x1="100" y1="100"
+        x2="100" y2="26"
+        stroke="#111827"
+        stroke-width="3"
+        stroke-linecap="round"
+      />
+
+      <!-- 중심 원 -->
+      <circle cx="100" cy="100" r="4" fill="#111827" />
+
+      <!-- 값 표시 -->
+      <text
+        id="identGauge-value"
+        x="100" y="115"
+        text-anchor="middle"
+        class="np-ident-gauge-value"
+      >
+        0.87
+      </text>
+    </svg>
   </div>
 
   <div class="np-ident-gauge-scale">
@@ -1385,6 +1465,8 @@
     <span>Medium</span>
     <span>High</span>
   </div>
+</div>
+
 
   <div class="np-ident-note">
     The gauge indicates how this match compares with known same-author
@@ -1528,6 +1610,24 @@
         }
       }
     });
+  }
+
+ // Identity 반원 게이지: 0 → Low, 1 → High
+  const gaugeNeedle = document.getElementById("identGauge-needle");
+  const gaugeValueText = document.getElementById("identGauge-value");
+
+  if (gaugeNeedle && gaugeValueText) {
+    const similarity = 0.87; // 0 ~ 1, 여기서 0.87은 87% (High 쪽)
+
+    // HalfCircularGauge 의 startAngle / maximumAngle 개념
+    // minAngle: 왼쪽 끝, maxAngle: 오른쪽 끝
+    const minAngle = -90;  // Low
+    const maxAngle = 90;   // High
+
+    const angle = minAngle + (maxAngle - minAngle) * similarity;
+
+    gaugeNeedle.style.transform = `rotate(${angle}deg)`;
+    gaugeValueText.textContent = similarity.toFixed(2);
   }
     
   </script>
