@@ -18,7 +18,7 @@
     body {
       font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: #ffffff;
-      color: #000000;
+      color:#000000;
     }
 
     /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
@@ -325,7 +325,7 @@
     }
 
     .np-ai-note-list li {
-      margin-left: 0;
+      margin-left: 0px;
       margin-bottom: 2px;
     }
 
@@ -336,216 +336,219 @@
       margin-top: 10px;
     }
 
-/* =========================
-   E. 4. CFF Profile Section
-   ========================= */
+    /* =========================
+       E. 4. CFF Profile Section
+       ========================= */
 
-.np-cff-title-outside {
-  font-size: 13px;
-  font-weight: 700;
-  color: #000000;
-  margin-top: 40px;
-  margin-bottom: 12px;
-}
+    .np-cff-title-outside {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000000;
+      margin-top: 40px;
+      margin-bottom: 12px;
+    }
 
-.np-cff-section {
-  margin-top: 0;
-  border: 1px solid #ededed;
-  border-radius: 10px;
-  padding: 20px 22px 22px 22px;
-  background: #ffffff;
-}
+    .np-cff-section {
+      margin-top: 0;
+      border: 1px solid #ededed;
+      border-radius: 10px;
+      padding: 20px 22px 22px 22px;
+      background: #ffffff;
+    }
 
-/* Fingerprint type / Secondary tendency 2열 레이아웃 */
-.np-cff-fingerprint-grid {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 24px;
-  margin-bottom: 24px;
-  align-items: flex-start;
-}
+    /* Fingerprint type / Secondary tendency 2열 레이아웃 */
+    .np-cff-fingerprint-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
 
-.np-cff-fp-left {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
+    .np-cff-fp-box {
+      background: #f4f4f4;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
 
-.np-cff-fp-right {
-  display: flex;
-  flex-direction: column;
-}
+    .np-cff-fp-title {
+      font-size: 13px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 4px;
+    }
 
-.np-cff-fp-box {
-  background: #f4f4f4;
-  border-radius: 12px;
-  padding: 14px 16px;
-}
+    .np-cff-fp-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 4px;
+    }
 
-.np-cff-fp-title {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 4px;
-}
+    .np-cff-fp-sub {
+      font-size: 13px;
+      font-weight: 400;
+      color: #000000;
+    }
 
-.np-cff-fp-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: #000000;
-  margin-bottom: 4px;
-}
+    .np-cff-interpret-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin: 4px 0 10px 0;
+      color: #000000;
+    }
 
-.np-cff-fp-sub {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-}
+    .np-cff-fp-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #000000;
+      margin-bottom: 8px;
+    }
 
-.np-cff-interpret-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin: 4px 0 10px 0;
-  color: #000000;
-}
+    /* CFF Radar + Indicators grid */
+    .np-cff-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr;
+      gap: 32px;
+    }
 
-.np-cff-fp-desc {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #000000;
-  margin-bottom: 8px;
-}
+    .np-cff-card {
+      border: none;
+      border-radius: 0;
+      padding: 12px 0 0 0;
+      background: transparent;
+      box-shadow: none;
+    }
 
-/* CFF Radar + Indicators grid */
-.np-cff-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1.3fr;
-  gap: 32px;
-}
+    .np-cff-card.table-side {
+      margin-left: 20px;
+    }
 
-.np-cff-card {
-  border: none;
-  border-radius: 0;
-  padding: 12px 0 0 0;
-  background: transparent;
-  box-shadow: none;
-}
+    .np-cff-card-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
 
-.np-cff-card.table-side {
-  margin-left: 20px;
-}
+    .np-cff-card-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
 
-.np-cff-card-title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
+    .np-cff-pill {
+      font-size: 11px;
+      font-weight: 400;
+    }
 
-.np-cff-card-title {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
+    .np-cff-chart-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0 4px 0;
+      min-height: 260px;
+    }
 
-.np-cff-pill {
-  font-size: 11px;
-  font-weight: 400;
-}
+    #cffRadarChart {
+      max-width: 320px;
+      max-height: 320px;
+    }
 
-.np-cff-chart-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 0 4px 0;
-  min-height: 260px;
-}
+    .np-cff-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 400;
+      color: #374151;
+    }
 
-#cffRadarChart {
-  max-width: 320px;
-  max-height: 320px;
-}
+    .np-cff-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(71, 184, 224, 0.22);
+      border: 1px solid #47b8e0;
+    }
 
-.np-cff-legend {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  font-size: 11px;
-  font-weight: 400;
-  color: #374151;
-}
+    .np-cff-chart-caption {
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.4;
+      margin-top: 6px;
+    }
 
-.np-cff-legend-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: rgba(71, 184, 224, 0.22);
-  border: 1px solid #47b8e0;
-}
+    .np-cff-table-wrap {
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid #ededed;
+    }
 
-.np-cff-chart-caption {
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1.4;
-  margin-top: 6px;
-}
+    .np-cff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
 
-.np-cff-table-wrap {
-  overflow: hidden;
-  border-radius: 8px;
-  border: 1px solid #ededed;
-}
+    .np-cff-table th,
+    .np-cff-table td {
+      padding: 8px 12px;
+    }
 
-.np-cff-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-}
+    .np-cff-table th {
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-.np-cff-table th,
-.np-cff-table td {
-  padding: 8px 12px;
-}
+    .np-cff-table td {
+      border-bottom: 1px solid #f3f4f6;
+    }
 
-.np-cff-table th {
-  text-align: left;
-  font-weight: 600;
-  border-bottom: 1px solid #e5e7eb;
-}
+    .np-cff-table td:last-child,
+    .np-cff-table th:last-child {
+      text-align: right;
+    }
 
-.np-cff-table td {
-  border-bottom: 1px solid #f3f4f6;
-}
+    .np-cff-code {
+      font-weight: 400;
+      font-size: 11px;
+      text-decoration: none;
+    }
 
-.np-cff-table td:last-child,
-.np-cff-table th:last-child {
-  text-align: right;
-}
+    @media (max-width: 980px) {
+      .np-page {
+        padding: 32px 20px 48px 20px;
+      }
+    }
 
-.np-cff-code {
-  font-weight: 400;
-  font-size: 11px;
-  text-decoration: none;
-}
+    @media (max-width: 900px) {
+      .np-ai-grid {
+        grid-template-columns: 1fr;
+      }
 
-/* 반응형 */
-@media (max-width: 900px) {
-  .np-cff-grid {
-    grid-template-columns: 1fr;
-  }
+      .np-ai-submeta {
+        text-align: left;
+        margin-top: 4px;
+      }
 
-  .np-cff-fingerprint-grid {
-    grid-template-columns: 1fr;
-  }
+      .np-cff-grid {
+        grid-template-columns: 1fr;
+      }
 
-  .np-cff-card.table-side {
-    margin-left: 0;
-  }
-}
+      .np-cff-fingerprint-grid {
+        grid-template-columns: 1fr;
+      }
 
+      .np-cff-card.table-side {
+        margin-left: 0;
+      }
+    }
   </style>
 
   <!-- Chart.js for CFF radar -->
@@ -556,218 +559,27 @@
 <div class="np-page">
 
   <!-- HEADER -->
-  <div class="np-header-row">
-    <div class="np-left-header">
-      <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
-
-      <div class="np-header-title-line1">
-        Neuprint Cognitive Forensics Engine v4.2.1
-      </div>
-      <div class="np-header-title-main">
-        NeuPrint Integrated Analysis Report
-      </div>
-      <div class="np-header-sub">
-        Integrated authorship, cognition, identity and HR-fit analysis
-      </div>
-      <div class="np-header-timestamp">
-        Analysis Timestamp : 2025-03-14 14:32:07 UTC
-      </div>
-    </div>
-
-    <div class="np-verify-panel">
-      <div class="np-author-label">Author : Candidate 014-A</div>
-
-      <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
-
-      <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
-      <div class="np-verify-label">
-        To validate this report, visit https://neuprint.ai/verify
-      </div>
-    </div>
-  </div>
+  <!-- ... (위 부분은 그대로라서 생략해도 됨, 실제 파일에는 유지) ... -->
 
   <!-- 1. Overview Metrics -->
-  <section>
-    <div class="np-section-title-small">
-      1. Overview Metrics
-    </div>
-
-    <div class="np-metric-grid">
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Authorship Verification
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-          Human
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-          Confidence 92%
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Deep reflective pattern consistent with human-authored reference profiles.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          ARC Reasoning Level
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-          L4 · Integrated Reasoning
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-          ARC Reliability 0.89
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Strong integration of interpretation, evaluation and multistep reasoning.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          Identity Consistency
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-          Same Author Likely
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-          Similarity Score 0.87
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Stable CFF-Prime 8 pattern with low temporal drift across samples.
-        </div>
-      </article>
-
-      <article class="np-metric-card">
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-          HR Role Recommendation
-        </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-          Strategy · Analysis · Policy
-        </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-          Fit Reliability 0.82
-        </div>
-        <div style="font-size:11px; font-weight:500; line-height:1.6;">
-          Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-        </div>
-      </article>
-
-    </div>
-  </section>
+  <!-- ... 그대로 ... -->
 
   <!-- 2. Content Summary -->
-  <section>
-    <div class="np-section-title-row">
-      <div class="np-section-title">
-        2. Content Summary
-      </div>
-      <div class="np-meta-inline">
-        Word : 486 / Sentence : 22 / Paragraphs : 3
-      </div>
-    </div>
-
-    <div class="np-summary-container">
-      <div class="np-label">Prompt :</div>
-      <div class="np-text" style="color:#000000;">
-        Should schools allow AI-assisted writing in formal assessments?
-      </div>
-
-      <div class="np-label">Summary :</div>
-      <div class="np-text" style="color:#000000;">
-        This essay examines whether schools should allow AI assisted writing in formal assessments.
-        The writer explains how AI can improve surface quality while making fairness and genuine
-        thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
-        and conditions for transparent and accountable AI use.
-      </div>
-
-      <div class="np-tag-list">
-        <span class="np-tag">AI assisted writing</span>
-        <span class="np-tag">Fair assessment</span>
-        <span class="np-tag">Student agency</span>
-        <span class="np-tag">School policy</span>
-      </div>
-    </div>
-  </section>
+  <!-- ... 그대로 ... -->
 
   <!-- 3. AI Usage Classification -->
-  <section class="np-ai-section">
-    <div class="np-ai-title-row">
-      <div class="np-ai-title">3. AI Usage Classification</div>
-      <div class="np-ai-submeta">
-        Human (Confidence 88%)
-      </div>
-    </div>
+  <!-- ... 그대로 ... -->
 
-    <div class="np-ai-grid">
-      <!-- 왼쪽: Human / Hybrid / AI Mix -->
-      <article class="np-ai-card">
-        <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
-
-        <div class="np-ai-bar-wrap">
-          <div class="np-ai-bar-label" style="color:#000000;">Classification share</div>
-
-          <div class="np-ai-bar">
-            <span class="np-ai-bar-text">Human 82%</span>
-
-            <div class="np-ai-bar-seg np-ai-bar-human" style="width:82%;"></div>
-            <div class="np-ai-bar-seg np-ai-bar-hybrid" style="width:9%;"></div>
-            <div class="np-ai-bar-seg np-ai-bar-ai" style="width:9%;"></div>
-          </div>
-
-          <div class="np-ai-legend">
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#fdaa1e;"></span>
-              Human 82%
-            </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#e5e5e5;"></span>
-              Hybrid 9%
-            </div>
-            <div class="np-ai-legend-item">
-              <span class="np-ai-legend-swatch" style="background:#47b8e0;"></span>
-              AI 9%
-            </div>
-          </div>
-        </div>
-
-        <ul class="np-ai-note-list">
-          <li>Human · non-linear reasoning with self-revision traces</li>
-          <li>Hybrid · local phrasing support and polishing</li>
-          <li>AI · fully AI-generated outcome is unlikely</li>
-        </ul>
-      </article>
-
-      <!-- 오른쪽: Decision Summary -->
-      <article class="np-ai-card">
-        <div class="np-ai-card-title">Decision Summary</div>
-        <p class="np-ai-card-text" style="color:#000000;">
-          Final decision is Human. Pattern label is deep reflective human in a stable context.
-          A confidence of 88% indicates that the classifier produces the same decision under small
-          perturbations of the text. The sample sits within the top 22 percentile of the human
-          reference group for the same grade band.
-        </p>
-
-        <div class="np-ai-tag-list">
-          <span class="np-tag">Pattern deep_reflective_human</span>
-          <span class="np-tag">Reliability band high</span>
-          <span class="np-tag">Interpretation Human-led with light AI phrasing support</span>
-        </div>
-      </article>
-    </div>
-  </section>
-
-    <!-- 4. Cognitive Fingerprint Profile (CFF) -->
+  <!-- 4. Cognitive Fingerprint Profile (CFF) -->
 
   <div class="np-cff-title-outside">4. Cognitive Fingerprint Profile (CFF)</div>
 
   <section class="np-cff-section">
 
-    <!-- 좌측 Fingerprint 박스 + 우측 패턴 해석 -->
+    <!-- 좌측 Fingerprint 박스 + 우측 설명 -->
     <div class="np-cff-fingerprint-grid">
-      <!-- 왼쪽: 타입/세컨더리 박스 -->
-      <div class="np-cff-fp-left">
+      <!-- 왼쪽 칼럼 -->
+      <div>
         <div class="np-cff-fp-box">
           <div class="np-cff-fp-title">Fingerprint type</div>
           <div class="np-cff-fp-value">Reflective Explorer</div>
@@ -780,8 +592,8 @@
         </div>
       </div>
 
-      <!-- 오른쪽: CFF Pattern Interpretation + 설명 -->
-      <div class="np-cff-fp-right">
+      <!-- 오른쪽 칼럼 (제목 + 문단 모두 한 div 안에) -->
+      <div>
         <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
 
         <p class="np-cff-fp-desc">
@@ -798,7 +610,6 @@
       </div>
     </div>
 
-    <!-- 아래: 레이더 + 테이블 -->
     <div class="np-cff-grid">
       <!-- 왼쪽: 레이다 차트 -->
       <article class="np-cff-card">
@@ -815,7 +626,7 @@
 
         <div class="np-cff-legend">
           <span class="np-cff-legend-swatch"></span>
-          <span>Filled blue area, CFF profile score (0–1 scale)</span>
+          <span>Filled blue area, CFF profile score (0~1 scale)</span>
         </div>
 
         <div class="np-cff-chart-caption">
