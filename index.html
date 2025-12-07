@@ -714,8 +714,136 @@
       .np-arc-strength-row {
         grid-template-columns: 1fr;
       }
-    }
-  </style>
+
+/* =========================
+   G. 6. Identity Consistency Analysis
+   ========================= */
+
+.np-ident-section {
+  margin-top: 40px;
+}
+
+.np-ident-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1.7fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.np-ident-left-card {
+  border-radius: 10px;
+  padding: 14px 18px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.np-ident-metric-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 8px;
+  margin-bottom: 10px;
+}
+
+.np-ident-metric-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #4b5563;
+}
+
+.np-ident-metric-main {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.np-ident-metric-sub {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+}
+
+/* 시각적 확률 바 */
+.np-ident-bar-wrap {
+  margin-top: 10px;
+}
+
+.np-ident-bar-label {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #4b5563;
+}
+
+.np-ident-bar-track {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+  position: relative;
+}
+
+.np-ident-bar-fill {
+  height: 100%;
+  width: 87%; /* Similarity Score 0.87 → 87% 위치 */
+  background: linear-gradient(to right, #bfdbfe, #2563eb);
+}
+
+.np-ident-bar-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #6b7280;
+}
+
+.np-ident-right-card {
+  border-radius: 10px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.np-ident-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  color: #4b5563;
+}
+
+.np-ident-keylist {
+  margin: 6px 0 10px 0;
+  padding-left: 14px;
+  font-size: 12px;
+  color: #111827;
+}
+
+.np-ident-keylist li {
+  margin-bottom: 2px;
+}
+
+.np-ident-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* 반응형 */
+@media (max-width: 900px) {
+  .np-ident-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+      </style>
 
   <!-- Chart.js for CFF radar -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1203,6 +1331,75 @@
     </section>
   </div>
 
+    <!-- 6. Identity Consistency Analysis -->
+  <section class="np-ident-section">
+    <div class="np-section-title-row">
+      <div class="np-section-title">6. Identity Consistency Analysis</div>
+    </div>
+
+    <div class="np-ident-grid">
+      <!-- 왼쪽: 지표 + 확률 바 -->
+      <article class="np-ident-left-card">
+        <div class="np-ident-metric-row">
+          <div>
+            <div class="np-ident-metric-label">Same author likelihood</div>
+            <div class="np-ident-metric-main">High</div>
+            <div class="np-ident-metric-sub">
+              Similarity score 0.87, 92th percentile among validated same-author pairs.
+            </div>
+          </div>
+        </div>
+
+        <div class="np-ident-bar-wrap">
+          <div class="np-ident-bar-label">Position within validation distribution</div>
+          <div class="np-ident-bar-track">
+            <div class="np-ident-bar-fill"></div>
+          </div>
+          <div class="np-ident-bar-scale">
+            <span>Low</span>
+            <span>Medium</span>
+            <span>High</span>
+          </div>
+        </div>
+
+        <div class="np-ident-note">
+          The bar indicates where this match lies compared with known same-author
+          and different-author pairs in the reference dataset.
+        </div>
+      </article>
+
+      <!-- 오른쪽: 패턴 요약 + 근거와 한계 -->
+      <article class="np-ident-right-card">
+        <div class="np-ident-subtitle">Summary</div>
+        <p style="margin-bottom:8px;">
+          The target sample shows a reasoning pattern, linguistic rhythm, and
+          CFF-Prime 8 distribution that are closely aligned with the reference
+          author profile. The similarity score of <strong>0.87</strong> places this
+          match in the upper range typically observed for confirmed same-author
+          pairs in validation cohorts.
+        </p>
+
+        <div class="np-ident-subtitle">Key indicators</div>
+        <ul class="np-ident-keylist">
+          <li><strong>CFF-Prime 8 pattern</strong> – [[CFF_PATTERN_SUMMARY]]</li>
+          <li><strong>TPS-H (temporal stability)</strong> – [[TPSH_SUMMARY]]</li>
+          <li><strong>Anomalies or inconsistencies</strong> – [[ANOMALIES_OR_NONE]]</li>
+        </ul>
+
+        <div class="np-ident-subtitle">Interpretation and limits</div>
+        <p>
+          Overall, the pattern is consistent with a <strong>high likelihood of same authorship</strong>,
+          given the proximity to known same-author distributions and the stability of the cognitive
+          fingerprint over time. At the same time, this is a <strong>probabilistic estimate</strong>
+          rather than an absolute determination, and intra-author variation or context effects
+          may still influence the match score. For any academic, administrative, or legal use,
+          this result should be interpreted alongside other independent sources of evidence.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  
   <!-- Chart.js 초기화 -->
   <script>
     const cffCtx = document.getElementById("cffRadarChart");
