@@ -343,27 +343,18 @@
        ========================= */
     .np-cff-section {
       margin-top: 40px;
+      border: 1px solid #ededed;
+      border-radius: 10px;
+      padding: 20px 22px 22px 22px;
+      background: #ffffff;
     }
 
     .np-cff-header-row {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
-      margin-top: 40px;
-      margin-bottom: 12px;      
-    }
-
-    .np-cff-index-circle {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      border: 1px solid #d4d4d4;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      color: #555555;
+      margin-top: 0;
+      margin-bottom: 12px;
     }
 
     .np-cff-title {
@@ -393,10 +384,10 @@
     }
 
     .np-cff-card {
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
+      border: none;          /* 내부 카드 라운드/보더 제거 */
+      border-radius: 0;
+      padding: 12px 0 0 0;
+      background: transparent;
       box-shadow: none;
     }
 
@@ -424,6 +415,7 @@
       align-items: center;
       justify-content: center;
       padding: 8px 0 4px 0;
+      min-height: 260px;
     }
 
     #cffRadarChart {
@@ -431,11 +423,29 @@
       max-height: 320px;
     }
 
+    .np-cff-legend {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .np-cff-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(71, 184, 224, 0.22); /* 레이다 차트 채움색과 매칭 */
+      border: 1px solid #47b8e0;
+    }
+
     .np-cff-chart-caption {
       font-size: 11px;
       font-weight: 500;
       line-height: 1.4;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .np-cff-table-wrap {
@@ -745,9 +755,15 @@
           <canvas id="cffRadarChart" aria-label="CFF Radar Chart"></canvas>
         </div>
 
+        <div class="np-cff-legend">
+          <span class="np-cff-legend-swatch"></span>
+          <span>Filled blue area, CFF profile score (0–1 scale)</span>
+        </div>
+
         <div class="np-cff-chart-caption">
-          Radar plot shows the relative strength of each CFF indicator on a 0 to 1 scale. Higher
-          values indicate stronger expression of that pattern in the current sample.
+          The blue polygon and fill represent the overall cognitive fingerprint pattern.
+          Larger distance from the center indicates stronger expression of that indicator
+          in the current sample.
         </div>
       </article>
 
@@ -835,7 +851,7 @@
             pointBackgroundColor: "#47b8e0",
             pointBorderColor: "#ffffff",
             pointBorderWidth: 2,
-            backgroundColor: "rgba(37, 99, 235, 0.12)",
+            backgroundColor: "rgba(71, 184, 224, 0.18)",
             fill: true
           }
         ]
