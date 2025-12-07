@@ -552,6 +552,169 @@
       .np-cff-card.table-side {
         margin-left: 0;
       }
+ /* =========================
+       F. 5. ARC Reasoning Analysis
+       ========================= */
+
+    .np-arc-section {
+      margin-top: 40px;
+    }
+
+    .np-arc-band-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .np-arc-card {
+      border-radius: 10px;
+      padding: 14px 18px;
+      background: #f4f7ff;
+      border: 1px solid #e0e7ff;
+    }
+
+    .np-arc-card-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    .np-arc-card-main {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #000000;
+    }
+
+    .np-arc-card-sub {
+      font-size: 12px;
+      font-weight: 400;
+      color: #000000;
+      line-height: 1.4;
+    }
+
+    .np-arc-strength-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .np-arc-strength-card {
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .np-arc-strength-card.primary {
+      background: #ecfdf3;
+      border: 1px solid #bbf7d0;
+    }
+
+    .np-arc-strength-card.growth {
+      background: #fffbeb;
+      border: 1px solid #fed7aa;
+    }
+
+    .np-arc-strength-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+      color: #4b5563;
+    }
+
+    .np-arc-strength-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .np-arc-tag-chip {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      color: #000000;
+    }
+
+    .np-arc-desc {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 14px;
+      color: #000000;
+    }
+
+    .np-arc-table-wrap {
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .np-arc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .np-arc-table th,
+    .np-arc-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .np-arc-table th {
+      background: #f9fafb;
+      font-weight: 600;
+      text-align: left;
+      color: #111827;
+    }
+
+    .np-arc-table td:nth-child(1),
+    .np-arc-table th:nth-child(1) {
+      width: 40px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .np-arc-table td:nth-child(3),
+    .np-arc-table th:nth-child(3) {
+      width: 60px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .np-arc-guidance-box {
+      margin-top: 14px;
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #7c2d12;
+    }
+
+    .np-arc-guidance-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    @media (max-width: 900px) {
+      .np-arc-band-row,
+      .np-arc-strength-row {
+        grid-template-columns: 1fr;
+      }
+  
     }
   </style>
 
@@ -894,7 +1057,140 @@
       </article>
     </div>
   </section>
+<!-- 5. ARC Reasoning Analysis -->
+  <section class="np-arc-section">
+    <div class="np-section-title-row">
+      <div class="np-section-title">5. ARC Reasoning Analysis</div>
+    </div>
 
+    <!-- 상단: Primary band + Reliability -->
+    <div class="np-arc-band-row">
+      <div class="np-arc-card">
+        <div class="np-arc-card-title">Primary cognitive band</div>
+        <div class="np-arc-card-main">L4 Integrated Reasoning</div>
+        <div class="np-arc-card-sub">
+          ARC mean score 3.72, about the 76th percentile in the validation cohort.
+        </div>
+      </div>
+
+      <div class="np-arc-card">
+        <div class="np-arc-card-title">ARC model reliability</div>
+        <div class="np-arc-card-main">0.89 reliability index</div>
+        <div class="np-arc-card-sub">
+          Internal consistency, rubric alignment checked at validation.
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall level + Strength / Growth tags -->
+    <div class="np-arc-strength-row">
+      <div class="np-arc-strength-card primary">
+        <div class="np-arc-strength-title">Overall level</div>
+        <div style="font-size:13px; font-weight:600; margin-bottom:4px; color:#000000;">
+          L4 Integrated, mean 3.72
+        </div>
+        <div style="font-size:12px; color:#000000;">
+          Strength dimensions
+        </div>
+        <div class="np-arc-strength-tags" style="margin-top:6px;">
+          <span class="np-arc-tag-chip">A1 Interpretation</span>
+          <span class="np-arc-tag-chip">A4 Inference</span>
+          <span class="np-arc-tag-chip">A7 Value reasoning</span>
+        </div>
+      </div>
+
+      <div class="np-arc-strength-card growth">
+        <div class="np-arc-strength-title">Growth targets</div>
+        <div class="np-arc-strength-tags" style="margin-top:6px;">
+          <span class="np-arc-tag-chip">A5 Explanation</span>
+          <span class="np-arc-tag-chip">A6 Self regulation</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 설명 문단 -->
+    <p class="np-arc-desc">
+      ARC scores describe how the writer interprets, analyses, evaluates, reasons, explains,
+      regulates, and varies perspective across the essay. Strengths concentrate in interpretation,
+      inference, and value reasoning. Explanation depth and self regulation remain the main growth
+      targets for coaching and curriculum decisions.
+    </p>
+
+    <!-- ARC 테이블 -->
+    <div class="np-arc-table-wrap">
+      <table class="np-arc-table">
+        <thead>
+        <tr>
+          <th>Code</th>
+          <th>Dimension</th>
+          <th>Score</th>
+          <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>A1</td>
+          <td>Interpretation</td>
+          <td>3.9</td>
+          <td>Accurately restates the prompt and clarifies what is being judged in AI assisted writing.</td>
+        </tr>
+        <tr>
+          <td>A2</td>
+          <td>Analysis</td>
+          <td>3.6</td>
+          <td>Identifies key variables such as fairness, effort, and transparency, but could separate them more sharply.</td>
+        </tr>
+        <tr>
+          <td>A3</td>
+          <td>Evaluation</td>
+          <td>3.4</td>
+          <td>Weighs both benefits and risks, though explicit criteria for a good policy remain partly implicit.</td>
+        </tr>
+        <tr>
+          <td>A4</td>
+          <td>Inference</td>
+          <td>3.9</td>
+          <td>Builds conditional reasoning such as if AI is allowed under these conditions, then outcomes shift in the following way.</td>
+        </tr>
+        <tr>
+          <td>A5</td>
+          <td>Explanation</td>
+          <td>3.3</td>
+          <td>Gives reasons, yet some links between claims and examples could be spelled out more concretely.</td>
+        </tr>
+        <tr>
+          <td>A6</td>
+          <td>Self regulation</td>
+          <td>3.1</td>
+          <td>Recognises own uncertainty and sets personal rules, but does not fully revisit earlier assumptions at the end.</td>
+        </tr>
+        <tr>
+          <td>A7</td>
+          <td>Value reasoning</td>
+          <td>3.8</td>
+          <td>Connects the issue to student agency, trust, and educational purpose beyond simple grades.</td>
+        </tr>
+        <tr>
+          <td>A8</td>
+          <td>Cognitive diversity</td>
+          <td>3.5</td>
+          <td>Touches perspectives of students, teachers, and institutions, though counter examples could be richer.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Guidance 박스 -->
+    <div class="np-arc-guidance-box">
+      <div class="np-arc-guidance-title">ARC based development guidance</div>
+      <div>
+        Before writing the conclusion, ask the student to write one line that states the weakest part of
+        their reasoning, then add a sentence that directly strengthens that weak point. This routine targets
+        the A5 Explanation and A6 Self regulation dimensions and can be implemented as a ten minute coaching
+        habit after each essay.
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- Chart.js 초기화 -->
