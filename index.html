@@ -388,6 +388,21 @@
       margin-bottom: 16px;
     }
 
+    .np-cff-ft-label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 2px;
+  color: #000000;
+}
+
+.np-cff-ft-value {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  color: #000000;
+}
+    
 .np-cff-grid {
   display: grid;
   grid-template-columns: 1.1fr 1.3fr;
@@ -741,16 +756,20 @@
   <!-- 아래 내용만 박스에 포함 -->
   <section class="np-cff-section">
 
-    <p class="np-cff-desc">
-      <strong>Fingerprint type:</strong>
-      Reflective Explorer (type confidence 83%), with a secondary tendency toward an
-      Evidence Weaver style. </br>CFF decomposes the essay into eight indicators that capture
-      argument structure, transitions, revision depth, and diversity of evidence.
-    </p>
-    <p class="np-cff-note">
-      High HI together with RDX points to dense self revision and a recognisable human rhythm.
-      Combinations of low HI with high CTF and RMD can move closer to smoother machine like patterns.
-    </p>
+<div class="np-cff-ft-label">Fingerprint type:</div>
+<div class="np-cff-ft-value">
+  Reflective Explorer (type confidence 83%), with a secondary tendency toward an Evidence Weaver style.
+</div>
+
+<p class="np-cff-desc">
+  CFF decomposes the essay into eight indicators that capture argument structure,
+  transitions, revision depth, and diversity of evidence.
+</p>
+<p class="np-cff-note">
+  High HI together with RDX points to dense self revision and a recognisable human rhythm.
+  Combinations of low HI with high CTF and RMD can move closer to smoother machine like patterns.
+</p>
+
 
     <div class="np-cff-grid">
       <!-- 왼쪽: 레이다 차트 -->
