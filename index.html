@@ -18,7 +18,7 @@
     body {
       font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       background: #ffffff;
-      color:#000000;
+      color: #000000;
     }
 
     /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
@@ -123,11 +123,11 @@
     }
 
     .np-metric-card {
-      border: 1px solid #ededed;   /* 연한 그레이 외곽선 */
+      border: 1px solid #ededed;
       border-radius: 10px;
       padding: 16px 18px;
       background: #ffffff;
-      box-shadow: none;            /* 쉐도우 제거 */
+      box-shadow: none;
     }
 
     /* =========================
@@ -156,10 +156,10 @@
       width: 900px;
       max-width: 100%;
       margin: 0 auto;
-      border: 1px solid #ededed;  /* 외곽색 통일 */
+      border: 1px solid #ededed;
       border-radius: 10px;
       padding: 20px 22px;
-      box-shadow: none;           /* 혹시 모를 쉐도우 방지 */
+      box-shadow: none;
     }
 
     .np-label {
@@ -224,11 +224,11 @@
     }
 
     .np-ai-card {
-      border: 1px solid #ededed;  /* 외곽선 통일 */
+      border: 1px solid #ededed;
       border-radius: 10px;
       padding: 16px 18px;
       background: #ffffff;
-      box-shadow: none;           /* 쉐도우 제거 */
+      box-shadow: none;
     }
 
     .np-ai-card-title {
@@ -243,7 +243,6 @@
       line-height: 1.5;
     }
 
-    /* --- 한 줄 스택 바 --- */
     .np-ai-bar-wrap {
       margin-top: 6px;
       margin-bottom: 8px;
@@ -261,29 +260,28 @@
       border-radius: 999px;
       overflow: hidden;
       display: flex;
-      background: #ededed;    /* 바 전체 기본 배경 */
+      background: #ededed;
       position: relative;
     }
 
     .np-ai-bar-seg {
       height: 100%;
-      border: none;           /* 외곽선 완전 제거 */
+      border: none;
       box-sizing: border-box;
     }
 
     .np-ai-bar-human {
-      background: #fdaa1e;    /* Human 내부 컬러 */
+      background: #fdaa1e;
     }
 
     .np-ai-bar-hybrid {
-      background: #e5e5e5;    /* Hybrid */
+      background: #e5e5e5;
     }
 
     .np-ai-bar-ai {
-      background: #47b8e0;    /* AI 내부 컬러 */
+      background: #47b8e0;
     }
 
-    /* 바 속 텍스트 중앙 배치 */
     .np-ai-bar-text {
       position: absolute;
       top: 50%;
@@ -327,7 +325,7 @@
     }
 
     .np-ai-note-list li {
-      margin-left: 0px;
+      margin-left: 0;
       margin-bottom: 2px;
     }
 
@@ -360,90 +358,90 @@
       background: #ffffff;
     }
 
-    .np-cff-header-row {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .np-cff-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #000000;
-    }
-
-    .np-cff-desc {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin-bottom: 6px;
-    }
-
-    .np-cff-note {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-
-    /* ===== Fingerprint type / Secondary tendency 2열 레이아웃 ===== */
-
-    .np-cff-fingerprint-grid {
+    /* 상단 레이아웃: 타입 박스 + 패턴 해석 */
+    .np-cff-topgrid {
       display: grid;
-      grid-template-columns: 260px 1fr; /* 좌측 박스, 우측 설명 */
-      gap: 24px;
-      margin-bottom: 24px;
+      grid-template-columns: 0.9fr 1.5fr;
+      gap: 28px;
+      margin-bottom: 20px;
     }
 
-    .np-cff-fp-box {
-      background: #f4f4f4;
+    .np-cff-type-card {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .np-cff-type-pill {
+      background: #f7f7f7;
       border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
+      padding: 12px 14px;
     }
 
-    .np-cff-fp-title {
+    .np-cff-ft-label {
       font-size: 13px;
       font-weight: 400;
       color: #000000;
       margin-bottom: 4px;
     }
 
-    .np-cff-fp-value {
+    .np-cff-ft-main {
       font-size: 18px;
       font-weight: 700;
       color: #000000;
       margin-bottom: 4px;
     }
 
-    .np-cff-fp-sub {
+    .np-cff-ft-sub {
       font-size: 13px;
       font-weight: 400;
       color: #000000;
     }
 
-    .np-cff-fp-desc {
+    .np-cff-ft-label-secondary {
+      font-size: 13px;
+      font-weight: 400;
+      color: #000000;
+      margin-bottom: 4px;
+    }
+
+    .np-cff-ft-secondary-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .np-cff-interpret-card {
+      padding-top: 4px;
+    }
+
+    .np-cff-interpret-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #000000;
+      margin-bottom: 8px;
+    }
+
+    .np-cff-desc {
       font-size: 13px;
       font-weight: 400;
       line-height: 1.5;
-      color: #000000;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
-.np-cff-interpret-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin: 10px 0 10px 0;
-  color: #000000;
-}    
+    .np-cff-note {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
 
-    /* CFF Radar + Indicators grid */
-    .np-cff-grid {
+    /* 하단 레이아웃: 레이더 차트 + 인디케이터 테이블 */
+    .np-cff-bottomgrid {
       display: grid;
-      grid-template-columns: 1.1fr 1.3fr;
-      gap: 32px;
+      grid-template-columns: 1.1fr 1.2fr;
+      gap: 20px;
+      margin-top: 20px;
     }
 
     .np-cff-card {
@@ -452,10 +450,6 @@
       padding: 12px 0 0 0;
       background: transparent;
       box-shadow: none;
-    }
-
-    .np-cff-card.table-side {
-      margin-left: 20px;
     }
 
     .np-cff-card-title-row {
@@ -504,7 +498,7 @@
       width: 12px;
       height: 12px;
       border-radius: 999px;
-      background: rgba(71, 184, 224, 0.22); /* 레이다 차트 채움색과 매칭 */
+      background: rgba(71, 184, 224, 0.22);
       border: 1px solid #47b8e0;
     }
 
@@ -569,16 +563,9 @@
         margin-top: 4px;
       }
 
-      .np-cff-grid {
+      .np-cff-topgrid,
+      .np-cff-bottomgrid {
         grid-template-columns: 1fr;
-      }
-
-      .np-cff-fingerprint-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-card.table-side {
-        margin-left: 0;
       }
     }
   </style>
@@ -633,10 +620,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Authorship Verification
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
           Human
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           Confidence 92%
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -648,10 +635,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           ARC Reasoning Level
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
           L4 · Integrated Reasoning
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           ARC Reliability 0.89
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -663,10 +650,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           Identity Consistency
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
           Same Author Likely
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           Similarity Score 0.87
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -678,10 +665,10 @@
         <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
           HR Role Recommendation
         </div>
-        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color: #000000;">
+        <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px;">
           Strategy · Analysis · Policy
         </div>
-        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color: #000000;">
+        <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px;">
           Fit Reliability 0.82
         </div>
         <div style="font-size:11px; font-weight:500; line-height:1.6;">
@@ -705,12 +692,12 @@
 
     <div class="np-summary-container">
       <div class="np-label">Prompt :</div>
-      <div class="np-text" style="color: #000000;">
+      <div class="np-text">
         Should schools allow AI-assisted writing in formal assessments?
       </div>
 
       <div class="np-label">Summary :</div>
-      <div class="np-text" style="color: #000000;">
+      <div class="np-text">
         This essay examines whether schools should allow AI assisted writing in formal assessments.
         The writer explains how AI can improve surface quality while making fairness and genuine
         thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
@@ -741,7 +728,7 @@
         <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
 
         <div class="np-ai-bar-wrap">
-          <div class="np-ai-bar-label" style="color: #000000;">Classification share</div>
+          <div class="np-ai-bar-label">Classification share</div>
 
           <div class="np-ai-bar">
             <span class="np-ai-bar-text">Human 82%</span>
@@ -777,7 +764,7 @@
       <!-- 오른쪽: Decision Summary -->
       <article class="np-ai-card">
         <div class="np-ai-card-title">Decision Summary</div>
-        <p class="np-ai-card-text" style="color: #000000;">
+        <p class="np-ai-card-text">
           Final decision is Human. Pattern label is deep reflective human in a stable context.
           A confidence of 88% indicates that the classifier produces the same decision under small
           perturbations of the text. The sample sits within the top 22 percentile of the human
@@ -794,43 +781,46 @@
   </section>
 
   <!-- 4. Cognitive Fingerprint Profile (CFF) -->
-
-  <!-- 번호는 박스 밖 -->
   <div class="np-cff-title-outside">4. Cognitive Fingerprint Profile (CFF)</div>
 
-  <!-- 아래 내용만 박스에 포함 -->
   <section class="np-cff-section">
 
-    <!-- 좌측 Fingerprint 박스 + 우측 설명 -->
-    <div class="np-cff-fingerprint-grid">
-      <div>
-        <div class="np-cff-fp-box">
-<div class="np-cff-ft-label">Fingerprint type</div>
-<div class="np-cff-ft-main">Reflective Explorer</div>
-<div class="np-cff-ft-sub">Confidence: 83%</div>
+    <!-- 상단: 타입 + 패턴 해석 -->
+    <div class="np-cff-topgrid">
+      <!-- 왼쪽: 타입 박스 두 개 -->
+      <article class="np-cff-type-card">
+        <div class="np-cff-type-pill">
+          <div class="np-cff-ft-label">Fingerprint type</div>
+          <div class="np-cff-ft-main">Reflective Explorer</div>
+          <div class="np-cff-ft-sub">Confidence: 83%</div>
+        </div>
 
-<div class="np-cff-ft-label-secondary">Secondary tendency</div>
-<div class="np-cff-ft-secondary-value">Evidence Weaver</div>
+        <div class="np-cff-type-pill">
+          <div class="np-cff-ft-label-secondary">Secondary tendency</div>
+          <div class="np-cff-ft-secondary-value">Evidence Weaver</div>
+        </div>
+      </article>
 
-<div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
+      <!-- 오른쪽: CFF Pattern Interpretation + 설명 -->
+      <article class="np-cff-interpret-card">
+        <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
 
-<p class="np-cff-desc">
-  CFF decomposes the essay into eight indicators that capture argument structure,
-  transitions, revision depth, and diversity of evidence.
-</p>
+        <p class="np-cff-desc">
+          CFF decomposes the essay into eight indicators that capture argument structure,
+          transitions, revision depth and diversity of evidence.
+        </p>
 
-<p class="np-cff-note">
-In this profile, high HI together with RDX is typical of a Reflective Explorer pattern,
-where self-revision is dense and the human rhythm is recognisable.
-Combinations of lower HI with higher CTF and RMD, when they appear, tend to move
-closer to smoother, more machine-like patterns that are characteristic of the
-Evidence Weaver side of the profile.
-</p>
-
-      </div>
+        <p class="np-cff-note">
+          In this profile, high HI together with RDX is typical of a Reflective Explorer pattern,
+          where self-revision is dense and the human rhythm is recognisable. Combinations of lower HI
+          with higher CTF and RMD, when they appear, tend to move closer to smoother, more machine-like
+          patterns that are characteristic of the Evidence Weaver side of the profile.
+        </p>
+      </article>
     </div>
 
-    <div class="np-cff-grid">
+    <!-- 하단: 레이더 차트 + 인디케이터 테이블 -->
+    <div class="np-cff-bottomgrid">
       <!-- 왼쪽: 레이다 차트 -->
       <article class="np-cff-card">
         <div class="np-cff-card-title-row">
@@ -857,7 +847,7 @@ Evidence Weaver side of the profile.
       </article>
 
       <!-- 오른쪽: CFF Indicators 테이블 -->
-      <article class="np-cff-card table-side">
+      <article class="np-cff-card">
         <div class="np-cff-card-title-row">
           <div class="np-cff-card-title">CFF Indicators</div>
           <div class="np-cff-pill">Score range 0.00 to 1.00</div>
