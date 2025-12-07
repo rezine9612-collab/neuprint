@@ -841,6 +841,23 @@
   margin-top: 6px;
 }
 
+    /* Semi Gauge Chart */
+.np-ident-gauge-wrap {
+  width: 100%;
+  max-width: 260px;
+  margin: 12px auto 4px auto;
+}
+
+.np-ident-gauge-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 10px;
+  color: #6b7280;
+  padding: 0 4px;
+}
+
+
 @media (max-width: 900px) {
   .np-ident-grid {
     grid-template-columns: 1fr; /* 모바일에서는 세로 1열 */
@@ -1354,22 +1371,24 @@
         </div>
       </div>
 
-      <div class="np-ident-bar-wrap">
-        <div class="np-ident-bar-label">Position within validation distribution</div>
-        <div class="np-ident-bar-track">
-          <div class="np-ident-bar-fill"></div>
-        </div>
-        <div class="np-ident-bar-scale">
-          <span>Low</span>
-          <span>Medium</span>
-          <span>High</span>
-        </div>
-      </div>
+<div class="np-ident-bar-wrap">
+  <div class="np-ident-bar-label">Position within validation distribution</div>
 
-      <div class="np-ident-note">
-        The bar indicates where this match lies compared with known same-author
-        and different-author pairs in the reference dataset.
-      </div>
+  <div class="np-ident-gauge-wrap">
+    <canvas id="identGaugeChart"></canvas>
+  </div>
+
+  <div class="np-ident-gauge-scale">
+    <span>Low</span>
+    <span>Medium</span>
+    <span>High</span>
+  </div>
+
+  <div class="np-ident-note">
+    The gauge indicates how this match compares with known same-author and different-author pairs.
+  </div>
+</div>
+
     </article>
 
     <!-- 오른쪽: 패턴 요약 + 근거와 한계 -->
@@ -1462,6 +1481,41 @@
         }
       });
     }
+
+const gctx = document.getElementById("identGaugeChart");
+
+if (gctx) {
+  const score = 0.87; // 0~1 → 동일인 유사도 점수
+  const angleValue = score * 180; // 180도 반원 중 어디까지 채울지
+
+  new Chart(gctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Score', 'Remainder'],
+      datasets: [{
+        data: [score, 1 - score],
+        backgroundColor: [
+          // 왼쪽→오른쪽 점진적 블루 계열
+          "rgba(37, 99, 235, 0.85)", 
+          "rgba(229, 231, 235, 0.4)"
+        ],
+        borderWidth: 0,
+        cutout: "70%",
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      rotation: -90 * (Math.PI / 180),   // 0도 위치 위쪽 → 왼쪽으로 이동
+      circumference: 180 * (Math.PI / 180), // 반원만
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: false }
+      }
+    }
+  });
+}
+    
   </script>
 </body>
 </html>
