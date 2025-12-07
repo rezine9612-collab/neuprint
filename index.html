@@ -679,6 +679,46 @@
       margin-bottom: 4px;
     }
 
+.np-arc-top-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+
+.np-arc-card {
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 16px 18px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.np-arc-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #000000;
+}
+
+.np-arc-card-text {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .np-arc-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+    
         /* =========================
        G. RESPONSIVE
        ========================= */
@@ -1213,56 +1253,49 @@
       </div>
     </section>
 
-    <!-- 5. ARC Reasoning Analysis -->
-    <section class="np-arc-section">
-      <div class="np-section-title-row">
-        <div class="np-section-title">5. ARC Reasoning Analysis</div>
+   <!-- 5. ARC Reasoning Analysis -->
+<section class="np-arc-section" style="margin-top:40px;">
+  <div class="np-section-title-row">
+    <div class="np-section-title">5. ARC Reasoning Analysis</div>
+  </div>
+
+  <div class="np-arc-top-grid">
+
+    <!-- 카드 1 -->
+    <article class="np-arc-card">
+      <div class="np-arc-card-title">Primary cognitive band</div>
+      <div class="np-arc-card-text">
+        L4 Integrated Reasoning<br>
+        ARC mean score 3.72, about the 76th percentile in the validation cohort.
+      </div>
+    </article>
+
+    <!-- 카드 2 -->
+    <article class="np-arc-card">
+      <div class="np-arc-card-title">ARC model reliability</div>
+      <div class="np-arc-card-text">
+        0.89 reliability index<br>
+        Internal consistency, rubric alignment checked at validation.
+      </div>
+    </article>
+
+    <!-- 카드 3 (Strength + Growth 통합) -->
+    <article class="np-arc-card">
+      <div class="np-arc-card-title">Strength dimensions</div>
+      <div class="np-arc-card-text">
+        A1 Interpretation<br>
+        A4 Inference<br>
+        A7 Value reasoning
       </div>
 
-      <!-- 상단: Primary band + Reliability -->
-      <div class="np-arc-band-row">
-        <div class="np-arc-card">
-          <div class="np-arc-card-title">Primary cognitive band</div>
-          <div class="np-arc-card-main">L4 Integrated Reasoning</div>
-          <div class="np-arc-card-sub">
-            ARC mean score 3.72, about the 76th percentile in the validation cohort.
-          </div>
-        </div>
-
-        <div class="np-arc-card">
-          <div class="np-arc-card-title">ARC model reliability</div>
-          <div class="np-arc-card-main">0.89 reliability index</div>
-          <div class="np-arc-card-sub">
-            Internal consistency, rubric alignment checked at validation.
-          </div>
-        </div>
+      <div class="np-arc-card-title" style="margin-top:12px;">Growth targets</div>
+      <div class="np-arc-card-text">
+        A5 Explanation<br>
+        A6 Self regulation
       </div>
+    </article>
 
-      <!-- Overall level + Strength / Growth tags -->
-      <div class="np-arc-strength-row">
-        <div class="np-arc-strength-card primary">
-          <div class="np-arc-strength-title">Overall level</div>
-          <div style="font-size:13px; font-weight:600; margin-bottom:4px; color:#000000;">
-            L4 Integrated, mean 3.72
-          </div>
-          <div style="font-size:12px; color:#000000;">
-            Strength dimensions
-          </div>
-          <div class="np-arc-strength-tags" style="margin-top:6px;">
-            <span class="np-arc-tag-chip">A1 Interpretation</span>
-            <span class="np-arc-tag-chip">A4 Inference</span>
-            <span class="np-arc-tag-chip">A7 Value reasoning</span>
-          </div>
-        </div>
-
-        <div class="np-arc-strength-card growth">
-          <div class="np-arc-strength-title">Growth targets</div>
-          <div class="np-arc-strength-tags" style="margin-top:6px;">
-            <span class="np-arc-tag-chip">A5 Explanation</span>
-            <span class="np-arc-tag-chip">A6 Self regulation</span>
-          </div>
-        </div>
-      </div>
+  </div>
 
       <!-- 설명 문단 -->
       <p class="np-arc-desc">
