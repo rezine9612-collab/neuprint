@@ -2234,7 +2234,7 @@ for(let j=0;j<rings;j++){
         responsive:true,
         maintainAspectRatio:false,
         devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
-        animation: animOn ? { duration: CHART_ANIM_MS, delay: 0 } : { duration: 0 },
+        animation: animOn ? { duration: CHART_ANIM_MS, delay: 0, from: 0 } : { duration: 0 },
         layout:{ padding:{ top:10, right:14, bottom:12, left:14 } },
         interaction:{ mode:"nearest", intersect:false },
         plugins:{
@@ -3074,5 +3074,6 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
