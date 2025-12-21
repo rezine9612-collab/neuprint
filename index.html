@@ -1,1674 +1,3076 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>NeuPrint Integrated Analysis Report</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>NeuPrint Integrated Cognitive & Authorship Verification</title>
 
-  <!-- Open Sans -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js (single-file usage) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root{
+      /* Layout knobs */
+      --containerMax: 1120px;
+      --sidePad: 27px;
+
+      --radius: 16px;
+
+      /* Logo sizing */
+      --logoW: 340px;
+      --logoW-m: 260px;
+
+      /* Base colors */
+      --bg: #ffffff;
+      --panel: #ffffff;
+      --text: #0f172a;
+      --muted: #0f172a;
+      --border: #e2e8f0;
+      --soft: #f8fafc;
+
+      /* Accent palette */
+      --accentA: #074d81;
+      --accentB: #40b1e6;
+      --accentC: #20cbc2;
+      --accentD: #fabb05;
+      --accentE: #f97b17;
+
+      /* Pills background (for fills in charts) */
+      --pillA: rgba(7,77,129,.18);
+      --pillB: rgba(64,177,230,.18);
+      --pillC: rgba(32,203,194,.18);
+      --pillD: rgba(250,187,5,.20);
+      --pillE: rgba(249,123,23,.18);
+      --pillN: rgba(245,245,245,.96);
+      --pillNeutral: rgba(238,238,238,.93);
+
+      /* Header spacing */
+      --chipTopGap: 26px;
+      --headerBottomGap: 10px;
+
+      /* Section top gaps */
+      --sectionTopGap-1: 0px;
+      --sectionTopGap-2: 20px;
+
+      /* Chart sizing */
+      --chartH: 240px;
+      --chartH-m: 220px;
+
+      --donutH: 300px;
+      --donutH-m: 240px;
+
+      --radarH: 300px;
+      --radarH-m: 340px;
+
+      --sig: 264px;
+      --sig-m: 288px;
+
+      /* Gauge sizing (3/4 of base chart height) */
+      --gaugeH: 180px;
+      --gaugeH-m: 165px;
+
+      /* Animation */
+      --chartAnimDuration: 1400ms;
+      --chartAnimDelay: 180ms;
+      --sigAnimMs: 3000;
     }
 
-    body {
-      font-family: "Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #ffffff;
-      color: #000000;
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+
+    body{
+      margin:0;
+      font-family:"Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+      min-height:100svh;
+      overflow-y:scroll;
     }
 
-    /* 페이지 아트보드: 900px 카드 + 좌우 padding 40px = 980px */
-    .np-page {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 48px 40px 64px 40px;
+    .container{
+      max-width:var(--containerMax);
+      margin:0 auto;
+      padding:18px calc(var(--sidePad) + env(safe-area-inset-left)) 56px calc(var(--sidePad) + env(safe-area-inset-right));
     }
 
-    /* =========================
-       A. HEADER ROW (텍스트 + QR)
-       ========================= */
-    .np-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 32px;
+    /* Header */
+    .topbar{
+      display:block;
+      padding:10px 0 14px;
+      background:#fff;
     }
 
-    .np-left-header {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .headerTopRow{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
     }
 
-    .np-logo {
-      width: 172px;
-      height: 39px;
-      display: block;
-      margin-bottom: 12px;
+    .headerLeft{
+      flex:1 1 auto;
+      min-width:0;
+      margin-top:-12px;
     }
 
-    .np-header-title-line1 {
-      font-size: 13px;
-      font-weight: 400;
-      color: #000000;
+    .headerRight{
+      flex:0 0 auto;
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      margin-top:14px;
     }
 
-    .np-header-title-main {
-      font-size: 30px;
-      font-weight: 700;
-      color: #000000;
-      line-height: 1.2;
+    .headerBelowRow{
+      margin-top:10px;
+      padding-bottom: var(--headerBottomGap);
     }
 
-    .np-header-sub {
-      font-size: 13px;
-      font-weight: 400;
+    .headerBrand{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      padding-top:0;
+      padding-bottom:0;
     }
 
-    .np-header-timestamp {
-      font-size: 13px;
-      font-weight: 400;
+    .brandLogo{
+      width:var(--logoW);
+      height:auto;
+      display:block;
+      margin-left:-10px;
+      margin-top:4px;
     }
 
-    /* QR + 검증 텍스트: 모두 우측정렬 */
-    .np-verify-panel {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      text-align: right;
-      margin-top: 10px;
+    .brandline{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+      flex-wrap:wrap;
     }
 
-    .np-author-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 25px;
-      text-align: right;
-      color: #000000;
+    .title{
+      margin:10px 0 4px;
+      font-size:36px;
+      font-weight:700;
+      letter-spacing:-0.02em;
+      line-height:1.15;
     }
 
-    .np-verify-label {
-      font-size: 11px;
-      font-weight: 400;
+    .subtitle{
+      margin-top:8px;
+      font-size:18px;
+      color:var(--muted);
+      line-height:1.35;
     }
 
-    .np-qr {
-      width: 74px;
-      height: 74px;
-      object-fit: contain;
-      display: block;
-      margin-bottom: 8px;
+    /* Header pills row */
+    .metaRow{
+      margin-top: var(--chipTopGap);
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0, 1fr));
+      gap:14px;
+      align-items:stretch;
     }
 
-    /* =========================
-       B. 1. Overview Metrics
-       ========================= */
-    .np-section-title-small {
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 12px;
-      color: #000000;
+    .chip{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+      width:100%;
+      padding:6px 10px;
+      background:#f5f5f5;
+      border-radius:8px;
+      font-size:11px;
+      font-weight:600;
+      color:var(--text);
+      line-height:1;
+      min-width:0;
     }
 
-    .np-metric-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 12px;
+    .chipLabel{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      min-width:0;
     }
 
-    .np-metric-card {
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
-      box-shadow: none;
+    .chip .pill{
+      margin-left:auto;
+      flex:0 0 auto;
+      white-space:nowrap;
     }
 
-    /* =========================
-       C. 2. Content Summary
-       ========================= */
-    .np-section-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 40px;
-      margin-bottom: 12px;
+    /* 1) Pill background is white, text only has color (all 5 chips) */
+    .pill{
+      padding:2px 8px;
+      border-radius:8px;
+      font-size:11px;
+      font-weight:700;
+      background:#ffffff;
+      color:var(--text);
+      white-space:nowrap;
     }
 
-    .np-section-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #000000;
+    .pill.toneA{ background:#fff; color: var(--accentA); }
+    .pill.toneB{ background:#fff; color: var(--accentB); }
+    .pill.toneC{ background:#fff; color: var(--accentC); }
+    .pill.toneD{ background:#fff; color: var(--accentD); }
+    .pill.toneE{ background:#fff; color: var(--accentE); }
+    .pill.toneN{ background:#fff; color: var(--text); }
+
+    /* Right meta */
+    .rightMeta{ display:flex; align-items:flex-start; gap:14px; }
+
+    .qrBox{
+      padding:10px;
+      background:#fff;
+      width:116px;
+      flex:0 0 auto;
+      margin-top:-15px;
+      transform: translateY(-4px);
+    }
+    .qrBox img{ display:block; width:92px; height:92px; margin:0 auto; }
+
+    .verifyText{
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.35;
+      margin-top:0;
+      max-width:420px;
+      text-align:right;
+    }
+    .verifyText span{ font-weight:700; color:var(--text); }
+
+    /* Tabs (sticky TOC) */
+    .tocWrap{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:#fff;
+      padding:10px 0 0px;
+      margin-bottom:-40px;
     }
 
-    .np-meta-inline {
-      font-size: 11px;
-      font-weight: 400;
+    .tabs{
+      margin-top:10px;
+      margin-bottom:0;
+      display:grid;
+      grid-template-columns:repeat(6, minmax(0, 1fr));
+      gap:8px;
+      align-items:stretch;
     }
 
-    .np-summary-container {
-      width: 900px;
-      max-width: 100%;
-      margin: 0 auto;
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 20px 22px;
-      box-shadow: none;
+    .tab{
+      width:100%;
+      padding:12px 10px;
+      border:1px solid var(--border);
+      border-radius:8px;
+      background:#fff;
+      color:var(--text);
+      font-size:12px;
+      font-weight:400;
+      cursor:pointer;
+      user-select:none;
+      -webkit-tap-highlight-color:transparent;
+      text-align:center;
+      line-height:1;
     }
 
-    .np-label {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 4px;
+    .tab.active{
+      border:0px solid rgba(15,23,42,.40);
+      outline:4px solid rgba(15,23,42,.78);
+      outline-offset:0;
+      font-weight:700;
     }
 
-    .np-text {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      margin-bottom: 16px;
+    /* Layout */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:14px;
+      margin-top:16px;
+      scroll-margin-top: 92px;
     }
 
-    .np-tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
+    .card{
+      grid-column:span 12;
+      background:var(--panel);
+      padding:0;
+      border:0;
+      box-shadow:none;
     }
 
-    .np-tag {
-      font-size: 11px;
-      font-weight: 400;
-      padding: 4px 10px;
-      border-radius: 16px;
-      background: #ededed;
-      color: #000000;
+    .sectionBlock{ padding:14px 0; }
+
+    .cardHeader{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:10px;
     }
 
-    /* =========================
-       D. 3. AI Usage Classification
-       ========================= */
-    .np-ai-section {
-      margin-top: 40px;
+    .cardTitle{
+      font-weight:700;
+      font-size:22px;
+      display:flex;
+      gap:8px;
+      align-items:center;
     }
 
-    .np-ai-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 12px;
+    .muted{ color:var(--muted); }
+    .small{ font-size:12px; }
+    .tiny{ font-size:11px; }
+    .code{ font-family:"Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+
+    /* Section top gap controls */
+    #tab-overview{ margin-top: var(--sectionTopGap-1); }
+    #tab-authorship{ margin-top: var(--sectionTopGap-2); }
+
+    /* Metrics */
+    .metrics{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:12px;
+      margin-top:10px;
     }
 
-    .np-ai-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #000000;
+    .metricBox{
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:8px;
+      background:#fff;
+      padding:12px;
+      min-height:92px;
     }
 
-    .np-ai-submeta {
-      font-size: 11px;
-      font-weight: 400;
-      text-align: right;
+    .metricLabel{ font-size:11px; color:var(--muted); font-weight:600; }
+    .metricValue{ margin-top:6px; font-size:20px; font-weight:700; color:var(--text); }
+    .metricNote{ margin-top:6px; font-size:11px; color:var(--muted); line-height:1.35; font-weight:400; }
+
+    #mDecision   { color: var(--accentE); }
+    #mConfidence { color: var(--accentB); }
+    #mArcMean    { color: var(--accentC); }
+    #mRiskBand   { color: var(--accentD); }
+
+    /* Panels */
+    .twoCol{
+      display:grid;
+      align-items:stretch;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:12px;
+    }
+    .twoCol > *{ height:100%; }
+
+    .panel{
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:8px;
+      padding:12px;
+      background:#fff;
+      display:flex;
+      flex-direction:column;
     }
 
-    .np-ai-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)); /* 50% / 50% */
-      gap: 16px;
+    .kpiRow{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      margin-top:10px;
     }
 
-    .np-ai-card {
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: #ffffff;
-      box-shadow: none;
+    .kpi{
+      background:#f5f5f5;
+      padding:8px 10px;
+      border-radius:8px;
+      font-size:11px;
+      color:var(--text);
+      line-height:1;
+      font-weight:400;
     }
 
-    .np-ai-card-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 6px;
+    /* Charts */
+    .chartBox{
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:8px;
+      background:#fff;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow:hidden;
+      height:100%;
     }
 
-    .np-ai-card-text {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 1.5;
+    .chartTitleText{
+      font-size:12px;
+      font-weight:700;
+      color:var(--text);
+      line-height:1.25;
     }
 
-    .np-ai-bar-wrap {
-      margin-top: 6px;
-      margin-bottom: 8px;
+    .chartCanvasWrap{
+      position:relative;
+      width:100%;
+      height:var(--chartH);
+      min-height:var(--chartH);
+      max-height:var(--chartH);
+      flex:0 0 auto;
     }
 
-    .np-ai-bar-label {
-      font-size: 11px;
-      font-weight: 600;
-      margin-bottom: 4px;
+    .chartBox.donut .chartCanvasWrap{
+      height:var(--donutH);
+      min-height:var(--donutH);
+      max-height:var(--donutH);
     }
 
-    .np-ai-bar {
+    .chartBox.radarBox .chartCanvasWrap{
+      height:var(--radarH);
+      min-height:var(--radarH);
+      max-height:var(--radarH);
+    }
+
+    /* 2-6) Gauge size reduced (3/4), thickness, rounded corners handled in JS config */
+    .chartBox.gaugeBox .chartCanvasWrap{
+      height:var(--gaugeH);
+      min-height:var(--gaugeH);
+      max-height:var(--gaugeH);
+    }
+
+    canvas{ width:100% !important; height:100% !important; }
+
+    /* Gauge legend (below the gauge) */
+    .gaugeLegend{
+      margin-top:2px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-start;
+      font-size:11px;
+      color:var(--text);
+    }
+    .gaugeLegendItem{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+    .gaugeDot{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      display:inline-block;
+      background:#999;
+      border:1px solid rgba(0,0,0,.06);
+    }
+    .gaugeLegendItem .label{
+      font-weight:600;
+      color:var(--muted);
+    }
+
+    /* Signature square */
+    .signatureBox .chartCanvasWrap{
+      aspect-ratio: 1 / 1;
       width: 100%;
-      height: 40px;
-      border-radius: 999px;
-      overflow: hidden;
-      display: flex;
-      background: #ededed;
+      max-width: var(--sig);
+      margin: 0 auto;
       position: relative;
+      height: var(--sig);
+      min-height: var(--sig);
+      max-height: var(--sig);
+      flex: 0 0 auto;
     }
 
-    .np-ai-bar-seg {
-      height: 100%;
-      border: none;
-      box-sizing: border-box;
+    .signatureBox #signatureCanvas{
+      width: 100% !important;
+      height: 100% !important;
+      display:block;
     }
 
-    .np-ai-bar-human {
-      background: #fdaa1e;
+    /* Tables */
+    table{ width:100%; border-collapse:collapse; font-size:12px; }
+    th,td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
+    th{
+      text-align:left;
+      font-size:10px;
+      color:var(--muted);
+      font-weight:700;
+      background:#fff;
+    }
+    tr:last-child td{ border-bottom:0; }
+
+    /* JSON */
+    .jsonBox{
+      margin-top:10px;
+      padding:12px;
+      border:1px solid rgba(226,232,240,.85);
+      border-radius:8px;
+      background:#fff;
+      overflow:auto;
+      font-size:11px;
+      line-height:1.45;
+      color:#0f172a;
+      font-weight:400;
     }
 
-    .np-ai-bar-hybrid {
-      background: #e5e5e5;
+    /* Footer */
+    .footer{
+      margin-top:22px;
+      padding:14px 0 0;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:11px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      font-weight:400;
     }
 
-    .np-ai-bar-ai {
-      background: #47b8e0;
+    /* Responsive */
+    @media (max-width: 980px){
+      .metrics{ grid-template-columns:repeat(1,1fr); }
+      .twoCol{ grid-template-columns:1fr; }
+      .rightMeta{ flex-direction:row; align-items:flex-start; justify-content:flex-end; }
+      .verifyText{ max-width:340px; }
+      .tabs{ grid-template-columns:repeat(1, minmax(0, 1fr)); }
     }
 
-    .np-ai-bar-text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 18px;
-      font-weight: 700;
-      color: #ffffff;
-      pointer-events: none;
-      white-space: nowrap;
-    }
+    @media (max-width: 680px){
+      body{ overflow-x:hidden; }
+      .container{ overflow-x:hidden; }
 
-    .np-ai-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .np-ai-legend-item {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      font-size: 11px;
-      font-weight: 400;
-    }
-
-    .np-ai-legend-swatch {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      margin-right: 2px;
-    }
-
-    .np-ai-note-list {
-      margin-top: 8px;
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 1.4;
-      list-style: none;
-    }
-
-    .np-ai-note-list li {
-      margin-left: 0;
-      margin-bottom: 2px;
-    }
-
-    .np-ai-tag-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    /* =========================
-       E. 4. CFF Profile Section
-       ========================= */
-    .np-cff-title-outside {
-      font-size: 13px;
-      font-weight: 700;
-      color: #000000;
-      margin-top: 40px;
-      margin-bottom: 12px;
-    }
-
-    .np-cff-section {
-      margin-top: 0;
-      border: 1px solid #ededed;
-      border-radius: 10px;
-      padding: 20px 22px 22px 22px;
-      background: #ffffff;
-    }
-
-    /* Fingerprint type / Secondary tendency 2열 레이아웃 */
-    .np-cff-fingerprint-grid {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
-      align-items: flex-start;
-    }
-
-    .np-cff-fp-box {
-      background: #f4f4f4;
-      border-radius: 12px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-    }
-
-    .np-cff-fp-title {
-      font-size: 13px;
-      font-weight: 400;
-      color: #000000;
-      margin-bottom: 4px;
-    }
-
-    .np-cff-fp-value {
-      font-size: 18px;
-      font-weight: 700;
-      color: #000000;
-      margin-bottom: 4px;
-    }
-
-    .np-cff-fp-sub {
-      font-size: 13px;
-      font-weight: 400;
-      color: #000000;
-    }
-
-    .np-cff-interpret-title {
-      font-size: 13px;
-      font-weight: 700;
-      margin: 4px 0 10px 0;
-      color: #000000;
-    }
-
-    .np-cff-fp-desc {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.5;
-      color: #000000;
-      margin-bottom: 8px;
-    }
-
-    /* CFF Radar + Indicators grid */
-    .np-cff-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* 50% / 50% */
-      gap: 32px;
-    }
-
-    .np-cff-card {
-      border: none;
-      border-radius: 0;
-      padding: 12px 0 0 0;
-      background: transparent;
-      box-shadow: none;
-    }
-
-    .np-cff-card.table-side {
-      margin-left: 0;
-    }
-
-    .np-cff-card-title-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .np-cff-card-title {
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .np-cff-pill {
-      font-size: 11px;
-      font-weight: 400;
-    }
-
-    .np-cff-chart-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 0 4px 0;
-      min-height: 260px;
-    }
-
-    #cffRadarChart {
-      max-width: 320px;
-      max-height: 320px;
-    }
-
-    .np-cff-legend {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 6px;
-      font-size: 11px;
-      font-weight: 400;
-      color: #374151;
-    }
-
-    .np-cff-legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(71, 184, 224, 0.22);
-      border: 1px solid #47b8e0;
-    }
-
-    .np-cff-chart-caption {
-      font-size: 11px;
-      font-weight: 400;
-      line-height: 1.4;
-      margin-top: 6px;
-    }
-
-    .np-cff-table-wrap {
-      overflow: hidden;
-      border-radius: 8px;
-      border: 1px solid #ededed;
-    }
-
-    .np-cff-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-
-    .np-cff-table th,
-    .np-cff-table td {
-      padding: 8px 12px;
-    }
-
-    .np-cff-table th {
-      text-align: left;
-      font-weight: 600;
-      border-bottom: 1px solid #e5e7eb;
-    }
-
-    .np-cff-table td {
-      border-bottom: 1px solid #f3f4f6;
-    }
-
-    .np-cff-table td:last-child,
-    .np-cff-table th:last-child {
-      text-align: right;
-    }
-
-    .np-cff-code {
-      font-weight: 400;
-      font-size: 11px;
-      text-decoration: none;
-    }
-
-    /* =========================
-       F. 5. ARC Reasoning Analysis
-       ========================= */
-    .np-arc-section {
-      margin-top: 40px;
-    }
-
-    .np-arc-band-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 16px;
-      margin-bottom: 12px;
-    }
-
-    .np-arc-card {
-      border-radius: 10px;
-      padding: 14px 18px;
-      background: #f4f7ff;
-      border: 1px solid #e0e7ff;
-    }
-
-    .np-arc-card-title {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-      color: #4b5563;
-    }
-
-    .np-arc-card-main {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #000000;
-    }
-
-    .np-arc-card-sub {
-      font-size: 12px;
-      font-weight: 400;
-      color: #000000;
-      line-height: 1.4;
-    }
-
-    .np-arc-strength-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .np-arc-strength-card {
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    .np-arc-strength-card.primary {
-      background: #ecfdf3;
-      border: 1px solid #bbf7d0;
-    }
-
-    .np-arc-strength-card.growth {
-      background: #fffbeb;
-      border: 1px solid #fed7aa;
-    }
-
-    .np-arc-strength-title {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 4px;
-      color: #4b5563;
-    }
-
-    .np-arc-strength-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .np-arc-tag-chip {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: #ffffff;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: #000000;
-    }
-
-    .np-arc-desc {
-      font-size: 13px;
-      font-weight: 400;
-      line-height: 1.6;
-      margin-bottom: 14px;
-      color: #000000;
-    }
-
-    .np-arc-table-wrap {
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      overflow: hidden;
-      background: #ffffff;
-    }
-
-    .np-arc-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-
-    .np-arc-table th,
-    .np-arc-table td {
-      padding: 8px 10px;
-      border-bottom: 1px solid #f3f4f6;
-    }
-
-    .np-arc-table th {
-      background: #f9fafb;
-      font-weight: 600;
-      text-align: left;
-      color: #111827;
-    }
-
-    .np-arc-table td:nth-child(1),
-    .np-arc-table th:nth-child(1) {
-      width: 40px;
-      text-align: center;
-      font-weight: 600;
-    }
-
-    .np-arc-table td:nth-child(3),
-    .np-arc-table th:nth-child(3) {
-      width: 60px;
-      text-align: right;
-      white-space: nowrap;
-    }
-
-    .np-arc-guidance-box {
-      margin-top: 14px;
-      border-radius: 10px;
-      padding: 12px 14px;
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-      font-size: 12px;
-      line-height: 1.6;
-      color: #7c2d12;
-    }
-
-    .np-arc-guidance-title {
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-.np-arc-top-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 12px;
-  margin-bottom: 20px;
-}
-
-.np-arc-card {
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  padding: 16px 18px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.np-arc-card-title {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #000000;
-}
-
-.np-arc-card-text {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 10px;
-}
-
-@media (max-width: 900px) {
-  .np-arc-top-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-
-    
-        /* =========================
-       G. RESPONSIVE
-       ========================= */
-    @media (max-width: 980px) {
-      .np-page {
-        padding: 32px 20px 48px 20px;
+      .container{
+        padding:12px calc(24px + env(safe-area-inset-left)) 44px calc(24px + env(safe-area-inset-right));
       }
-    }
 
-    @media (max-width: 900px) {
-      .np-ai-grid {
+      .headerTopRow{ flex-direction:column; gap:12px; }
+      .headerRight{ width:100%; justify-content:space-between; align-items:flex-start; }
+      .qrBox{ width:108px; }
+      .qrBox img{ width:84px; height:84px; }
+      .verifyText{ text-align:left; max-width:none; }
+
+      .brandLogo{ width:var(--logoW-m); }
+      .title{ font-size:32px; }
+      .subtitle{ font-size:16px; margin-top:18px; }
+
+      .tabs{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .tab{ padding:9px 10px; font-size:12px; }
+
+      .chartCanvasWrap{
+        height:var(--chartH-m);
+        min-height:var(--chartH-m);
+        max-height:var(--chartH-m);
+      }
+      .chartBox.donut .chartCanvasWrap{
+        height:var(--donutH-m);
+        min-height:var(--donutH-m);
+        max-height:var(--donutH-m);
+      }
+      .chartBox.radarBox .chartCanvasWrap{
+        height:var(--radarH-m);
+        min-height:var(--radarH-m);
+        max-height:var(--radarH-m);
+      }
+      .chartBox.gaugeBox .chartCanvasWrap{
+        height:var(--gaugeH-m);
+        min-height:var(--gaugeH-m);
+        max-height:var(--gaugeH-m);
+      }
+
+      .signatureBox .chartCanvasWrap{
+        max-width: var(--sig-m);
+        height: var(--sig-m);
+        min-height: var(--sig-m);
+        max-height: var(--sig-m);
+      }
+
+      /* Mobile: metaRow stacked */
+      .metaRow{
         grid-template-columns: 1fr;
+        gap:10px;
       }
 
-      .np-ai-submeta {
-        text-align: left;
-        margin-top: 4px;
-      }
-
-      .np-cff-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-fingerprint-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .np-cff-card.table-side {
-        margin-left: 0;
-      }
-
-      .np-arc-band-row,
-      .np-arc-strength-row {
-        grid-template-columns: 1fr;
-      }
-
-      /* 좁은 화면에서 Identity도 1열로 */
-      .np-ident-grid {
-        grid-template-columns: 1fr;
-      }
+      /* Mobile: hide QR block */
+      #qrBlock{ display:none !important; }
     }
-
-    /* =========================
-   H. 6. Identity Consistency Analysis
-   ========================= */
-
-.np-ident-section {
-  margin-top: 40px;
-}
-
-/* 상단 3개 카드 */
-.np-ident-top-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin-top: 12px;
-  margin-bottom: 20px;
-}
-
-.np-ident-top-card {
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  padding: 14px 16px;
-  font-size: 13px;
-  line-height: 1.45;
-}
-
-.np-ident-top-title {
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 4px;
-  color: #000000;
-}
-
-.np-ident-top-main {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: #000000;
-}
-
-.np-ident-top-sub {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-}
-
-/* 본문 좌우 2열 레이아웃 */
-.np-ident-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1.7fr;
-  gap: 16px;
-  margin-top: 4px;
-}
-
-.np-ident-left-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.np-ident-metric-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  row-gap: 8px;
-  margin-bottom: 10px;
-}
-
-.np-ident-metric-label {
-  font-size: 13px;
-  font-weight: 400;
-  margin-bottom: 4px;
-  color: #000000;
-}
-
-.np-ident-metric-main {
-  font-size: 18px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  color: #000000;
-}
-
-.np-ident-metric-sub {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-}
-
-/* 반원 게이지 영역 */
-.np-ident-gauge-wrap {
-  margin: 12px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.np-ident-gauge-svg {
-  width: 200px;
-  height: 110px;
-}
-
-/* Low / Medium / High 라벨 */
-.np-ident-gauge-label-row {
-  display: flex;
-  justify-content: space-between;
-  width: 200px;
-  margin-top: 4px;
-  font-size: 11px;
-  color: #6b7280;
-}
-
-.np-ident-bar-note {
-  font-size: 11px;
-  margin-top: 8px;
-}
-
-/* 오른쪽 텍스트 카드 */
-.np-ident-right-card {
-  border-radius: 10px;
-  padding: 14px 18px;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-/* Summary / Key indicators / Interpretation 제목들 */
-.np-ident-subtitle {
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #000000;
-}
-
-.np-ident-text {
-  font-size: 13px;
-  font-weight: 400;
-  color: #000000;
-  margin-bottom: 12px;
-}
-
-/* 반응형 */
-@media (max-width: 900px) {
-  .np-ident-top-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .np-ident-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-
   </style>
-
-
-  <!-- Chart.js for CFF radar -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
-  <div class="np-page">
-    <!-- HEADER -->
-    <div class="np-header-row">
-      <div class="np-left-header">
-        <img src="neuprint-logo.png" alt="NeuPrint Logo" class="np-logo" />
 
-        <div class="np-header-title-line1">
-          Neuprint Cognitive Forensics Engine v4.2.1
+  <!-- Header -->
+  <header class="topbar" id="topbar">
+    <div class="container">
+
+      <div class="headerTopRow">
+
+        <div class="headerLeft">
+          <div class="headerBrand">
+            <img class="brandLogo" src="./neuprint_logo.svg" alt="NeuPrint Logo" />
+          </div>
+
+          <div class="brandline">
+            <span>NeuPrint Cognitive Forensics Engine v1.1</span>
+          </div>
         </div>
-        <div class="np-header-title-main">
-          NeuPrint Integrated Analysis Report
+
+        <div class="headerRight rightMeta" id="qrBlock">
+          <div class="verifyText" id="verifyText">
+            This determination is structurally signed and referenceable.<br/>
+            <span id="verifyUrlText">https://neuprint.ai/verify</span><br/><br/>
+            QR code shown represents the verification anchor.<br/>
+            Verification ID : <span id="verifyIdText">NP-2025-0314-0007</span>
+          </div>
+          <div class="qrBox" title="QR image">
+            <img id="qrImg" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg" alt="QR placeholder">
+          </div>
         </div>
-        <div class="np-header-sub">
-          Integrated authorship, cognition, identity and HR-fit analysis
-        </div>
-        <div class="np-header-timestamp">
-          Analysis Timestamp : 2025-03-14 14:32:07 UTC
+
+      </div>
+
+      <div class="headerBelowRow">
+        <h1 class="title" id="heroTitle">Structural Reference for Human Reasoning and Agency</h1>
+        <p class="subtitle" id="heroDesc">
+          NeuPrint provides a decision-grade structural reference that identifies whether human reasoning and agency were retained under AI-assisted conditions.
+        </p>
+
+        <div class="metaRow">
+          <span class="chip">
+            <span class="chipLabel">Determination</span>
+            <span class="pill toneE" id="decisionPill">Human</span>
+          </span>
+
+          <span class="chip">
+            <span class="chipLabel">Confidence Index</span>
+            <span class="pill toneB" id="confidencePill">88%</span>
+          </span>
+
+          <span class="chip">
+            <span class="chipLabel">CFF Type</span>
+            <span class="pill toneC" id="cffTypePill">Reflective Explorer</span>
+          </span>
+
+          <span class="chip">
+            <span class="chipLabel">ARC level</span>
+            <span class="pill toneD" id="arcLevelPill">L4 Integrated</span>
+          </span>
+
+          <span class="chip">
+            <span class="chipLabel">Identity Continuity</span>
+            <span class="pill toneN" id="identityPill">Unknown</span>
+          </span>
         </div>
       </div>
 
-      <div class="np-verify-panel">
-        <div class="np-author-label">Author : Candidate 014-A</div>
+      <!-- Sticky navigation -->
+      <div class="tocWrap" aria-label="Table of contents">
+        <nav class="tabs" id="tabs">
+          <button class="tab active" data-target="tab-overview">1. Executive Summary</button>
+          <button class="tab" data-target="tab-authorship">2. Agency Control</button>
+          <button class="tab" data-target="tab-cff">3. Cognitive Fingerprint</button>
+          <button class="tab" data-target="tab-arc">4. Reasoning Capacity</button>
+          <button class="tab" data-target="tab-map">5. Cohort Positioning</button>
+          <button class="tab" data-target="tab-stability">6. Stability and Drift</button>
+          <button class="tab" data-target="tab-identity">7. Identity Continuity</button>
+          <button class="tab" data-target="tab-hr">8. Role Fit Signals</button>
+          <button class="tab" data-target="tab-metadata">9. Audit Metadata</button>
+        </nav>
+      </div>
 
-        <img src="ExampleQR.png" alt="NeuPrint QR Code" class="np-qr" />
+    </div>
+  </header>
 
-        <div class="np-verify-label">Verification ID : NP-2025-0314-0007</div>
-        <div class="np-verify-label">
-          To validate this report, visit https://neuprint.ai/verify
+  <div class="container">
+    <!-- 1. Executive Summary -->
+    <section id="tab-overview" class="grid">
+      <div class="card">
+
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">1. Executive Summary</div>
+          </div>
+
+          <div class="metrics">
+            <div class="metricBox">
+              <div class="metricLabel">Determination</div>
+              <div class="metricValue" id="mDecision">Human</div>
+              <div class="metricNote" id="mDecisionNote">Structural reasoning patterns remain internally governed.</div>
+            </div>
+            <div class="metricBox">
+              <div class="metricLabel">Confidence Index</div>
+              <div class="metricValue" id="mConfidence">0.88</div>
+              <div class="metricNote">Agreement across structural consistency and perturbation checks.</div>
+            </div>
+            <div class="metricBox">
+              <div class="metricLabel">Reasoning Capacity (ARC)</div>
+              <div class="metricValue" id="mArcMean">3.72</div>
+              <div class="metricNote" id="mArcPctNote">76% within reference reasoning cohorts.</div>
+            </div>
+            <div class="metricBox">
+              <div class="metricLabel">Decision Risk Band</div>
+              <div class="metricValue" id="mRiskBand">Low</div>
+              <div class="metricNote" id="mRiskNote">High structural reliability with low false-positive exposure.</div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Reasoning Context Summary</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="contentSummary">
+                This determination evaluates reasoning under AI-assisted writing conditions,
+                with emphasis on structural control rather than surface output.
+              </div>
+              <div class="kpiRow" id="topicTags"></div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Evidence Scope</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="evidenceScopeText">
+                This determination is based on a single-session structural snapshot.
+                Longitudinal continuity is assessed only when historical data is available.
+              </div>
+              <div class="kpiRow">
+                <span class="kpi">Evidence_scope : <span class="code" id="baselineMode">BASELINE_ONLY</span></span>
+                <span class="kpi">History_coverage: <span class="code" id="historyStatus">None</span></span>
+                <span class="kpi">Behavioral_signals: <span class="code" id="kpfStatus">N/A</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">Structural Evidence Overview</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox donut">
+              <div class="chartTitleText">Agency Distribution</div>
+              <div class="chartCanvasWrap"><canvas id="chartMix"></canvas></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Structural Confidence and Reliability Signals</div>
+              <div class="chartCanvasWrap"><canvas id="chartConfidence"></canvas></div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox">
+              <div class="chartTitleText">Reasoning Capacity Profile (ARC Dimensions)</div>
+              <div class="chartCanvasWrap"><canvas id="chartArcBarsMini"></canvas></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Cognitive Fingerprint Indicators (CFF Prime 8)</div>
+              <div class="chartCanvasWrap"><canvas id="chartCffBarsMini"></canvas></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. Agency Control -->
+    <section id="tab-authorship" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">2. Agency Control</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Determination Rationale</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="aiInterpretation">
+                Human. Pattern indicates deep reflective human in a stable context.
+              </div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">Agency_pattern : <span class="code" id="aiPatternLabel">Deep_reflective_human</span></span>
+                <span class="kpi">Reliability_band : <span class="code" id="aiReliability">HIGH</span></span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Agency Distribution</strong></div>
+              <div class="tiny muted" style="margin-top:6px">Percentages represent structural agency contribution, not stylistic mixture or surface-level usage.</div>
+              <div class="kpiRow" id="mixKpis"></div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox donut">
+              <div class="chartTitleText">Agency Distribution</div>
+              <div class="chartCanvasWrap"><canvas id="chartMix2"></canvas></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Structural Evidence Signals</div>
+              <div class="chartCanvasWrap"><canvas id="chartAuthSignals"></canvas></div>
+            </div>
+          </div>
+
         </div>
       </div>
+    </section>
+
+    <!-- 3. Cognitive Fingerprint (CFF) -->
+    <section id="tab-cff" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">3. Cognitive Fingerprint (CFF)</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Type Readout</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                Primary type is <strong id="cffPrimary">Reflective Explorer</strong>, secondary is <strong id="cffSecondary">Evidence Weaver</strong>.
+                Type confidence is <strong id="cffTypeConfidence">0.83</strong>.
+              </div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">KPF-Sim: <span class="code" id="cffKpfNote">N/A</span></span>
+                <span class="kpi">rule: excluded when N/A</span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Interpretation</strong></div>
+              <ul class="tiny muted" style="margin:18px 0 0 18px; line-height:1.6">
+                <li>HI and RDX are strong, consistent with dense self revision.</li>
+                <li>CTF is high, transitions show purposeful movement.</li>
+                <li>IFD is moderate, intent shifts remain controlled.</li>
+                <li>KPF is not available in text-only inputs.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox signatureBox" id="signatureBox">
+              <div class="chartTitleText">Signature Fingerprint</div>
+              <div class="chartCanvasWrap" id="signatureWrap">
+                <canvas id="signatureCanvas" aria-label="Signature fingerprint canvas"></canvas>
+              </div>
+              <div class="tiny muted" style="line-height:1.45" id="signatureNote">
+                The signature fingerprint visualizes normalized structural expression across CFF Prime 8 indicators. Rendering parameters are fixed to preserve cross-session comparability.
+              </div>
+            </div>
+
+            <div class="chartBox radarBox">
+              <div class="chartTitleText">CFF Radar</div>
+              <div class="chartCanvasWrap"><canvas id="chartCffRadar"></canvas></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px">
+            <div class="small"><strong>CFF Indicator Summary</strong></div>
+            <div style="margin-top:10px; overflow:auto; border:1px solid rgba(226,232,240,.85); border-radius:8px">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:120px">Code</th>
+                    <th>Indicator</th>
+                    <th style="width:140px">Score</th>
+                    <th style="width:160px">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="cffTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Reasoning Capacity (ARC) -->
+    <section id="tab-arc" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">4. Reasoning Capacity (ARC)</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>ARC Summary</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                Overall level is <strong id="arcLevel">L4 Integrated</strong>. Mean score is <strong id="arcMean">3.72</strong>.
+                Reliability index is <strong id="arcReliability">0.89</strong>.
+              </div>
+              <div class="kpiRow" style="margin-top:10px" id="arcKpis"></div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Coaching Focus</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="arcGuidance"></div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox">
+              <div class="chartTitleText">ARC Dimension Bars</div>
+              <div class="chartCanvasWrap"><canvas id="chartArcBars"></canvas></div>
+            </div>
+
+            <div class="chartBox radarBox">
+              <div class="chartTitleText">ARC Radar</div>
+              <div class="chartCanvasWrap"><canvas id="chartArcRadar"></canvas></div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px">
+            <div class="small"><strong>ARC Dimension Table</strong></div>
+            <div style="margin-top:10px; border:1px solid rgba(226,232,240,.85); border-radius:8px; overflow:auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:110px">Code</th>
+                    <th style="width:220px">Dimension</th>
+                    <th style="width:120px">Score</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody id="arcTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Cohort Positioning -->
+    <section id="tab-map" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">5. Cohort Positioning</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>What This Represents</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                The reasoning map places the sample in a learned space built from reference cohorts.
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Interpretation</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="mapInterpretation"></div>
+              <div class="kpiRow" style="margin-top:10px" id="mapKpis"></div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox">
+              <div class="chartTitleText">Structural Position Map</div>
+              <div class="chartCanvasWrap"><canvas id="chartMapScatter"></canvas></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Reference distance bands</div>
+              <div class="chartCanvasWrap"><canvas id="chartMapBands"></canvas></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Stability and Drift -->
+    <section id="tab-stability" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">6. Stability and Drift</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Baseline-only rule</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                Longitudinal stability is not asserted without historical data.
+              </div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">history_status: <span class="code" id="stHistoryStatus">None</span></span>
+                <span class="kpi">stability_index: <span class="code" id="stabilityIndex">None</span></span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>When History Is Available</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                Show type agency continuity, Structural drift direction, and Session-level variance bands.
+              </div>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox">
+              <div class="chartTitleText">Session Timeline</div>
+              <div class="chartCanvasWrap"><canvas id="chartStabilityLine"></canvas></div>
+            </div>
+
+            <!-- 2-6) Consistency Gauge: smaller, thinner, rounded, center 2 lines, legend below -->
+            <div class="chartBox gaugeBox">
+              <div class="chartTitleText">Consistency Gauge</div>
+              <div class="chartCanvasWrap"><canvas id="chartConsistencyGauge"></canvas></div>
+              <div class="gaugeLegend" id="legendConsistency"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Identity Continuity -->
+    <section id="tab-identity" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">7. Identity Continuity (Same-author signals)</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Identity Status</strong></div>
+              <div class="tiny muted" style="margin-top:6px">
+                Identity continuity is evaluated only when multiple sessions are present.
+              </div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">Identity_status: <span class="code" id="idStatus">Unknown</span></span>
+                <span class="kpi">Same_author_score: <span class="code" id="idScore">None</span></span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Signals used (when available)</strong></div>
+              <ul class="tiny muted" style="margin:8px 0 0 18px; line-height:1.6">
+                <li>Cross-session fingerprint similarity</li>
+                <li>ARC profile alignment</li>
+                <li>Transition pattern consistency</li>
+                <li>Behavioral edit signals (optional)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <!-- 2-6) Identity Gauge: smaller, thinner, rounded, center 2 lines, legend below -->
+            <div class="chartBox gaugeBox">
+              <div class="chartTitleText">Identity Gauge</div>
+              <div class="chartCanvasWrap"><canvas id="chartIdentityGauge"></canvas></div>
+              <div class="gaugeLegend" id="legendIdentity"></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Same-author components</div>
+              <div class="chartCanvasWrap"><canvas id="chartIdentityComponents"></canvas></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Role Fit Signals -->
+    <section id="tab-hr" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">8. Role Fit Signals</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Cognitive Style Summary</strong></div>
+              <div class="tiny muted" style="margin-top:6px" id="hrProfile"></div>
+              <div class="kpiRow" style="margin-top:10px" id="hrKpis"></div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Execution Coaching Focus</strong></div>
+              <ul class="tiny muted" style="margin:8px 0 0 18px; line-height:1.6">
+                <li>Milestone planning with visible checkpoints</li>
+                <li>Shared tracking and external reminders</li>
+                <li>Regular review of execution gaps, not only idea quality</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="twoCol">
+            <div class="chartBox">
+              <div class="chartTitleText">Job Domain Fit</div>
+              <div class="chartCanvasWrap"><canvas id="chartHrFit"></canvas></div>
+            </div>
+
+            <div class="chartBox">
+              <div class="chartTitleText">Coaching Targets (derived from ARC development indicators)</div>
+              <div class="chartCanvasWrap"><canvas id="chartHrCoach"></canvas></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Audit Metadata -->
+    <section id="tab-metadata" class="grid">
+      <div class="card">
+        <div class="sectionBlock">
+          <div class="cardHeader">
+            <div class="cardTitle">9. Audit Metadata</div>
+          </div>
+
+          <div class="twoCol">
+            <div class="panel">
+              <div class="small"><strong>Identifiers</strong></div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">Verication_ID: <span class="code" id="metaAssessmentId">NP-2025-0314-0007</span></span>
+                <span class="kpi">Language: <span class="code" id="metaLang">EN</span></span>
+                <span class="kpi">Generated_at_utc: <span class="code" id="metaTime">2025-03-14T10:22:11Z</span></span>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="small"><strong>Data availability flags</strong></div>
+              <div class="kpiRow" style="margin-top:10px">
+                <span class="kpi">History: <span class="code" id="metaHistory">None</span></span>
+                <span class="kpi">Behavioral_logs: <span class="code" id="metaEditLog">None</span></span>
+                <span class="kpi">Kpf: <span class="code" id="metaKpf">N/A</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:14px">
+            <div class="small"><strong>Structured Output</strong></div>
+            <div class="tiny muted" style="margin-top:6px" id="rawJsonNote">
+              This panel may be restricted in external or investor-facing views.
+            </div>
+            <pre id="rawJson" class="jsonBox"></pre>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div><strong>NeuPrint</strong> , Reference Layer for Human Reasoning and Agency</div>
+      <div>No cookies, no login, no persistence in this file.</div>
     </div>
 
-    <!-- 1. Overview Metrics -->
-    <section>
-      <div class="np-section-title-small">
-        1. Overview Metrics
-      </div>
-
-      <div class="np-metric-grid">
-        <article class="np-metric-card">
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-            Authorship Verification
-          </div>
-          <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-            Human
-          </div>
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-            Confidence 92%
-          </div>
-          <div style="font-size:11px; font-weight:500; line-height:1.6;">
-            Deep reflective pattern consistent with human-authored reference profiles.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-            ARC Reasoning Level
-          </div>
-          <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-            L4 · Integrated Reasoning
-          </div>
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-            ARC Reliability 0.89
-          </div>
-          <div style="font-size:11px; font-weight:500; line-height:1.6;">
-            Strong integration of interpretation, evaluation and multistep reasoning.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-            Identity Consistency
-          </div>
-          <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-            Same Author Likely
-          </div>
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-            Similarity Score 0.87
-          </div>
-          <div style="font-size:11px; font-weight:500; line-height:1.6;">
-            Stable CFF-Prime 8 pattern with low temporal drift across samples.
-          </div>
-        </article>
-
-        <article class="np-metric-card">
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:4px;">
-            HR Role Recommendation
-          </div>
-          <div style="font-size:18px; font-weight:700; line-height:1.25; margin-top:6px; margin-bottom:6px; color:#000000;">
-            Strategy · Analysis · Policy
-          </div>
-          <div style="font-size:13px; font-weight:500; line-height:1.25; margin-bottom:8px; color:#000000;">
-            Fit Reliability 0.82
-          </div>
-          <div style="font-size:11px; font-weight:500; line-height:1.6;">
-            Cognitive pattern aligned with analytical, strategic and policy-oriented tasks.
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 2. Content Summary -->
-    <section>
-      <div class="np-section-title-row">
-        <div class="np-section-title">
-          2. Content Summary
-        </div>
-        <div class="np-meta-inline">
-          Word : 486 / Sentence : 22 / Paragraphs : 3
-        </div>
-      </div>
-
-      <div class="np-summary-container">
-        <div class="np-label">Prompt :</div>
-        <div class="np-text" style="color:#000000;">
-          Should schools allow AI-assisted writing in formal assessments?
-        </div>
-
-        <div class="np-label">Summary :</div>
-        <div class="np-text" style="color:#000000;">
-          This essay examines whether schools should allow AI assisted writing in formal assessments.
-          The writer explains how AI can improve surface quality while making fairness and genuine
-          thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria
-          and conditions for transparent and accountable AI use.
-        </div>
-
-        <div class="np-tag-list">
-          <span class="np-tag">AI assisted writing</span>
-          <span class="np-tag">Fair assessment</span>
-          <span class="np-tag">Student agency</span>
-          <span class="np-tag">School policy</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. AI Usage Classification -->
-    <section class="np-ai-section">
-      <div class="np-ai-title-row">
-        <div class="np-ai-title">3. AI Usage Classification</div>
-        <div class="np-ai-submeta">
-          Human (Confidence 88%)
-        </div>
-      </div>
-
-      <div class="np-ai-grid">
-        <!-- 왼쪽: Human / Hybrid / AI Mix -->
-        <article class="np-ai-card">
-          <div class="np-ai-card-title">Human / Hybrid / AI Mix</div>
-
-          <div class="np-ai-bar-wrap">
-            <div class="np-ai-bar-label" style="color:#000000;">Classification share</div>
-
-            <div class="np-ai-bar">
-              <span class="np-ai-bar-text">Human 82%</span>
-
-              <div class="np-ai-bar-seg np-ai-bar-human" style="width:82%;"></div>
-              <div class="np-ai-bar-seg np-ai-bar-hybrid" style="width:9%;"></div>
-              <div class="np-ai-bar-seg np-ai-bar-ai" style="width:9%;"></div>
-            </div>
-
-            <div class="np-ai-legend">
-              <div class="np-ai-legend-item">
-                <span class="np-ai-legend-swatch" style="background:#fdaa1e;"></span>
-                Human 82%
-              </div>
-              <div class="np-ai-legend-item">
-                <span class="np-ai-legend-swatch" style="background:#e5e5e5;"></span>
-                Hybrid 9%
-              </div>
-              <div class="np-ai-legend-item">
-                <span class="np-ai-legend-swatch" style="background:#47b8e0;"></span>
-                AI 9%
-              </div>
-            </div>
-          </div>
-
-          <ul class="np-ai-note-list">
-            <li>Human · non-linear reasoning with self-revision traces</li>
-            <li>Hybrid · local phrasing support and polishing</li>
-            <li>AI · fully AI-generated outcome is unlikely</li>
-          </ul>
-        </article>
-
-        <!-- 오른쪽: Decision Summary -->
-        <article class="np-ai-card">
-          <div class="np-ai-card-title">Decision Summary</div>
-          <p class="np-ai-card-text" style="color:#000000;">
-            Final decision is Human. Pattern label is deep reflective human in a stable context.
-            A confidence of 88% indicates that the classifier produces the same decision under small
-            perturbations of the text. The sample sits within the top 22 percentile of the human
-            reference group for the same grade band.
-          </p>
-
-          <div class="np-ai-tag-list">
-            <span class="np-tag">Pattern deep_reflective_human</span>
-            <span class="np-tag">Reliability band high</span>
-            <span class="np-tag">Interpretation Human-led with light AI phrasing support</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- 4. Cognitive Fingerprint Profile (CFF) -->
-    <div class="np-cff-title-outside">4. Cognitive Fingerprint Profile (CFF)</div>
-
-
-           <!-- 상단 3개 요약 카드 (Identity/ARC와 동일 스타일) -->
-      <div class="np-ident-top-grid">
-
-        <!-- 카드 1: Fingerprint type -->
-        <article class="np-ident-top-card">
-          <div class="np-ident-top-title">Fingerprint type</div>
-          <div class="np-ident-top-main">Reflective Explorer</div>
-          <div class="np-ident-top-sub">
-            Confidence&nbsp;83%<br>
-            High self-revision density with a recognisable human rhythm.
-          </div>
-        </article>
-
-        <!-- 카드 2: Secondary tendency -->
-        <article class="np-ident-top-card">
-          <div class="np-ident-top-title">Secondary tendency</div>
-          <div class="np-ident-top-main">Evidence Weaver</div>
-          <div class="np-ident-top-sub">
-            Moves between associative exploration and structured evidence weaving
-            when building arguments.
-          </div>
-        </article>
-
-        <!-- 카드 3: Pattern summary -->
-        <article class="np-ident-top-card">
-          <div class="np-ident-top-title">Pattern summary</div>
-          <div class="np-ident-top-main">Human-leaning hybrid profile</div>
-          <div class="np-ident-top-sub">
-            Reflective Explorer base pattern with Evidence Weaver segments,
-            dense human-like revisions, and varied evidence types.
-          </div>
-        </article>
-
-      </div>
-    <section class="np-cff-section">
-      <!-- 하단: CFF Pattern Interpretation 텍스트 (전체 폭) -->
-      <div style="margin-top:16px;">
-        <div class="np-cff-interpret-title">CFF Pattern Interpretation</div>
-
-        <p class="np-cff-fp-desc">
-          CFF decomposes the essay into eight indicators that capture argument structure,
-          transitions, revision depth and diversity of evidence.
-        </p>
-        <p class="np-cff-fp-desc">
-          In this profile, high HI together with RDX is typical of a Reflective Explorer pattern,
-          where self-revision is dense and the human rhythm is recognisable. Combinations of lower
-          HI with higher CTF and RMD, when they appear, tend to move closer to smoother, more
-          machine-like patterns that are characteristic of the Evidence Weaver side of the profile.
-        </p>
-      </div>
-
-
-      <div class="np-cff-grid">
-        <!-- 왼쪽: 레이다 차트 -->
-        <article class="np-cff-card">
-          <div class="np-cff-card-title-row">
-            <div class="np-cff-card-title">CFF Radar</div>
-            <div class="np-cff-pill">
-              AAS · CTF · RMD · RDX · EDS · HI · IFD · KPF
-            </div>
-          </div>
-
-          <div class="np-cff-chart-wrap">
-            <canvas id="cffRadarChart" aria-label="CFF Radar Chart"></canvas>
-          </div>
-
-          <div class="np-cff-legend">
-            <span class="np-cff-legend-swatch"></span>
-            <span>Filled blue area, CFF profile score (0~1 scale)</span>
-          </div>
-
-          <div class="np-cff-chart-caption">
-            The blue polygon and fill represent the overall cognitive fingerprint pattern.
-            Larger distance from the center indicates stronger expression of that indicator
-            in the current sample.
-          </div>
-        </article>
-
-        <!-- 오른쪽: CFF Indicators 테이블 -->
-        <article class="np-cff-card table-side">
-          <div class="np-cff-card-title-row">
-            <div class="np-cff-card-title">CFF Indicators</div>
-            <div class="np-cff-pill">Score range 0.00 to 1.00</div>
-          </div>
-
-          <div class="np-cff-table-wrap">
-            <table class="np-cff-table">
-              <thead>
-                <tr>
-                  <th style="width:60px;">Code</th>
-                  <th>Indicator</th>
-                  <th style="width:70px;">Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="np-cff-code">AAS</span></td>
-                  <td>Argument Architecture</td>
-                  <td>0.63</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">CTF</span></td>
-                  <td>Cognitive Transition</td>
-                  <td>0.71</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">RMD</span></td>
-                  <td>Reasoning Momentum</td>
-                  <td>0.58</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">RDX</span></td>
-                  <td>Revision Depth</td>
-                  <td>0.74</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">EDS</span></td>
-                  <td>Evidence Diversity</td>
-                  <td>0.62</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">HI</span></td>
-                  <td>Human Rhythm</td>
-                  <td>0.79</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">IFD</span></td>
-                  <td>Intent Friction</td>
-                  <td>0.33</td>
-                </tr>
-                <tr>
-                  <td><span class="np-cff-code">KPF</span></td>
-                  <td>Keystroke Pattern</td>
-                  <td>0.15</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </article>
-      </div>
-    </section>
-
-<!-- 5. ARC Reasoning Analysis -->
-<section class="np-arc-section" style="margin-top:40px;">
-  <div class="np-section-title-row">
-    <div class="np-section-title">5. ARC Reasoning Analysis</div>
   </div>
+ 
+<script>
+  (function(){
+    "use strict";
 
-  <!-- 상단 3카드: Identity 스타일로 통일 -->
-  <div class="np-ident-top-grid">
+    /* =========================================================
+       DATA BLOCK (REPORT)
+    ========================================================= */
+    const REPORT = {
+      engine_version:"1.1",
+      mode:"EDUCATION",
+      assessment_id:"NP-2025-0314-0007",
+      input_language:"EN",
+      generated_at_utc:"2025-03-14T10:22:11Z",
+      baseline_mode:"BASELINE_ONLY",
+      history_status:"None",
+      hero:{
+        title:"Structural Reference for Human Reasoning and Agency",
+        description:"NeuPrint provides a decision-grade structural reference that identifies whether human reasoning and agency were retained under AI-assisted conditions."
+      },
+      verify:{
+        url:"https://neuprint.ai/verify",
+        id:"NP-2025-0314-0007",
+        qr_src:"https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+      },
+      content_summary:"(No report provided) Connect window.report to render real data.",
+      topic_tags:["AI-assisted writing","Assessment fairness","Learner agency","Institutional policy"],
+      ai:{
+        final_classification:"Human",
+        confidence_index:0.88,
+        interpretation:"Human-led reasoning with stable structural traces",
+        pattern_label:"deep_reflective_human",
+        detection_reliability_band:"HIGH",
+        mix_ratio:{ human:0.82, hybrid:0.09, ai:0.09 },
+        signal_contributions:{
+          structural_variance:0.22,
+          human_rhythm_index:0.18,
+          transition_flow:0.15,
+          revision_depth:0.12
+        }
+      },
+      cff:{
+        primary_type:"Reflective Explorer",
+        secondary_tendency:"Evidence Weaver",
+        type_confidence:0.83,
+        indicators:{ AAS:0.63, CTF:0.71, RMD:0.58, RDX:0.74, EDS:0.62, HI:0.79, IFD:0.33, KPF_SIM:null }
+      },
+      arc:{
+        overall_level:"L4",
+        overall_label:"Integrated",
+        mean_score:3.72,
+        percentile:0.76,
+        reliability:0.89,
+        guidance:"Focus on counterargument handling and explicit evidence chaining.",
+        strengths:["A2","A4"],
+        growth_targets:["A6","A7"],
+        dimensions:[
+          { code:"A1", name:"Claim clarity", score:3.8, comment:"Clear primary claim." },
+          { code:"A2", name:"Structure", score:4.1, comment:"Good sectioning and flow." },
+          { code:"A3", name:"Evidence use", score:3.5, comment:"Adequate evidence variety." },
+          { code:"A4", name:"Counterarguments", score:3.4, comment:"Some counter handling." },
+          { code:"A5", name:"Causal reasoning", score:3.7, comment:"Mostly coherent." },
+          { code:"A6", name:"Tradeoffs", score:3.2, comment:"Tradeoffs could be sharper." },
+          { code:"A7", name:"Constraints", score:3.3, comment:"Constraints noted but thin." },
+          { code:"A8", name:"Synthesis", score:3.6, comment:"Balanced close." }
+        ]
+      },
+      reasoning_map:{
+        note:"Current point is near the human cluster center.",
+        distance_to_human_center_sd:0.35,
+        current:{ x:0.12, y:-0.08 },
+        clusters:{
+          human:[{x:-0.2,y:0.1},{x:0.1,y:-0.1},{x:0.3,y:0.05}],
+          hybrid:[{x:0.5,y:0.4},{x:0.4,y:0.2},{x:0.6,y:0.3}],
+          ai:[{x:-0.6,y:-0.5},{x:-0.4,y:-0.6},{x:-0.5,y:-0.4}]
+        }
+      },
+      stability:{
+        history_status:"None",
+        type_consistency:0.62,
+        sessions:["S1","S2","S3","S4"],
+        arc_level_numeric:[3.2,3.4,3.5,3.7]
+      },
+      identity:{
+        status:"Unknown",
+        same_author_score:0.55,
+        components:{ cff_similarity:0.62, arc_alignment:0.48, transition_consistency:0.57 }
+      },
+      hr:{
+        cognitive_style:"Reflective Explorer, structured but exploratory",
+        recommended_roles:["Analyst","Research","Strategy"],
+        fit_scores:{ Analyst:0.78, Research:0.74, Strategy:0.70 },
+        coaching_targets:{ planning:0.62, execution:0.58, review:0.55 }
+      }
+    };
 
-    <!-- 카드 1: Primary cognitive band -->
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">Primary cognitive band</div>
-      <div class="np-ident-top-main">L4 Integrated Reasoning</div>
-      <div class="np-ident-top-sub">
-        ARC mean score 3.72, about the 76th percentile in the validation cohort.
-      </div>
-    </article>
+    /* =========================================================
+       Utilities
+    ========================================================= */
+    function $(id){ return document.getElementById(id); }
+    function setText(id, value){
+      const el = $(id);
+      if(el) el.textContent = String(value);
+    }
+    function clamp01(x){
+      const n = Number(x);
+      if(!Number.isFinite(n)) return 0;
+      return Math.max(0, Math.min(1, n));
+    }
+    function pct01ToPctInt(x){
+      return Math.round(clamp01(x) * 100);
+    }
+    function formatPct01(x){
+      return pct01ToPctInt(x) + "%";
+    }
+    function fmt2(x){
+      const n = Number(x);
+      if(!Number.isFinite(n)) return "0.00";
+      return n.toFixed(2);
+    }
 
-    <!-- 카드 2: ARC Reliability -->
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">ARC model reliability</div>
-      <div class="np-ident-top-main">0.89</div>
-      <div class="np-ident-top-sub">
-        Internal consistency, rubric alignment checked at validation.
-      </div>
-    </article>
+    function riskBandFromReliability(band){
+      if(band==="HIGH") return { label:"Low", note:"High reliability band, low false-positive risk." };
+      if(band==="MEDIUM") return { label:"Medium", note:"Medium reliability band, review recommended." };
+      if(band==="LOW") return { label:"High", note:"Low reliability band, do not use alone." };
+      return { label:"Unknown", note:"Reliability band unavailable." };
+    }
 
-    <!-- 카드 3: Strength + Growth (pill chips) -->
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">Strength dimensions</div>
+    function getReportOverride(){
+      try{
+        if(typeof window.report === "function"){
+          const r = window.report();
+          return r || null;
+        }
+        if(typeof window.report === "object" && window.report){
+          return window.report;
+        }
+        return null;
+      }catch(e){
+        console.error("window.report load error:", e);
+        return null;
+      }
+    }
 
-      <!-- Strength pills -->
-      <div class="np-tag-list" style="margin-top:6px; margin-bottom:10px;">
-        <span class="np-tag">A1 Interpretation</span>
-        <span class="np-tag">A4 Inference</span>
-        <span class="np-tag">A7 Value reasoning</span>
-      </div>
+    const report = getReportOverride() || REPORT;
 
-      <div class="np-ident-top-title" style="margin-top:10px;">Growth targets</div>
+    /* =========================================================
+       Theme tokens to JS (from CSS)
+    ========================================================= */
+    const css = getComputedStyle(document.documentElement);
+    const THEME = {
+      text: css.getPropertyValue("--text").trim(),
+      accentA: css.getPropertyValue("--accentA").trim(),
+      accentB: css.getPropertyValue("--accentB").trim(),
+      accentC: css.getPropertyValue("--accentC").trim(),
+      accentD: css.getPropertyValue("--accentD").trim(),
+      accentE: css.getPropertyValue("--accentE").trim(),
+      pillB: css.getPropertyValue("--pillB").trim(),
+      pillD: css.getPropertyValue("--pillD").trim(),
+      pillN: css.getPropertyValue("--pillN").trim()  /* chip gray (요청) */
+    };
 
-      <!-- Growth pills -->
-      <div class="np-tag-list" style="margin-top:6px;">
-        <span class="np-tag">A5 Explanation</span>
-        <span class="np-tag">A6 Self regulation</span>
-      </div>
-    </article>
+    const CHART_ANIM_MS = parseInt(css.getPropertyValue("--chartAnimDuration"), 10) || 1400;
+    const CHART_DELAY_MS = parseInt(css.getPropertyValue("--chartAnimDelay"), 10) || 180;
 
-  </div>
+    if(window.Chart){
+      Chart.defaults.font.family =
+        '"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+      Chart.defaults.font.size = 11;
+      Chart.defaults.color = THEME.text || "#0f172a";
+    }
 
-  <!-- 설명 문단 유지 -->
-  <p class="np-arc-desc" style="margin-top:16px;">
-    ARC scores describe how the writer interprets, analyses, evaluates, reasons,
-    explains, regulates, and varies perspective across the essay. Strengths are observed
-    in interpretation, inference, and value reasoning. Explanation depth and
-    self-regulation remain the main growth targets for coaching and curriculum decisions.
-  </p>
+    /* =========================================================
+       Plugin helpers (white background label boxes)
+    ========================================================= */
+    function roundRectPath(ctx, x, y, w, h, r){
+      const rr = Math.max(0, Math.min(r, Math.min(w,h)/2));
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
 
-      <!-- ARC 테이블 -->
-      <div class="np-arc-table-wrap">
-        <table class="np-arc-table">
-          <thead>
-            <tr>
-              <th>Code</th>
-              <th>Dimension</th>
-              <th>Score</th>
-              <th>Comment</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>A1</td>
-              <td>Interpretation</td>
-              <td>3.9</td>
-              <td>
-                Accurately restates the prompt and clarifies what is being judged in AI assisted writing.
-              </td>
-            </tr>
-            <tr>
-              <td>A2</td>
-              <td>Analysis</td>
-              <td>3.6</td>
-              <td>
-                Identifies key variables such as fairness, effort, and transparency, but could separate them more sharply.
-              </td>
-            </tr>
-            <tr>
-              <td>A3</td>
-              <td>Evaluation</td>
-              <td>3.4</td>
-              <td>
-                Weighs both benefits and risks, though explicit criteria for a good policy remain partly implicit.
-              </td>
-            </tr>
-            <tr>
-              <td>A4</td>
-              <td>Inference</td>
-              <td>3.9</td>
-              <td>
-                Builds conditional reasoning such as if AI is allowed under these conditions, then outcomes shift in the following way.
-              </td>
-            </tr>
-            <tr>
-              <td>A5</td>
-              <td>Explanation</td>
-              <td>3.3</td>
-              <td>
-                Gives reasons, yet some links between claims and examples could be spelled out more concretely.
-              </td>
-            </tr>
-            <tr>
-              <td>A6</td>
-              <td>Self regulation</td>
-              <td>3.1</td>
-              <td>
-                Recognises own uncertainty and sets personal rules, but does not fully revisit earlier assumptions at the end.
-              </td>
-            </tr>
-            <tr>
-              <td>A7</td>
-              <td>Value reasoning</td>
-              <td>3.8</td>
-              <td>
-                Connects the issue to student agency, trust, and educational purpose beyond simple grades.
-              </td>
-            </tr>
-            <tr>
-              <td>A8</td>
-              <td>Cognitive diversity</td>
-              <td>3.5</td>
-              <td>
-                Touches perspectives of students, teachers, and institutions, though counter examples could be richer.
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    function drawLabelBox(ctx, x, y, text, opt){
+      const padX = (opt && opt.padX != null) ? opt.padX : 6;
+      const padY = (opt && opt.padY != null) ? opt.padY : 3;
+      const radius = (opt && opt.radius != null) ? opt.radius : 6;
+      const font = (opt && opt.font) ? opt.font : "500 11px Open Sans, system-ui, sans-serif";
+      const textColor = (opt && opt.textColor) ? opt.textColor : "#0f172a";
+      const bg = (opt && opt.bg) ? opt.bg : "#ffffff";
+      const stroke = (opt && opt.stroke) ? opt.stroke : "rgba(226,232,240,.95)";
+      const centerX = !!(opt && opt.centerX);
 
-      <!-- Guidance 박스 -->
-      <div class="np-arc-guidance-box">
-        <div class="np-arc-guidance-title">ARC based development guidance</div>
-        <div>
-          Before writing the conclusion, ask the student to write one line that states the weakest part of
-          their reasoning, then add a sentence that directly strengthens that weak point. This routine targets
-          the A5 Explanation and A6 Self regulation dimensions and can be implemented as a ten minute coaching
-          habit after each essay.
-        </div>
-      </div>
-    </section>
+      ctx.save();
+      ctx.font = font;
+      ctx.textBaseline = "middle";
 
-<!-- 6. Identity Consistency Analysis -->
-<section class="np-ident-section">
-  <div class="np-section-title-row">
-    <div class="np-section-title">6. Identity Consistency Analysis</div>
-  </div>
+      const m = ctx.measureText(text);
+      const w = Math.ceil(m.width + padX*2);
+      const h = Math.ceil(12 + padY*2);
 
-  <!-- 상단 3개 카드 -->
-  <div class="np-ident-top-grid">
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">CFF-Prime 8 pattern</div>
-      <div class="np-ident-top-main">Human associative profile</div>
-      <div class="np-ident-top-sub">
-        Strong alignment with human associative reasoning, high evidence diversity,  
-        and stable revision depth.
-      </div>
-    </article>
+      const rx = centerX ? Math.round(x - w/2) : x;
 
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">TPS-H (temporal stability)</div>
-      <div class="np-ident-top-main">0.91</div>
-      <div class="np-ident-top-sub">
-        Stable across three segments with consistent linguistic rhythm and revision density.
-      </div>
-    </article>
+      roundRectPath(ctx, rx, y, w, h, radius);
+      ctx.fillStyle = bg;
+      ctx.fill();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
+/*    ctx.stroke(); */
 
-    <article class="np-ident-top-card">
-      <div class="np-ident-top-title">Anomalies or inconsistencies</div>
-      <div class="np-ident-top-main">None observed</div>
-      <div class="np-ident-top-sub">
-        No abnormal shifts in pattern, no abrupt style breaks relative to reference samples.
-      </div>
-    </article>
-  </div>
+      ctx.fillStyle = textColor;
+      ctx.fillText(text, rx + padX, y + h/2);
 
-  <!-- 하단 2열: 왼쪽 게이지 / 오른쪽 설명 -->
-  <div class="np-ident-grid">
-    <!-- 왼쪽: 지표 + 반원 게이지 -->
-    <article class="np-ident-left-card">
-      <div class="np-ident-metric-row">
-        <div>
-          <div class="np-ident-metric-label">Identity Consistency</div>
-          <div class="np-ident-metric-main">Same Author Likely</div>
-          <div class="np-ident-metric-sub">
-            Similarity score 0.87, 92th percentile among validated same-author pairs.
-          </div>
-        </div>
-      </div>
+      ctx.restore();
+      return { w, h };
+    }
 
-      <div class="np-ident-gauge-wrap">
-        <!-- 반원 게이지 (0 ~ 180도, 값 0.87 → 156.6도 부근) -->
-        <svg viewBox="0 0 200 110" class="np-ident-gauge-svg">
-          <!-- 트랙 반원 -->
-          <path d="M 10 100 A 90 90 0 0 1 190 100"
-                fill="none"
-                stroke="#e5e7eb"
-                stroke-width="12" />
+    /* =========================================================
+       2-1) Donut center text plugin (굵기 조정 + yOffset 지원)
+    ========================================================= */
+    const centerTextPlugin = {
+      id:"centerTextPlugin",
+      afterDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.centerText) || null;
+        if(!opts) return;
 
-          <!-- 색상 반원 (왼쪽 빨강 → 중간 주황 → 오른쪽 초록 느낌) -->
-          <defs>
-            <linearGradient id="identGaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#f97373" />
-              <stop offset="50%" stop-color="#facc6b" />
-              <stop offset="100%" stop-color="#4ade80" />
-            </linearGradient>
-          </defs>
+        const ctx = chart.ctx;
+        const meta = chart.getDatasetMeta(0);
+        if(!meta || !meta.data || !meta.data.length) return;
 
-          <!-- 값에 해당하는 호 (0.87 * 180 ≒ 157도) -->
-          <!-- 각도 180도 → x=10, y=100 / 0도 → x=190, y=100 기준 -->
-          <!-- 여기서는 단순히 0~180도 전체를 컬러로 채우고, 바늘로 0.87 위치를 강조 -->
-          <path d="M 10 100 A 90 90 0 0 1 190 100"
-                fill="none"
-                stroke="url(#identGaugeGrad)"
-                stroke-width="12" />
+        const arc = meta.data[0];
+        const x = arc.x;
+        const y = arc.y;
 
-          <!-- 바늘: 0.87 * 180 = 156.6도 근처 -->
-          <!-- 중심점 (100,100), 반지름 80 -->
-          <!-- 각도 180도 기준 좌→우, 각도 0도 기준 우측,  
-               여기서는 180도 기준으로 시계 반대 방향: angle = 180 - 0.87*180 -->
-          <line id="ident-needle"
-                x1="100" y1="100"
-                x2="33" y2="118"
-                stroke="#111827"
-                stroke-width="3"
-                stroke-linecap="round" />
+        const top = String(opts.top || "");
+        const bottom = String(opts.bottom || "");
+        const yOffset = Number(opts.yOffset || 0);
 
-          <!-- 바늘 중심 원 -->
-          <circle cx="100" cy="100" r="4" fill="#111827" />
-        </svg>
+        const topFont = opts.topFont || "600 16px Open Sans, system-ui, sans-serif";   /* 덜 굵게 */
+        const bottomFont = opts.bottomFont || "600 16px Open Sans, system-ui, sans-serif"; /* 덜 굵게 */
 
-        <!-- Low / Medium / High 라벨 -->
-        <div class="np-ident-gauge-label-row">
-          <span>Low</span>
-          <span>Medium</span>
-          <span>High</span>
-        </div>
-      </div>
+        ctx.save();
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
-      <div class="np-ident-bar-note">
-        The gauge indicates how this match compares with known same-author and different-author pairs
-        in the reference dataset.
-      </div>
-    </article>
+        ctx.fillStyle = THEME.text || "#0f172a";
+        ctx.font = topFont;
+        ctx.fillText(top, x, y - 8 + yOffset);
 
-    <!-- 오른쪽: Summary + Interpretation -->
-    <article class="np-ident-right-card">
-      <div class="np-ident-subtitle">Summary</div>
-      <p class="np-ident-text">
-        The target sample shows a reasoning pattern, linguistic rhythm, and CFF-Prime 8 distribution
-        that are closely aligned with the reference author profile. The similarity score of
-        0.87 places this match in the upper range typically observed for confirmed
-        same-author pairs in validation cohorts.
-      </p>
+        ctx.font = bottomFont;
+        ctx.fillText(bottom, x, y + 12 + yOffset);
 
-      <div class="np-ident-subtitle">Interpretation and limits</div>
-      <p class="np-ident-text">
-        Overall, the pattern is consistent with a high likelihood of same authorship,
-        given the proximity to known same-author distributions and the stability of the cognitive
-        fingerprint over time. At the same time, this is a probabilistic estimate
-        rather than an absolute determination, and intra-author variation or context effects may
-        still influence the match score. For any academic, administrative, or legal use, this result
-        should be interpreted alongside other independent sources of evidence.
-      </p>
-    </article>
-  </div>
-</section>
+        ctx.restore();
+      }
+    };
+
+    /* =========================================================
+       2-2) Bar value labels (세로: 바 중앙 정렬로 수정)
+    ========================================================= */
+    const barValueLabelsPlugin = {
+      id:"barValueLabelsPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.barValueLabels) || null;
+        if(!opts) return;
+
+        const ctx = chart.ctx;
+        const indexAxis = (chart.options && chart.options.indexAxis) || "x";
+        const fmt = opts.format || "float2";
+        const color = opts.textColor || (THEME.text || "#0f172a");
+
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 0;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || meta.hidden) return;
+
+        const data = chart.data.datasets[dsIndex].data || [];
+        ctx.save();
+
+        for(let i=0;i<meta.data.length;i++){
+          const el = meta.data[i];
+          const v = data[i];
+          if(v == null) continue;
+
+          let text = "";
+          if(fmt === "pct"){
+            text = Math.round(Number(v)) + "%";
+          }else if(fmt === "float1"){
+            text = Number(v).toFixed(1);
+          }else if(fmt === "float2"){
+            text = Number(v).toFixed(2);
+          }else{
+            text = String(v);
+          }
+
+          if(indexAxis === "y"){
+            /* 가로 바: 기존대로 오른쪽 */
+            const x = el.x + 8;
+            const y = el.y - 10;
+            drawLabelBox(ctx, x, y, text, { textColor: color, bg:"#fff", stroke:"rgba(226,232,240,.95)", radius:6 });
+          }else{
+            /* 세로 바: 바의 중앙에 오도록 centerX 사용 */
+            const x = el.x;
+            const y = el.y - 24;
+            drawLabelBox(ctx, x, y, text, {
+              textColor: color,
+              bg:"#fff",
+              stroke:"rgba(226,232,240,.95)",
+              radius:6,
+              centerX:true
+            });
+          }
+        }
+
+        ctx.restore();
+      }
+    };
+
+    /* =========================================================
+       2-3) Radar value labels
+       - 값만 출력
+       - point label보다 더 바깥쪽으로 (outV 확대 + radial offset)
+    ========================================================= */
+    const radarValueLabelsPlugin = {
+      id:"radarValueLabelsPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.radarValueLabels) || null;
+        if(!opts) return;
+
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 0;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || meta.hidden) return;
+
+        const scale = chart.scales && chart.scales.r;
+        if(!scale) return;
+
+        const labels = chart.data.labels || [];
+        const values = chart.data.datasets[dsIndex].data || [];
+
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = "700 10px Open Sans, system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        const maxV = (typeof scale.max === "number") ? scale.max : 1;
+
+        /* 더 멀리: 1.15 (기존 1.06보다 바깥쪽) */
+        const outV = maxV * (Number(opts.outFactor || 1.15));
+        const extraPx = Number(opts.extraPx || 10); /* 라벨 위치보다 더 멀어지게 */
+
+        for(let i=0;i<labels.length;i++){
+          const v = Number(values[i] ?? 0);
+
+          /* 값만 표시 */
+          const txt = fmt2(v);
+
+          const pt = scale.getPointPositionForValue(i, outV);
+
+          /* 중심에서 바깥 방향으로 extraPx 더 이동 */
+          const cx = scale.xCenter;
+          const cy = scale.yCenter;
+          const dx = pt.x - cx;
+          const dy = pt.y - cy;
+          const len = Math.hypot(dx,dy) || 1;
+          const ox = pt.x + (dx/len)*extraPx;
+          const oy = pt.y + (dy/len)*extraPx;
+
+          drawLabelBox(ctx, ox, oy - 8, txt, {
+            textColor: THEME.text || "#0f172a",
+            bg:"#fff",
+            stroke:"rgba(226,232,240,.95)",
+            radius:6,
+            padX:6,
+            padY:3,
+            font:"700 10px Open Sans, system-ui, sans-serif",
+            centerX:true
+          });
+        }
+
+        ctx.restore();
+      }
+    };
+
+    /* =========================================================
+       2-4) Pulsing ring animation for Structural Position Map (3 rings, 가속감)
+    ========================================================= */
+    const pulseCurrentPointPlugin = {
+      id:"pulseCurrentPointPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.pulseCurrentPoint) || null;
+        if(!opts) return;
+
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 3;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || meta.hidden || !meta.data || !meta.data.length) return;
+
+        const point = meta.data[0];
+        if(!point) return;
+
+        const ctx = chart.ctx;
+        const now = performance.now();
+
+        if(!chart.$pulse){
+          chart.$pulse = { start: now, raf: null };
+        }
+
+        /* 속도: period 1000ms, 3개 링이 서로 1/3씩 위상차 */
+        const period = Number(opts.periodMs || 50);
+        const t = (now - chart.$pulse.start) % period;
+        const base = t / period;
+
+        const baseR = Number(opts.baseR || 8);
+        const maxR = Number(opts.maxR || 26);
+        const rings = 3;
+
+// 삭제하거나 안 써도 됨
+// function easeIn(k){ return k*k; }
+
+for(let j=0;j<rings;j++){
+  const k0 = (base + j / rings) % 1;
+
+  // ✅ 일정 속도(선형)
+  const r = baseR + (maxR - baseR) * k0;
+
+  const alpha = 0.22 * (1 - k0);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(point.x, point.y, r, 0, Math.PI*2);
+  ctx.strokeStyle = "rgba(249,123,23," + alpha.toFixed(3) + ")";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+}
 
 
-
-  
-  <!-- Chart.js 초기화 -->
-  <script>
-    const cffCtx = document.getElementById("cffRadarChart");
-
-    if (cffCtx) {
-      new Chart(cffCtx, {
-        type: "radar",
-        data: {
-          labels: ["AAS", "CTF", "RMD", "RDX", "EDS", "HI", "IFD", "KPF"],
-          datasets: [
-            {
-              label: "CFF Profile",
-              data: [0.63, 0.71, 0.58, 0.74, 0.62, 0.79, 0.33, 0.15],
-              borderColor: "#47b8e0",
-              borderWidth: 2,
-              pointBackgroundColor: "#47b8e0",
-              pointBorderColor: "#ffffff",
-              pointBorderWidth: 2,
-              backgroundColor: "rgba(71, 184, 224, 0.18)",
-              fill: true
+        if(!chart.$pulse.raf){
+          const tick = () => {
+            if(chart && chart.ctx){
+              try{ chart.draw(); }catch(_e){}
             }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            r: {
-              suggestedMin: 0,
-              suggestedMax: 1,
-              ticks: {
-                display: false
-              },
-              grid: {
-                color: "#e5e8f0"
-              },
-              angleLines: {
-                color: "#e5e8f0"
-              },
-              pointLabels: {
-                color: "#475569",
-                font: {
-                  size: 11,
-                  weight: "500",
-                  family: "Open Sans"
-                }
-              }
+            chart.$pulse.raf = requestAnimationFrame(tick);
+          };
+          chart.$pulse.raf = requestAnimationFrame(tick);
+        }
+      },
+      beforeDestroy(chart){
+        if(chart && chart.$pulse && chart.$pulse.raf){
+          cancelAnimationFrame(chart.$pulse.raf);
+          chart.$pulse.raf = null;
+        }
+      }
+    };
+
+    if(window.Chart){
+      Chart.register(centerTextPlugin, barValueLabelsPlugin, radarValueLabelsPlugin, pulseCurrentPointPlugin);
+    }
+
+    /* =========================================================
+       Render: DOM binding
+    ========================================================= */
+    function renderReport(r){
+      renderHero(r);
+      renderHeaderPills(r);
+      renderExecutiveMetrics(r);
+      renderSummaryPanels(r);
+      renderAuthorshipPanels(r);
+      renderCffPanels(r);
+      renderCffTable(r);
+      renderArcPanels(r);
+      renderArcTable(r);
+      renderMapPanels(r);
+      renderStabilityPanels(r);
+      renderIdentityPanels(r);
+      renderHrPanels(r);
+      renderMetadata(r);
+    }
+
+    function renderHero(r){
+      if(r.hero){
+        setText("heroTitle", r.hero.title);
+        setText("heroDesc", r.hero.description);
+      }
+      if(r.verify){
+        setText("verifyUrlText", r.verify.url);
+        setText("verifyIdText", r.verify.id);
+        const qr = $("qrImg");
+        if(qr && r.verify.qr_src) qr.src = r.verify.qr_src;
+      }
+    }
+
+    function setPill(id, value, toneClass){
+      const el = $(id);
+      if(!el) return;
+      el.textContent = String(value);
+      el.className = "pill " + (toneClass || "toneN");
+    }
+
+    function renderHeaderPills(r){
+      const decision = r.ai?.final_classification || "Unknown";
+      const confIdx = clamp01(r.ai?.confidence_index ?? 0);
+      const cffType = r.cff?.primary_type || "Unknown";
+      const arcLabel = ((r.arc?.overall_level || "?") + " " + (r.arc?.overall_label || "")).trim();
+      const identity = r.identity?.status || "Unknown";
+
+      setPill("decisionPill", decision, "toneE");
+      setPill("confidencePill", pct01ToPctInt(confIdx) + "%", "toneB");
+      setPill("cffTypePill", cffType, "toneC");
+      setPill("arcLevelPill", arcLabel, "toneD");
+      setPill("identityPill", identity, "toneN");
+    }
+
+    function renderExecutiveMetrics(r){
+      const decision = r.ai?.final_classification || "Unknown";
+      const confIdx = clamp01(r.ai?.confidence_index ?? 0);
+
+      setText("mDecision", decision);
+      setText("mConfidence", fmt2(confIdx));
+      setText("mArcMean", Number(r.arc?.mean_score ?? 0).toFixed(2));
+      setText("mArcPctNote", "Percentile: " + Math.round((r.arc?.percentile ?? 0) * 100) + "th in reference cohort.");
+
+      const rb = riskBandFromReliability(r.ai?.detection_reliability_band);
+      setText("mRiskBand", rb.label);
+      setText("mRiskNote", rb.note);
+
+      setText("mDecisionNote", r.ai?.interpretation || "");
+    }
+
+    function renderSummaryPanels(r){
+      setText("contentSummary", r.content_summary || "");
+
+      const tags = $("topicTags");
+      if(tags){
+        tags.innerHTML = "";
+        (r.topic_tags || []).forEach((t)=>{
+          const s = document.createElement("span");
+          s.className = "kpi";
+          s.textContent = t;
+          tags.appendChild(s);
+        });
+      }
+
+      setText("baselineMode", r.baseline_mode || "BASELINE_ONLY");
+      setText("historyStatus", r.history_status || "None");
+      setText("kpfStatus", r.cff?.indicators?.KPF_SIM == null ? "N/A" : "OK");
+    }
+
+    function renderAuthorshipPanels(r){
+      const mapNote = r.reasoning_map?.note ? " " + r.reasoning_map.note : "";
+      setText("aiInterpretation", (r.ai?.interpretation || "") + ". " + mapNote);
+      setText("aiPatternLabel", r.ai?.pattern_label || "");
+      setText("aiReliability", r.ai?.detection_reliability_band || "");
+
+      const mix = r.ai?.mix_ratio || { human:0, hybrid:0, ai:0 };
+      const mixKpis = $("mixKpis");
+      if(mixKpis){
+        mixKpis.innerHTML = "";
+        [["human",mix.human],["hybrid",mix.hybrid],["ai",mix.ai]].forEach(([k,v])=>{
+          const span = document.createElement("span");
+          span.className = "kpi";
+          span.innerHTML = k + ": <span class=\"code\">" + formatPct01(v) + "</span>";
+          mixKpis.appendChild(span);
+        });
+      }
+    }
+
+    function renderCffPanels(r){
+      setText("cffPrimary", r.cff?.primary_type || "");
+      setText("cffSecondary", r.cff?.secondary_tendency || "");
+      setText("cffTypeConfidence", fmt2(r.cff?.type_confidence ?? 0));
+      setText("cffKpfNote", r.cff?.indicators?.KPF_SIM == null ? "N/A" : String(r.cff.indicators.KPF_SIM));
+    }
+
+    function renderCffTable(r){
+      const body = $("cffTableBody");
+      if(!body) return;
+      body.innerHTML = "";
+
+      const names = {
+        AAS:"Argument Architecture Style",
+        CTF:"Cognitive Transition Flow",
+        RMD:"Reasoning Momentum Delta",
+        RDX:"Revision Depth Index",
+        EDS:"Evidence Diversity Score",
+        HI:"Human Rhythm Index",
+        IFD:"Intent Friction Delta",
+        KPF_SIM:"Keystroke Pattern Fingerprint Similarity"
+      };
+
+      const order = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF_SIM"];
+      const ind = r.cff?.indicators || {};
+
+      order.forEach((code)=>{
+        const raw = (code==="KPF_SIM") ? ind.KPF_SIM : ind[code];
+        const isNA = raw == null;
+
+        const tr = document.createElement("tr");
+
+        const tdCode = document.createElement("td");
+        tdCode.className="code";
+        tdCode.textContent = (code==="KPF_SIM") ? "KPF-Sim" : code;
+
+        const tdName = document.createElement("td");
+        tdName.textContent = names[code];
+
+        const tdScore = document.createElement("td");
+        tdScore.textContent = isNA ? "N/A" : fmt2(raw);
+
+        const tdStatus = document.createElement("td");
+        tdStatus.textContent = isNA ? "Excluded" : "Active";
+
+        tr.appendChild(tdCode);
+        tr.appendChild(tdName);
+        tr.appendChild(tdScore);
+        tr.appendChild(tdStatus);
+        body.appendChild(tr);
+      });
+    }
+
+    function renderArcPanels(r){
+      setText("arcLevel", ((r.arc?.overall_level || "?") + " " + (r.arc?.overall_label || "")).trim());
+      setText("arcMean", Number(r.arc?.mean_score ?? 0).toFixed(2));
+      setText("arcReliability", fmt2(r.arc?.reliability ?? 0));
+      setText("arcGuidance", r.arc?.guidance || "");
+
+      const arcKpis = $("arcKpis");
+      if(arcKpis){
+        arcKpis.innerHTML = "";
+
+        const strengths = Array.isArray(r.arc?.strengths) ? r.arc.strengths : [];
+        const growth = Array.isArray(r.arc?.growth_targets) ? r.arc.growth_targets : [];
+
+        const s = document.createElement("span"); s.className="kpi";
+        s.innerHTML = "strengths: <span class=\"code\">" + strengths.join(", ") + "</span>";
+
+        const g = document.createElement("span"); g.className="kpi";
+        g.innerHTML = "growth: <span class=\"code\">" + growth.join(", ") + "</span>";
+
+        const p = document.createElement("span"); p.className="kpi";
+        p.innerHTML = "percentile: <span class=\"code\">" + Math.round((r.arc?.percentile ?? 0)*100) + "th</span>";
+
+        arcKpis.appendChild(s);
+        arcKpis.appendChild(g);
+        arcKpis.appendChild(p);
+      }
+    }
+
+    function renderArcTable(r){
+      const body = $("arcTableBody");
+      if(!body) return;
+      body.innerHTML = "";
+      (r.arc?.dimensions || []).forEach((d)=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td class=\"code\">" + d.code + "</td>" +
+          "<td>" + d.name + "</td>" +
+          "<td>" + Number(d.score).toFixed(1) + "</td>" +
+          "<td>" + d.comment + "</td>";
+        body.appendChild(tr);
+      });
+    }
+
+    function renderMapPanels(r){
+      const rm = r.reasoning_map || {};
+      const mapKpis = $("mapKpis");
+      if(mapKpis){
+        mapKpis.innerHTML="";
+
+        const sd = document.createElement("span"); sd.className="kpi";
+        sd.innerHTML="distance_to_human_center: <span class=\"code\">" + Number(rm.distance_to_human_center_sd ?? 0).toFixed(2) + " SD</span>";
+
+        const pt = document.createElement("span"); pt.className="kpi";
+        const cx = Number(rm.current?.x ?? 0).toFixed(2);
+        const cy = Number(rm.current?.y ?? 0).toFixed(2);
+        pt.innerHTML="current_point: <span class=\"code\">(" + cx + ", " + cy + ")</span>";
+
+        mapKpis.appendChild(sd);
+        mapKpis.appendChild(pt);
+      }
+      setText("mapInterpretation", rm.note || "");
+    }
+
+    function renderStabilityPanels(r){
+      setText("stHistoryStatus", r.stability?.history_status || "None");
+      setText(
+        "stabilityIndex",
+        r.stability?.history_status === "None"
+          ? "None"
+          : fmt2(r.stability?.type_consistency ?? 0)
+      );
+    }
+
+    function renderIdentityPanels(r){
+      setText("idStatus", r.identity?.status || "Unknown");
+      setText("idScore", r.identity?.same_author_score == null ? "None" : fmt2(r.identity.same_author_score));
+    }
+
+    function renderHrPanels(r){
+      const hr = r.hr || {};
+      const roles = Array.isArray(hr.recommended_roles) ? hr.recommended_roles : [];
+      const tail = roles.length ? ". Recommended roles include: " + roles.join(", ") + "." : "";
+      setText("hrProfile", (hr.cognitive_style || "") + tail);
+
+      const hrKpis = $("hrKpis");
+      if(hrKpis){
+        hrKpis.innerHTML="";
+        roles.forEach((role)=>{
+          const v = hr.fit_scores?.[role] ?? 0;
+          const span = document.createElement("span");
+          span.className="kpi";
+          span.innerHTML = role + ": <span class=\"code\">" + formatPct01(v) + "</span>";
+          hrKpis.appendChild(span);
+        });
+      }
+    }
+
+    function renderMetadata(r){
+      setText("metaAssessmentId", r.assessment_id || "-");
+      setText("metaLang", r.input_language || "-");
+      setText("metaTime", r.generated_at_utc || "-");
+      setText("metaHistory", r.history_status || "None");
+      setText("metaKpf", r.cff?.indicators?.KPF_SIM == null ? "N/A" : "OK");
+      setText("metaEditLog", "None");
+
+      const raw = $("rawJson");
+      if(raw) raw.textContent = JSON.stringify(r, null, 2);
+    }
+
+    /* =========================================================
+       Signature Fingerprint (canvas)
+    ========================================================= */
+    const SIGNATURE_KEYS = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF"];
+    const SIGNATURE_OPTS = {
+      resampleStepPx: 2.5,
+      preChaikin: true,
+      padPx: 8,
+      overscan: 1.08,
+      strokeRGBA: "rgba(12,12,12,0.86)",
+      strokeWidth: 1.6,
+      animMs: parseInt(css.getPropertyValue("--sigAnimMs"), 10) || 1900
+    };
+
+    function hashStr(s){
+      let h=2166136261;
+      for(let i=0;i<s.length;i++){
+        h ^= s.charCodeAt(i);
+        h = Math.imul(h,16777619);
+      }
+      return h>>>0;
+    }
+
+    function mulberry32(a){
+      return function(){
+        let t = a += 0x6D2B79F5;
+        t = Math.imul(t ^ (t>>>15), t|1);
+        t ^= t + Math.imul(t ^ (t>>>7), t|61);
+        return ((t ^ (t>>>14))>>>0)/4294967296;
+      };
+    }
+
+    function setupHiDPICanvas(canvas){
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+      canvas.width = Math.floor(w*dpr);
+      canvas.height = Math.floor(h*dpr);
+      const ctx = canvas.getContext("2d");
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      return { ctx, width:w, height:h };
+    }
+
+    function bboxOfPoints(pts){
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      for(const p of pts){
+        if(p.x<minX) minX=p.x;
+        if(p.y<minY) minY=p.y;
+        if(p.x>maxX) maxX=p.x;
+        if(p.y>maxY) maxY=p.y;
+      }
+      if(!isFinite(minX)) return {minX:0,minY:0,maxX:1,maxY:1,w:1,h:1};
+      const w=Math.max(1,maxX-minX);
+      const h=Math.max(1,maxY-minY);
+      return {minX,minY,maxX,maxY,w,h};
+    }
+
+    function fitRectToCanvas(bbox, canvasW, canvasH, pad, overscan){
+      const innerW=Math.max(1, canvasW-pad*2);
+      const innerH=Math.max(1, canvasH-pad*2);
+      let scale=Math.min(innerW/bbox.w, innerH/bbox.h);
+      scale *= Math.max(1, Number.isFinite(overscan)?overscan:1);
+      const tx = pad + (innerW - bbox.w*scale)/2 - bbox.minX*scale;
+      const ty = pad + (innerH - bbox.h*scale)/2 - bbox.minY*scale;
+      return { scale, tx, ty };
+    }
+
+    function lerp(a,b,t){ return a + (b-a)*t; }
+
+    function generateSignatureVectorFromReport(r){
+      const ind = Object.assign({}, r.cff?.indicators || {});
+      const v = {};
+      for(const k of SIGNATURE_KEYS){
+        if(k==="KPF"){
+          v.KPF = ind.KPF_SIM == null ? 0 : clamp01(Number(ind.KPF_SIM));
+        }else{
+          v[k] = clamp01(Number(ind[k] ?? 0));
+        }
+      }
+      const seedStr = JSON.stringify(v, SIGNATURE_KEYS);
+      const rng = mulberry32(hashStr(seedStr));
+      return { v, rng };
+    }
+
+    function generateRawPolyline(v, rng){
+      const W=1080,H=1080;
+      const margin=110;
+      const cx=W/2, cy=H/2;
+
+      const bandW=lerp(560,880,1-v.IFD);
+      const bandH=lerp(170,380,v.IFD);
+      const bandX1=cx-bandW/2, bandX2=cx+bandW/2;
+      const bandY1=cy-bandH/2, bandY2=cy+bandH/2;
+
+      const steps = Math.floor(lerp(2400,9000,v.RDX));
+      const baseStep = lerp(0.95,2.75,v.CTF);
+      const turnGain = lerp(0.006,0.080,v.AAS);
+      const loopP = lerp(0.010,0.120,v.RMD);
+      const cohesion = lerp(0.12,0.74,v.HI);
+      const switchP = lerp(0.0010,0.011,v.EDS);
+      const jitter = lerp(0.05,1.30,v.KPF);
+
+      function softClamp(nx, ny){
+        if(nx<bandX1) nx=lerp(nx,bandX1,0.55);
+        if(nx>bandX2) nx=lerp(nx,bandX2,0.55);
+        if(ny<bandY1) ny=lerp(ny,bandY1,0.55);
+        if(ny>bandY2) ny=lerp(ny,bandY2,0.55);
+        nx=Math.max(margin, Math.min(W-margin, nx));
+        ny=Math.max(margin, Math.min(H-margin, ny));
+        return [nx,ny];
+      }
+
+      const baselineAngle=lerp(-0.20,0.12,rng());
+      const baselineLen=bandW*0.84;
+      const bx1=cx-Math.cos(baselineAngle)*baselineLen/2;
+      const by1=cy-Math.sin(baselineAngle)*baselineLen/2;
+      const bx2=cx+Math.cos(baselineAngle)*baselineLen/2;
+      const by2=cy+Math.sin(baselineAngle)*baselineLen/2;
+
+      const coresN=3+Math.floor(rng()*3);
+      const cores=[];
+      for(let i=0;i<coresN;i++){
+        const t = (coresN===1)?0:i/(coresN-1);
+        const px=bx1+(bx2-bx1)*t;
+        const py=by1+(by2-by1)*t;
+        const n=Math.hypot(bx2-bx1,by2-by1) || 1;
+        const nx=-(by2-by1)/n;
+        const ny=(bx2-bx1)/n;
+        const off=(rng()-0.5)*bandH*0.62;
+        cores.push({ x:px+nx*off, y:py+ny*off, pull:lerp(0.05,0.40,rng())*cohesion });
+      }
+
+      let x=lerp(bandX1, bandX1+bandW*0.12, rng());
+      let y=lerp(bandY1, bandY2, rng());
+      let ang=lerp(-0.16,0.16,rng());
+      let mode=0;
+
+      const history=[];
+      const historyCap = 80 + Math.floor(v.RMD*260);
+      const pts=[{x,y}];
+
+      for(let i=0;i<steps;i++){
+        if(rng()<switchP) mode=(mode+1+Math.floor(rng()*2))%3;
+
+        let target=cores[Math.floor(rng()*cores.length)];
+        if(history.length>18 && rng()<loopP){
+          const h=history[Math.floor(rng()*history.length)];
+          target={ x:h.x, y:h.y, pull:lerp(0.06,0.48,rng())*cohesion };
+        }
+
+        const dx=target.x-x, dy=target.y-y;
+        const dist=Math.hypot(dx,dy) || 1;
+        const tx=(dx/dist)*target.pull;
+        const ty=(dy/dist)*target.pull;
+
+        const pullAngle=Math.atan2(ty,tx);
+        const delta=Math.atan2(Math.sin(pullAngle-ang), Math.cos(pullAngle-ang));
+
+        const drift=(rng()-0.5)*(0.020+0.028*v.CTF);
+        const modeGain = (mode===0)?0.85:(mode===1?1.25:1.05);
+
+        const flick=(mode===1 && rng()<0.018)
+          ? (rng()<0.5?-1:1)*(0.28+rng()*0.75)
+          : 0;
+
+        ang += drift + delta*turnGain*modeGain + flick;
+
+        const breathe = 0.80 + 0.45*Math.sin(i*0.010 + rng()*0.6);
+        let stepLen = baseStep*breathe*(0.90+rng()*0.28);
+
+        if(mode===2){
+          stepLen *= 0.92;
+          ang += (rng()-0.5)*0.10;
+        }
+
+        let nx2 = x + Math.cos(ang)*stepLen + (rng()-0.5)*2*jitter;
+        let ny2 = y + Math.sin(ang)*stepLen + (rng()-0.5)*2*jitter;
+        [nx2,ny2]=softClamp(nx2,ny2);
+        x=nx2; y=ny2;
+        pts.push({x,y});
+
+        if(i%48===0){
+          history.push({x,y});
+          if(history.length>historyCap) history.shift();
+        }
+      }
+
+      return pts;
+    }
+
+    function resamplePolyline(pts, step){
+      if(pts.length<2) return pts.slice();
+      const out=[pts[0]];
+      let acc=0;
+      for(let i=1;i<pts.length;i++){
+        let p0=pts[i-1];
+        let p1=pts[i];
+        let dx=p1.x-p0.x, dy=p1.y-p0.y;
+        let seg=Math.hypot(dx,dy);
+        if(seg===0) continue;
+
+        while(acc+seg>=step){
+          const t=(step-acc)/seg;
+          const nx=p0.x+dx*t;
+          const ny=p0.y+dy*t;
+          out.push({x:nx,y:ny});
+          p0={x:nx,y:ny};
+          dx=p1.x-p0.x; dy=p1.y-p0.y;
+          seg=Math.hypot(dx,dy) || 1;
+          acc=0;
+        }
+        acc += seg;
+      }
+      out.push(pts[pts.length-1]);
+      return out;
+    }
+
+    function chaikinOnce(pts){
+      if(pts.length<3) return pts.slice();
+      const fixed=[];
+      fixed.push(pts[0]);
+      for(let i=0;i<pts.length-1;i++){
+        const p=pts[i], q=pts[i+1];
+        fixed.push(
+          { x:0.75*p.x+0.25*q.x, y:0.75*p.y+0.25*q.y },
+          { x:0.25*p.x+0.75*q.x, y:0.25*p.y+0.75*q.y }
+        );
+      }
+      fixed.push(pts[pts.length-1]);
+      return fixed;
+    }
+
+    let sigAnimRAF = null;
+
+    function drawSignatureFingerprintAnimated(r){
+      const canvas = $("signatureCanvas");
+      if(!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      if(rect.width<4 || rect.height<4) return;
+
+      const out = setupHiDPICanvas(canvas);
+      const ctx = out.ctx;
+      const width = out.width;
+      const height = out.height;
+
+      ctx.clearRect(0,0,width,height);
+      ctx.fillStyle="#ffffff";
+      ctx.fillRect(0,0,width,height);
+
+      const gen = generateSignatureVectorFromReport(r);
+      const v = gen.v;
+      const rng = gen.rng;
+      const raw = generateRawPolyline(v,rng);
+
+      let pts = resamplePolyline(raw, Number(SIGNATURE_OPTS.resampleStepPx));
+      if(SIGNATURE_OPTS.preChaikin) pts=chaikinOnce(pts);
+
+      const bb=bboxOfPoints(pts);
+      const padRatio=0.028;
+      const basePad=Number(SIGNATURE_OPTS.padPx);
+      const PAD=Math.max(basePad, Math.floor(Math.min(width,height)*padRatio));
+      const fit=fitRectToCanvas(bb,width,height,PAD,Number(SIGNATURE_OPTS.overscan));
+
+      const mapped = pts.map((p)=>({
+        x: p.x*fit.scale + fit.tx,
+        y: p.y*fit.scale + fit.ty
+      }));
+
+      ctx.strokeStyle = SIGNATURE_OPTS.strokeRGBA;
+      ctx.lineWidth = Number(SIGNATURE_OPTS.strokeWidth);
+      ctx.lineCap="round";
+      ctx.lineJoin="round";
+
+      const start = performance.now();
+      const dur = Math.max(240, Number(SIGNATURE_OPTS.animMs) || 1200);
+
+      if(sigAnimRAF) cancelAnimationFrame(sigAnimRAF);
+
+      function frame(now){
+        const t = Math.min(1, (now-start)/dur);
+        const count = Math.max(2, Math.floor(mapped.length * t));
+
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle="#ffffff";
+        ctx.fillRect(0,0,width,height);
+
+        ctx.beginPath();
+        ctx.moveTo(mapped[0].x, mapped[0].y);
+        for(let i=1;i<count;i++){
+          ctx.lineTo(mapped[i].x, mapped[i].y);
+        }
+        ctx.stroke();
+
+        if(t<1){
+          sigAnimRAF = requestAnimationFrame(frame);
+        }
+      }
+      sigAnimRAF = requestAnimationFrame(frame);
+    }
+
+    /* =========================================================
+       Charts setup
+    ========================================================= */
+    const chartsById = Object.create(null);
+    const chartAnimators = Object.create(null);
+    const chartAnimatedOnce = Object.create(null);
+
+    const chartIO = ("IntersectionObserver" in window)
+      ? new IntersectionObserver(onChartEnter, { root:null, threshold:0.18, rootMargin:"120px 0px" })
+      : null;
+
+    function safeChart(id, config){
+      const el = $(id);
+      if(!el || !window.Chart) return null;
+      if(chartsById[id]){
+        try{ chartsById[id].destroy(); }catch(_e){}
+        delete chartsById[id];
+      }
+      const c = new Chart(el, config);
+      chartsById[id] = c;
+      return c;
+    }
+
+    function baseChartOptions(animate){
+      const animOn = !!animate;
+      return {
+        responsive:true,
+        maintainAspectRatio:false,
+        devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
+        animation: animOn ? { duration: CHART_ANIM_MS, delay: 0 } : { duration: 0 },
+        layout:{ padding:{ top:10, right:14, bottom:12, left:14 } },
+        interaction:{ mode:"nearest", intersect:false },
+        plugins:{
+          legend:{
+            display:true,
+            position:"top",
+            labels:{
+              usePointStyle:true,
+              pointStyle:"circle",
+              boxWidth:8,
+              boxHeight:8,
+              padding:12,
+              color: THEME.text || "#0f172a",
+              font:{ size:11, weight:"600" }
             }
           },
-          plugins: {
-            legend: {
-              display: false
-            }
-          }
+          tooltip:{ enabled:true }
+        }
+      };
+    }
+
+    function doughnutOptions(animate){
+      const base = baseChartOptions(animate);
+      return {
+        ...base,
+        plugins:{ ...base.plugins, legend:{ ...base.plugins.legend, position:"bottom" } }
+      };
+    }
+
+    const BAR_FIXED_VERTICAL = {
+      barThickness: 14,
+      maxBarThickness: 14,
+      categoryPercentage: 0.8,
+      barPercentage: 0.9,
+      borderWidth: 0,
+      borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+      borderSkipped: false
+    };
+
+    const BAR_FIXED_HORIZONTAL = {
+      barThickness: 14,
+      maxBarThickness: 14,
+      categoryPercentage: 0.8,
+      barPercentage: 0.9,
+      borderWidth: 0,
+      borderRadius: { topLeft: 0, bottomLeft: 0, topRight: 4, bottomRight: 4 },
+      borderSkipped: false
+    };
+
+    const DONUT_FIXED = {
+      cutout:"62%",
+      radius:"92%",
+      borderWidth:0,
+      hoverOffset:0
+    };
+
+    function mountChartDeferred(id, makeBaseConfig, animateNow){
+      const el = $(id);
+      if(!el) return;
+
+      safeChart(id, makeBaseConfig(false));
+
+      if(chartIO){
+        chartAnimators[id] = animateNow;
+        chartIO.observe(el);
+      }else{
+        setTimeout(()=> animateNow(), CHART_DELAY_MS);
+      }
+    }
+
+    function onChartEnter(entries){
+      entries.forEach((ent)=>{
+        if(!ent.isIntersecting) return;
+        const canvas = ent.target;
+        const id = canvas && canvas.id;
+        if(!id) return;
+        if(chartAnimatedOnce[id]) return;
+
+        chartAnimatedOnce[id] = true;
+        chartIO.unobserve(canvas);
+
+        const fn = chartAnimators[id];
+        if(typeof fn === "function"){
+          setTimeout(()=> fn(), CHART_DELAY_MS);
         }
       });
     }
 
- // Identity similarity semi-circular gauge
-  const gctx = document.getElementById("identGaugeChart");
+    function animateChartData(id, applyRealData){
+      const c = chartsById[id];
+      if(!c) return;
+      applyRealData(c);
+      c.options.animation = { duration: CHART_ANIM_MS, delay: 0 };
+      c.update();
+    }
 
-  if (gctx) {
-    const similarity = 0.87; // 0 ~ 1 사이, 동일인 유사도 점수
-    // 0 → Low, 0.5 → Medium, 1.0 → High
-
-    new Chart(gctx, {
-      type: "doughnut",
-      data: {
-        labels: ["Filled", "Empty"],
-        datasets: [
-          // 1) 전체 트랙 (회색 반원)
-          {
-            data: [1, 0],
-            backgroundColor: ["#e5e7eb", "transparent"],
-            borderWidth: 0,
-            cutout: "70%"
-          },
-          // 2) 점수에 해당하는 채워진 아크
-          {
-            data: [similarity, 1 - similarity],
-            backgroundColor: [
-              "rgba(37, 99, 235, 0.9)",   // 파란 채워진 부분
-              "transparent"               // 나머지 투명
-            ],
-            borderWidth: 0,
-            cutout: "70%"
+    /* Gauge config: remaining gray = chip gray(--pillN) */
+    function makeGaugeConfig(mainLabel, color, animate){
+      const remaining = THEME.pillN || "rgba(226,232,240,.65)";
+      return {
+        type:"doughnut",
+        data:{
+          labels:[mainLabel, "remaining"],
+          datasets:[{
+            data:[0, 1],
+            backgroundColor:[color, remaining],
+            borderWidth:0,
+            borderRadius: 8,
+            cutout:"82%",
+            radius:"92%",
+            hoverOffset:0
+          }]
+        },
+        options:{
+          ...doughnutOptions(animate),
+          rotation: -90,
+          circumference: 180,
+          plugins:{
+            ...doughnutOptions(animate).plugins,
+            legend:{ ...doughnutOptions(animate).plugins.legend, display:false }
           }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        // 반원: 왼쪽(Low) → 가운데(Medium) → 오른쪽(High)
-        rotation: -Math.PI,                  // 시작 각도(왼쪽)
-        circumference: Math.PI,              // 180도만 사용
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: false }
         }
+      };
+    }
+
+    function setGaugeLegend(containerId, items){
+      const el = $(containerId);
+      if(!el) return;
+      el.innerHTML = "";
+      items.forEach((it)=>{
+        const wrap = document.createElement("span");
+        wrap.className = "gaugeLegendItem";
+        const dot = document.createElement("span");
+        dot.className = "gaugeDot";
+        dot.style.background = it.color;
+        const lab = document.createElement("span");
+        lab.className = "label";
+        lab.textContent = it.label;
+        el.appendChild(wrap);
+        wrap.appendChild(dot);
+        wrap.appendChild(lab);
+      });
+    }
+
+    /* =========================================================
+       레이다 값 라벨을 "아예 없애고", 값은 포인트 라벨에 넣고 싶을 때
+       - 아래 옵션을 true로 바꾸면 됨.
+       - 그럼 radarValueLabelsPlugin은 끄고, labels에 값 포함시킴.
+    ========================================================= */
+    const RADAR_VALUE_IN_POINT_LABEL = false;
+
+    function registerAllCharts(r){
+      const mix = r.ai?.mix_ratio || { human:0, hybrid:0, ai:0 };
+      const conf = clamp01(r.ai?.confidence_index ?? 0);
+
+      const relMapped =
+        r.ai?.detection_reliability_band === "HIGH" ? 0.9 :
+        r.ai?.detection_reliability_band === "MEDIUM" ? 0.6 : 0.35;
+
+      const decision = r.ai?.final_classification || "Human";
+
+      const arcDims = Array.isArray(r.arc?.dimensions) ? r.arc.dimensions : [];
+      const arcLabels = arcDims.map((d)=>String(d.code || "").trim()).filter(Boolean);
+      const arcVals = arcDims.map((d)=>Number(d.score ?? 0));
+
+      const cffOrder = ["AAS","CTF","RMD","RDX","EDS","HI","IFD"];
+      const cffInd = r.cff?.indicators || {};
+
+      /* 1) chartMix (donut center text) */
+      mountChartDeferred(
+        "chartMix",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              /* 도넛 중앙 텍스트 굵기 완화 (기본 폰트가 바뀐 상태) */
+              centerText:{ top: decision, bottom: fmt2(conf) }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMix", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 2) chartConfidence (vertical bar) */
+      mountChartDeferred(
+        "chartConfidence",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:["Confidence","Reliability band"],
+            datasets:[{
+              label:"index (0 to 1)",
+              data:[0,0],
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:[THEME.accentB, THEME.accentB]
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartConfidence", (c)=>{
+          c.data.datasets[0].data = [conf, relMapped];
+        })
+      );
+
+      /* 3) chartArcBarsMini */
+      mountChartDeferred(
+        "chartArcBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentC
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBarsMini", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 4) chartCffBarsMini */
+      mountChartDeferred(
+        "chartCffBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:cffOrder,
+            datasets:[{
+              label:"CFF score (0 to 1)",
+              data:cffOrder.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentD
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartCffBarsMini", (c)=>{
+          c.data.datasets[0].data = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+        })
+      );
+
+      /* 5) chartMix2 */
+      mountChartDeferred(
+        "chartMix2",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              centerText:{ top: decision, bottom: fmt2(conf) }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMix2", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 6) chartAuthSignals (horizontal bar) */
+      const contrib = r.ai?.signal_contributions || {};
+      const contribLabels = Object.keys(contrib).map((k)=>k.split("_").join(" "));
+      const contribVals = Object.values(contrib).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartAuthSignals",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:contribLabels,
+            datasets:[{
+              label:"contribution (0 to 1)",
+              data:contribLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentB
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:0.4, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartAuthSignals", (c)=>{
+          c.data.datasets[0].data = contribVals.slice();
+        })
+      );
+
+      /* 7) chartCffRadar */
+      mountChartDeferred(
+        "chartCffRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels: cffOrder,
+            datasets:[{
+              label:"CFF Indicator",
+              data:cffOrder.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillD,
+              borderColor: THEME.accentD,
+              pointBackgroundColor: THEME.accentD,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+plugins:{
+  ...baseChartOptions(animate).plugins,
+  legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+  radarValueLabels:false
+},
+            scales:{
+              r:{
+                min:0, max:1,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+()=> animateChartData("chartCffRadar", (c)=>{
+  const vals = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+  c.data.datasets[0].data = vals.slice();
+
+  // ✅ 레이다 수치(값) 표시는 전부 끔
+  c.data.labels = cffOrder.slice();          // "AAS" 같은 라벨만
+  c.options.plugins.radarValueLabels = false; // 바깥 값 박스도 끔
+})
+
+      );
+
+      /* 8) chartArcBars */
+      mountChartDeferred(
+        "chartArcBars",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentE
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBars", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 9) chartArcRadar */
+      mountChartDeferred(
+        "chartArcRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC profile",
+              data:arcLabels.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillB,
+              borderColor: THEME.accentB,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBackgroundColor: THEME.accentB,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+plugins:{
+  ...baseChartOptions(animate).plugins,
+  legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+  radarValueLabels:false
+},
+
+            scales:{
+              r:{
+                min:0, max:6,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+()=> animateChartData("chartArcRadar", (c)=>{
+  c.data.datasets[0].data = arcVals.slice();
+  c.options.plugins.radarValueLabels = false; // ✅ 레이다 값 표시 끔
+})
+
+      );
+
+      /* 10) chartMapScatter (pulse ring 3개, 가속) */
+      const cl = r.reasoning_map?.clusters || { human:[], hybrid:[], ai:[] };
+      const toXY = (arr)=> (Array.isArray(arr) ? arr.map((p)=>({ x:Number(p.x ?? 0), y:Number(p.y ?? 0) })) : []);
+      const currentPt = { x:Number(r.reasoning_map?.current?.x ?? 0), y:Number(r.reasoning_map?.current?.y ?? 0) };
+
+      mountChartDeferred(
+        "chartMapScatter",
+        (animate)=>({
+          type:"scatter",
+          data:{
+            datasets:[
+              { label:"Human cluster", data:toXY(cl.human), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentA, borderWidth:0 },
+              { label:"Hybrid cluster", data:toXY(cl.hybrid), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentC, borderWidth:0 },
+              { label:"AI cluster", data:toXY(cl.ai), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentB, borderWidth:0 },
+              { label:"Current", data:[currentPt], pointRadius:7, pointHoverRadius:8, backgroundColor:THEME.accentE, borderWidth:0 }
+            ]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:8, maxR:26 }
+            },
+            scales:{
+              x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } }
+            }
+          }
+        }),
+        ()=> {
+          const c = chartsById["chartMapScatter"];
+          if(!c) return;
+          c.options.animation = { duration: CHART_ANIM_MS, delay: 0 };
+          c.update();
+        }
+      );
+
+      /* 11) chartMapBands */
+      mountChartDeferred(
+        "chartMapBands",
+        (animate)=>({
+          type:"line",
+          data:{
+            labels:["0.0","0.5","1.0","1.5","2.0"],
+            datasets:[{
+              label:"distance (SD)",
+              data:[0,0,0,0,0],
+              fill:false,
+              borderColor:THEME.accentB,
+              pointBackgroundColor:THEME.accentB,
+              pointBorderWidth:0,
+              borderWidth:2,
+              tension:0.25
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            scales:{
+              y:{ min:0, max:2, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMapBands", (c)=>{
+          c.data.datasets[0].data = [0.1,0.35,0.8,1.2,1.6];
+        })
+      );
+
+      /* 12) chartStabilityLine */
+      const stLabels = r.stability?.sessions || [];
+      const stVals = r.stability?.arc_level_numeric || [];
+      mountChartDeferred(
+        "chartStabilityLine",
+        (animate)=>({
+          type:"line",
+          data:{
+            labels: stLabels,
+            datasets:[{
+              label:"ARC level (numeric)",
+              data: stLabels.map(()=>0),
+              fill:false,
+              borderColor:THEME.accentA,
+              pointBackgroundColor:THEME.accentA,
+              pointBorderWidth:0,
+              borderWidth:2,
+              tension:0.25
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{ ...baseChartOptions(animate).plugins, legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" } },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartStabilityLine", (c)=>{
+          c.data.datasets[0].data = stVals.slice();
+        })
+      );
+
+      /* 13) chartConsistencyGauge (centerText yOffset -10 + 굵기 완화 + remaining gray 통일) */
+      setGaugeLegend("legendConsistency", [
+        { label:"Consistency score", color: THEME.accentC },
+        { label:"Remaining", color: THEME.pillN || "rgba(245,245,245,.96)" }
+      ]);
+
+      mountChartDeferred(
+        "chartConsistencyGauge",
+        (animate)=> makeGaugeConfig("Consistency", THEME.accentC, animate),
+        ()=> animateChartData("chartConsistencyGauge", (c)=>{
+          const v = clamp01(r.stability?.type_consistency ?? 0);
+          c.data.datasets[0].data = [v, 1 - v];
+          c.options.plugins.centerText = {
+            top:"Consistency",
+            bottom: fmt2(v),
+            yOffset:-30,
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 14) chartIdentityGauge (centerText yOffset -10 + 굵기 완화 + remaining gray 통일) */
+      setGaugeLegend("legendIdentity", [
+        { label:"Same-author", color: THEME.accentE },
+        { label:"Remaining", color: THEME.pillN || "rgba(245,245,245,.96)" }
+      ]);
+
+      mountChartDeferred(
+        "chartIdentityGauge",
+        (animate)=> makeGaugeConfig("Same-author", THEME.accentE, animate),
+        ()=> animateChartData("chartIdentityGauge", (c)=>{
+          const v = clamp01(r.identity?.same_author_score ?? 0);
+          c.data.datasets[0].data = [v, 1 - v];
+          c.options.plugins.centerText = {
+            top:"Same-author",
+            bottom: fmt2(v),
+            yOffset:-30,
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 15) chartIdentityComponents */
+      const comps = r.identity?.components || {};
+      const compLabels = Object.keys(comps).map((k)=>k.split("_").join(" "));
+      const compVals = Object.values(comps).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartIdentityComponents",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:compLabels,
+            datasets:[{
+              label:"component (0 to 1)",
+              data:compLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentB
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartIdentityComponents", (c)=>{
+          c.data.datasets[0].data = compVals.slice();
+        })
+      );
+
+      /* 16) chartHrFit */
+      const roles = Array.isArray(r.hr?.recommended_roles) ? r.hr.recommended_roles : [];
+      const fitScores = roles.map((role)=> Number(r.hr?.fit_scores?.[role] ?? 0));
+
+      mountChartDeferred(
+        "chartHrFit",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:roles,
+            datasets:[{
+              label:"fit (0 to 1)",
+              data:roles.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentD
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartHrFit", (c)=>{
+          c.data.datasets[0].data = fitScores.slice();
+        })
+      );
+
+      /* 17) chartHrCoach */
+      const coach = r.hr?.coaching_targets || {};
+      const coachLabels = Object.keys(coach).map((k)=>k.split("_").join(" "));
+      const coachVals = Object.values(coach).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartHrCoach",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:coachLabels,
+            datasets:[{
+              label:"target (0 to 1)",
+              data:coachLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentC
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartHrCoach", (c)=>{
+          c.data.datasets[0].data = coachVals.slice();
+        })
+      );
+    }
+
+    /* =========================================================
+       Tabs: click scroll + active
+    ========================================================= */
+    function initTabs(){
+      const tabs = document.querySelectorAll(".tab");
+      const sections = Array.from(tabs).map(t=> $(t.getAttribute("data-target"))).filter(Boolean);
+
+      function setActive(targetId){
+        tabs.forEach(btn=>{
+          btn.classList.toggle("active", btn.getAttribute("data-target") === targetId);
+        });
       }
-    });
+
+      tabs.forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const targetId = btn.getAttribute("data-target");
+          const sec = $(targetId);
+          if(!sec) return;
+          setActive(targetId);
+          sec.scrollIntoView({ behavior:"smooth", block:"start" });
+        }, { passive:true });
+      });
+
+      const io = ("IntersectionObserver" in window)
+        ? new IntersectionObserver((entries)=>{
+            entries.forEach(ent=>{
+              if(ent.isIntersecting){
+                setActive(ent.target.id);
+              }
+            });
+          }, { root:null, threshold:0.25, rootMargin:"-10% 0px -70% 0px" })
+        : null;
+
+      if(io){
+        sections.forEach(sec=> io.observe(sec));
+      }
+    }
+
+    /* =========================================================
+       Boot
+    ========================================================= */
+    function boot(){
+      try{
+        renderReport(report);
+        initTabs();
+
+deferSignatureDraw(report);                  // 추가
+function deferSignatureDraw(r){
+  const canvas = $("signatureCanvas");
+  if(!canvas) return;
+
+  let drawn = false;
+
+  const io = ("IntersectionObserver" in window)
+    ? new IntersectionObserver((entries)=>{
+        entries.forEach((ent)=>{
+          if(!ent.isIntersecting) return;
+          if(drawn) return;
+          drawn = true;
+          io.unobserve(canvas);
+          drawSignatureFingerprintAnimated(r);
+        });
+      }, { root:null, threshold:0.18, rootMargin:"120px 0px" })
+    : null;
+
+  if(io){
+    io.observe(canvas);
+  }else{
+    // 구형 브라우저면 그냥 약간 늦게
+    setTimeout(()=> drawSignatureFingerprintAnimated(r), 200);
   }
+}
 
- // Identity 반원 게이지: 0 → Low, 1 → High
- const gaugeNeedle = document.getElementById("identGauge-needle");
-  const gaugeValueText = document.getElementById("identGauge-value");
+		
+		registerAllCharts(report);
+      }catch(e){
+        console.error("Boot error:", e);
+      }
+    }
 
-  if (gaugeNeedle && gaugeValueText) {
-    const similarity = 0.87; // 0~1
+    if(document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", boot);
+    }else{
+      boot();
+    }
 
-    const minAngle = -90;  // Low
-    const maxAngle = 90;   // High
+    console.info(
+      "Suggestion for Reference distance bands and Session Timeline:",
+      "1) Add a shaded uncertainty band (min-max or CI) around the line, " +
+      "2) Add milestone markers (session labels with small dots), " +
+      "3) Add a subtle baseline threshold horizontal line, " +
+      "4) Add a light background segmentation to show phases."
+    );
+  })();
+</script>
 
-    const angle = minAngle + (maxAngle - minAngle) * similarity;
-
-    gaugeNeedle.style.transform = `rotate(${angle}deg)`;
-    gaugeValueText.textContent = similarity.toFixed(2);
-  }
-    
-  </script>
 </body>
 </html>
