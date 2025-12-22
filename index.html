@@ -1174,8 +1174,834 @@
 
   </div>
  
-<script>
 </body>
+
+
+<script>
+  (function(){
+    "use strict";
+
+    /* =========================================================
+       DATA BLOCK (REPORT)
+    ========================================================= */
+    const REPORT = {
+      engine_version:"1.1",
+      mode:"EDUCATION",
+      assessment_id:"NP-2025-0314-0007",
+      input_language:"EN",
+      generated_at_utc:"2025-03-14T10:22:11Z",
+      baseline_mode:"BASELINE_ONLY",
+      history_status:"None",
+      hero:{
+        title:"NeuPrint Reference Cognitive Evaluation",
+        subtitle_kr:"뉴프린트 기준 인지 평가(레퍼런스 평가)",
+        ref_case:"Reference Case No.001",
+        doc_type:"Document type: Reference Evaluation",
+        desc:[
+          "NeuPrint is a model-agnostic measurement layer for reasoning identity and agency under AI assistance.",
+          "NeuPrint measures structural reasoning identity, which remains comparable even as model output quality improves.",
+          "Reference Case numbering is internal and does not imply a public series or roadmap."
+        ]
+      },
+      summary:{
+        decision:"Human",
+        confidence:0.88,
+        band:"Low risk",
+        arc_level:"L4",
+        arc_label:"Integrated",
+        arc_mean:3.72,
+        arc_percentile:0.76,
+        reliability:0.89
+      },
+      content:{
+        title:"Content Summary",
+        text:"This essay examines whether schools should allow AI assisted writing in formal assessments. The writer explains how AI can improve surface quality while making fairness and genuine thinking harder to evaluate. Rather than a simple ban, the essay proposes personal criteria and conditions for when AI support could be allowed in a transparent and accountable way.",
+        tags:["AI assisted writing","Fair assessment","Student agency","School policy"]
+      },
+      ai:{
+        mix:{ human:0.82, hybrid:0.09, ai:0.09 },
+        primary_outcome:"Human",
+        authorship_risk:"Low",
+        signal_contributions:{
+          "prompt_trace":0.12,
+          "style_smoothness":0.08,
+          "revision_depth":0.19,
+          "evidence_diversity":0.22,
+          "keystroke_pattern":0.05,
+          "transition_flow":0.11
+        }
+      },
+      arc:{
+        overall_level:"L4",
+        overall_label:"Integrated",
+        mean_score:3.72,
+        percentile:0.76,
+        reliability:0.89,
+        guidance:"Focus on counterargument handling and explicit evidence chaining.",
+        strengths:["A2","A4"],
+        growth_targets:["A6","A7"],
+        dimensions:[
+          { code:"A1", name:"Claim clarity", score:3.8, comment:"Clear primary claim." },
+          { code:"A2", name:"Structure", score:4.1, comment:"Good sectioning and flow." },
+          { code:"A3", name:"Evidence use", score:3.5, comment:"Adequate evidence variety." },
+          { code:"A4", name:"Counterarguments", score:3.4, comment:"Some counter handling." },
+          { code:"A5", name:"Reasoning transitions", score:3.9, comment:"Smooth transitions." },
+          { code:"A6", name:"Logic consistency", score:3.2, comment:"Minor leaps." },
+          { code:"A7", name:"Evaluation depth", score:3.1, comment:"Could deepen tradeoffs." },
+          { code:"A8", name:"Metacognitive control", score:3.7, comment:"Good self-monitoring." }
+        ]
+      },
+      cff:{
+        type:"Reflective Explorer",
+        confidence:0.83,
+        secondary:"Evidence Weaver",
+        indicators:{
+          AAS:0.63, CTF:0.71, RMD:0.58, RDX:0.74,
+          EDS:0.62, HI:0.79, IFD:0.33, KPF:0.15
+        }
+      },
+      reasoning_map:{
+        current:{ x:0.18, y:-0.12 },
+        clusters:{
+          human:[
+            {x:0.22,y:-0.10},{x:0.16,y:-0.08},{x:0.20,y:-0.16},{x:0.12,y:-0.14},
+            {x:0.10,y:-0.06},{x:0.26,y:-0.12},{x:0.18,y:-0.22},{x:0.06,y:-0.18}
+          ],
+          hybrid:[
+            {x:-0.14,y:0.12},{x:-0.10,y:0.08},{x:-0.18,y:0.16},{x:-0.06,y:0.18}
+          ],
+          ai:[
+            {x:-0.44,y:-0.18},{x:-0.50,y:-0.08},{x:-0.38,y:-0.10},{x:-0.46,y:-0.26}
+          ]
+        }
+      }
+    };
+
+    /* =========================================================
+       THEME
+    ========================================================= */
+    const THEME = {
+      text: "#0f172a",
+      muted:"#64748b",
+      border:"rgba(148,163,184,.35)",
+      panel:"#ffffff",
+
+      accentA:"#0ea5e9",
+      accentB:"#14b8a6",
+      accentC:"#f59e0b",
+      accentD:"#8b5cf6",
+      accentE:"#ef4444",
+
+      pillA:"rgba(14,165,233,.12)",
+      pillB:"rgba(20,184,166,.12)",
+      pillC:"rgba(245,158,11,.12)",
+      pillD:"rgba(139,92,246,.12)",
+      pillE:"rgba(239,68,68,.12)"
+    };
+
+    /* =========================================================
+       UTIL
+    ========================================================= */
+    const $ = (sel, root=document)=> root.querySelector(sel);
+    const $$ = (sel, root=document)=> Array.from(root.querySelectorAll(sel));
+
+    const fmt2 = (n)=> (Number(n)*100).toFixed(0) + "%";
+    const pct01ToPctInt = (n)=> Math.max(0, Math.min(100, Math.round(Number(n||0)*100)));
+
+    function safeText(el, t){
+      if(!el) return;
+      el.textContent = String(t ?? "");
+    }
+
+    /* =========================================================
+       CHART.JS HELPERS
+    ========================================================= */
+    const CHART_ANIM_MS = 900;
+
+    function baseChartOptions(animate){
+      const animOn = !!animate;
+      return {
+        responsive:true,
+        maintainAspectRatio:false,
+        devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
+        animation: animOn ? { duration: CHART_ANIM_MS, delay: 0 } : { duration: 0 },
+        layout:{ padding:{ top:10, right:14, bottom:12, left:14 } },
+        interaction:{ mode:"nearest", intersect:false },
+        plugins:{
+          legend:{
+            display:true,
+            position:"top",
+            labels:{
+              usePointStyle:true,
+              pointStyle:"circle",
+              boxWidth:8,
+              boxHeight:8,
+              color: THEME.muted,
+              font:{ size:11, weight:"600" }
+            }
+          },
+          tooltip:{
+            enabled:true,
+            backgroundColor:"rgba(15,23,42,.95)",
+            titleColor:"#fff",
+            bodyColor:"#fff",
+            padding:10,
+            displayColors:true,
+            callbacks:{
+              label:(ctx)=>{
+                const v = ctx.parsed;
+                if(typeof v === "number") return `${ctx.dataset.label}: ${v}`;
+                if(v && typeof v === "object"){
+                  if(typeof v.y === "number") return `${ctx.dataset.label}: ${v.y}`;
+                  if(typeof v.x === "number") return `${ctx.dataset.label}: ${v.x}`;
+                }
+                return `${ctx.dataset.label}`;
+              }
+            }
+          }
+        }
+      };
+    }
+
+    function doughnutOptions(animate){
+      const base = baseChartOptions(animate);
+      const animOn = !!animate;
+      return {
+        ...base,
+        rotation: Math.PI / 2,          // start at bottom (6 o'clock)
+        circumference: Math.PI * 2,
+        animation: animOn
+          ? { duration: CHART_ANIM_MS, easing: "easeOutQuart", animateRotate: true, animateScale: false }
+          : { duration: 0 },
+        plugins:{ ...base.plugins, legend:{ ...base.plugins.legend, position:"bottom" } }
+      };
+    }
+
+    const BAR_FIXED_VERTICAL = {
+      barThickness: 14,
+      maxBarThickness: 14,
+      categoryPercentage: 0.9,
+      borderRadius: 8
+    };
+
+    const BAR_FIXED_HORIZONTAL = {
+      barThickness: 12,
+      maxBarThickness: 12,
+      categoryPercentage: 0.9,
+      borderRadius: 8
+    };
+
+    const DONUT_FIXED = {
+      borderWidth:0,
+      cutout:"72%",
+      radius:"88%"
+    };
+
+    /* =========================================================
+       PLUGINS: centerText (donut), barValueLabels, pulseCurrentPoint
+    ========================================================= */
+    const centerTextPlugin = {
+      id:"centerText",
+      afterDraw(chart, args, opts){
+        const o = opts || {};
+        const top = o.top || "";
+        const bottom = o.bottom || "";
+        const topFont = o.topFont || "600 16px system-ui, -apple-system, Segoe UI, sans-serif";
+        const bottomFont = o.bottomFont || "600 16px system-ui, -apple-system, Segoe UI, sans-serif";
+        const color = o.color || THEME.text;
+
+        const {ctx, chartArea} = chart;
+        if(!chartArea) return;
+
+        const cx = (chartArea.left + chartArea.right) / 2;
+        const cy = (chartArea.top + chartArea.bottom) / 2;
+
+        ctx.save();
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
+        ctx.fillStyle = color;
+
+        if(top){
+          ctx.font = topFont;
+          ctx.fillText(top, cx, cy - 10);
+        }
+        if(bottom){
+          ctx.font = bottomFont;
+          ctx.fillText(bottom, cx, cy + 14);
+        }
+        ctx.restore();
+      }
+    };
+
+    const barValueLabelsPlugin = {
+      id:"barValueLabels",
+      afterDatasetsDraw(chart, args, opts){
+        if(opts === false) return;
+        const o = opts || {};
+        const format = o.format || "float2";
+        const color = o.textColor || THEME.text;
+
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.fillStyle = color;
+        ctx.font = "600 11px system-ui, -apple-system, Segoe UI, sans-serif";
+        ctx.textAlign = "left";
+        ctx.textBaseline = "middle";
+
+        chart.data.datasets.forEach((ds, di)=>{
+          const meta = chart.getDatasetMeta(di);
+          meta.data.forEach((el, idx)=>{
+            const v = ds.data[idx];
+            if(v == null) return;
+
+            let s = "";
+            if(format === "float1") s = Number(v).toFixed(1);
+            else if(format === "float2") s = Number(v).toFixed(2);
+            else s = String(v);
+
+            const pos = el.tooltipPosition();
+            if(chart.config.options.indexAxis === "y"){
+              ctx.textAlign = "left";
+              ctx.fillText(s, pos.x + 8, pos.y);
+            }else{
+              ctx.textAlign = "center";
+              ctx.fillText(s, pos.x, pos.y - 10);
+            }
+          });
+        });
+
+        ctx.restore();
+      }
+    };
+
+    const pulseCurrentPointPlugin = {
+      id:"pulseCurrentPoint",
+      afterDatasetsDraw(chart, args, opts){
+        const o = opts || {};
+        const datasetIndex = Number(o.datasetIndex ?? 0);
+        const periodMs = Number(o.periodMs ?? 1000);
+        const baseR = Number(o.baseR ?? 8);
+        const maxR = Number(o.maxR ?? 26);
+        const color = o.color || "rgba(14,165,233,.55)";
+
+        const meta = chart.getDatasetMeta(datasetIndex);
+        if(!meta || !meta.data || !meta.data[0]) return;
+
+        const el = meta.data[0];
+        const {x,y} = el.getProps(["x","y"], true);
+
+        const t = performance.now();
+        const p = (t % periodMs) / periodMs;     // 0..1
+        const r = baseR + (maxR - baseR) * p;
+        const alpha = (1 - p);
+
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI*2);
+        ctx.strokeStyle = color.replace(")", `,${alpha})`).replace("rgba", "rgba");
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+      }
+    };
+
+    /* =========================================================
+       REGISTER CHART.JS
+    ========================================================= */
+    function ensureChartJS(){
+      if(!window.Chart) return false;
+      if(ensureChartJS._done) return true;
+
+      Chart.register(centerTextPlugin, barValueLabelsPlugin, pulseCurrentPointPlugin);
+      ensureChartJS._done = true;
+      return true;
+    }
+
+    /* =========================================================
+       DEFERRED CHART MOUNT
+    ========================================================= */
+    const CHART_INST = new Map();
+
+    function mountChartDeferred(canvasId, buildConfig, applyData){
+      const canvas = document.getElementById(canvasId);
+      if(!canvas) return;
+
+      const doMount = ()=>{
+        if(!ensureChartJS()) return;
+        const ctx = canvas.getContext("2d");
+        if(!ctx) return;
+
+        const cfg = buildConfig(true);
+        const chart = new Chart(ctx, cfg);
+        CHART_INST.set(canvasId, chart);
+
+        if(typeof applyData === "function"){
+          applyData();
+        }
+      };
+
+      if("IntersectionObserver" in window){
+        const io = new IntersectionObserver((entries)=>{
+          entries.forEach((e)=>{
+            if(e.isIntersecting){
+              io.disconnect();
+              doMount();
+            }
+          });
+        }, {threshold:0.2});
+        io.observe(canvas);
+      }else{
+        doMount();
+      }
+    }
+
+    function animateChartData(canvasId, mutator){
+      const c = CHART_INST.get(canvasId);
+      if(!c) return;
+      if(typeof mutator === "function"){
+        mutator(c);
+      }
+      c.update();
+    }
+
+    /* =========================================================
+       APPLY REPORT DATA TO DOM
+    ========================================================= */
+    const r = REPORT;
+
+    function renderText(){
+      safeText($("#npHeroTitle"), r.hero.title);
+      safeText($("#npHeroSubtitleKr"), r.hero.subtitle_kr);
+      safeText($("#npRefCase"), r.hero.ref_case);
+      safeText($("#npDocType"), r.hero.doc_type);
+
+      const desc = $("#npHeroDesc");
+      if(desc){
+        desc.innerHTML = "";
+        (r.hero.desc || []).forEach((t)=>{
+          const p = document.createElement("p");
+          p.className = "np-hero-line";
+          p.textContent = t;
+          desc.appendChild(p);
+        });
+      }
+
+      safeText($("#npDecision"), r.summary.decision);
+      safeText($("#npConfidence"), fmt2(r.summary.confidence));
+      safeText($("#npBand"), r.summary.band);
+
+      safeText($("#npArcLevel"), `${r.summary.arc_level} · ${r.summary.arc_label}`);
+      safeText($("#npArcMean"), `${r.summary.arc_mean.toFixed(2)} (p${Math.round(r.summary.arc_percentile*100)})`);
+      safeText($("#npReliability"), (r.summary.reliability*100).toFixed(0) + "%");
+
+      safeText($("#npContentTitle"), r.content.title);
+      safeText($("#npContentText"), r.content.text);
+
+      const tags = $("#npTags");
+      if(tags){
+        tags.innerHTML = "";
+        (r.content.tags || []).forEach((t)=>{
+          const span = document.createElement("span");
+          span.className = "np-tag";
+          span.textContent = t;
+          tags.appendChild(span);
+        });
+      }
+    }
+
+    /* =========================================================
+       BUILD CHARTS
+    ========================================================= */
+    function buildCharts(){
+      const mix = r.ai?.mix || {human:0,hybrid:0,ai:0};
+      const conf = Number(r.summary?.confidence ?? 0);
+      const rel = Number(r.arc?.reliability ?? 0);
+      const relMapped = Math.max(0, Math.min(1, rel));
+
+      const decision = r.ai?.primary_outcome || r.summary?.decision || "Human";
+
+      const cffInd = r.cff?.indicators || {};
+      const cffOrder = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF"];
+
+      const arcDims = r.arc?.dimensions || [];
+      const arcLabels = arcDims.map((d)=>d.code);
+      const arcVals = arcDims.map((d)=>Number(d.score ?? 0));
+
+      /* 1) chartMix (donut) */
+      mountChartDeferred(
+        "chartMix",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              centerText:{ top: decision, bottom: fmt2(conf) }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMix", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 2) chartConfidence (vertical bar) */
+      mountChartDeferred(
+        "chartConfidence",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:["Confidence","Reliability band"],
+            datasets:[{
+              label:"index (0 to 1)",
+              data:[0,0],
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:[THEME.accentB, THEME.accentB]
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animations:{ y:{ from:0 } },   /* ✅ 세로바: 아래부터 */
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartConfidence", (c)=>{
+          c.data.datasets[0].data = [conf, relMapped];
+        })
+      );
+
+      /* 3) chartArcBarsMini (vertical bar) */
+      mountChartDeferred(
+        "chartArcBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentC
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animations:{ y:{ from:0 } },   /* ✅ 세로바: 아래부터 */
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBarsMini", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 4) chartCffBarsMini (vertical bar) */
+      mountChartDeferred(
+        "chartCffBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:cffOrder,
+            datasets:[{
+              label:"CFF score (0 to 1)",
+              data:cffOrder.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentD
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animations:{ y:{ from:0 } },   /* ✅ 세로바: 아래부터 */
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartCffBarsMini", (c)=>{
+          c.data.datasets[0].data = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+        })
+      );
+
+      /* 5) chartMix2 (donut) */
+      mountChartDeferred(
+        "chartMix2",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              centerText:{ top: decision, bottom: fmt2(conf) }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMix2", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 6) chartAuthSignals (horizontal bar) */
+      const contrib = r.ai?.signal_contributions || {};
+      const contribLabels = Object.keys(contrib).map((k)=>k.split("_").join(" "));
+      const contribVals = Object.values(contrib).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartAuthSignals",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:contribLabels,
+            datasets:[{
+              label:"contribution (0 to 1)",
+              data:contribLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentB
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animations:{ x:{ from:0 } },  /* ✅ 가로바: 왼쪽부터 */
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:0.4, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartAuthSignals", (c)=>{
+          c.data.datasets[0].data = contribVals.slice();
+        })
+      );
+
+      /* 7) chartCffRadar (radar) */
+      mountChartDeferred(
+        "chartCffRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels: cffOrder,
+            datasets:[{
+              label:"CFF Indicator",
+              data:cffOrder.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillD,
+              borderColor: THEME.accentD,
+              pointBackgroundColor: THEME.accentD,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+              radarValueLabels:false
+            },
+            scales:{
+              r:{
+                min:0, max:1,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+        ()=> animateChartData("chartCffRadar", (c)=>{
+          const vals = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+          c.data.datasets[0].data = vals.slice();
+          c.data.labels = cffOrder.slice();
+          c.options.plugins.radarValueLabels = false;
+        })
+      );
+
+      /* 8) chartArcBars (vertical bar) */
+      mountChartDeferred(
+        "chartArcBars",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentE
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animations:{ y:{ from:0 } },   /* ✅ 세로바: 아래부터 */
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBars", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 9) chartArcRadar (radar) */
+      mountChartDeferred(
+        "chartArcRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC profile",
+              data:arcLabels.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillB,
+              borderColor: THEME.accentB,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBackgroundColor: THEME.accentB,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+              radarValueLabels:false
+            },
+            scales:{
+              r:{
+                min:0, max:6,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcRadar", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+          c.data.labels = arcLabels.slice();
+          c.options.plugins.radarValueLabels = false;
+        })
+      );
+
+      /* 10) chartMapScatter (points appear one-by-one + current pulse) */
+      const cl = r.reasoning_map?.clusters || { human:[], hybrid:[], ai:[] };
+      const toXY = (arr)=> (Array.isArray(arr) ? arr.map((p)=>({ x:Number(p.x ?? 0), y:Number(p.y ?? 0) })) : []);
+      const currentPt = { x:Number(r.reasoning_map?.current?.x ?? 0), y:Number(r.reasoning_map?.current?.y ?? 0) };
+
+      mountChartDeferred(
+        "chartMapScatter",
+        (animate)=>({
+          type:"scatter",
+          data:{
+            datasets:[
+              { label:"Human cluster", data:toXY(cl.human), pointRadius:4, pointHoverRadius:6, backgroundColor:THEME.accentA, borderWidth:0 },
+              { label:"Hybrid cluster", data:toXY(cl.hybrid), pointRadius:4, pointHoverRadius:6, backgroundColor:THEME.accentC, borderWidth:0 },
+              { label:"AI cluster", data:toXY(cl.ai), pointRadius:4, pointHoverRadius:6, backgroundColor:THEME.accentB, borderWidth:0 },
+              { label:"Current", data:[currentPt], pointRadius:8, pointHoverRadius:10, backgroundColor:THEME.accentE, borderWidth:0 }
+            ]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            animation: (animate ? {
+              duration: CHART_ANIM_MS,
+              easing: "easeOutQuart",
+              delay: (ctx)=> (ctx.type === "data" ? (ctx.dataIndex || 0) * 35 : 0)
+            } : { duration: 0 }),  /* ✅ 맵: 점들이 하나씩 */
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:8, maxR:26 }
+            },
+            scales:{
+              x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } }
+            }
+          }
+        }),
+        ()=>{ /* already drawn; current pulse handled by plugin */ }
+      );
+    }
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+    function init(){
+      renderText();
+      buildCharts();
+    }
+
+    if(document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", init);
+    }else{
+      init();
+    }
+  })();
+</script>
 </html>
 
 
