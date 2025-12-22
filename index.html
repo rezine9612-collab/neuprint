@@ -23,7 +23,7 @@
 
       /* Logo sizing */
       --logoW: 340px;
-      --logoW-m: 180px;
+      --logoW-m: 190px;
 
       /* Base colors */
       --bg: #ffffff;
@@ -2327,7 +2327,7 @@ for(let j=0;j<rings;j++){
       const c = chartsById[id];
       if(!c) return;
       applyRealData(c);
-      c.options.animation = { duration: CHART_ANIM_MS, delay: 0, from: 0 };
+      c.options.animation = { duration: CHART_ANIM_MS, delay: 0 };
       c.update();
     }
 
@@ -2755,7 +2755,7 @@ plugins:{
         ()=> {
           const c = chartsById["chartMapScatter"];
           if(!c) return;
-          c.options.animation = { duration: CHART_ANIM_MS, delay: 0, from:0 };
+          c.options.animation = { duration: CHART_ANIM_MS, delay: 0 };
           c.update();
         }
       );
@@ -3074,5 +3074,6 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
