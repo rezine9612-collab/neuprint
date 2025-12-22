@@ -1174,8 +1174,6 @@
 
   </div>
  
-</body>
-
 <script>
   (function(){
     "use strict";
@@ -1334,7 +1332,7 @@
       accentE: css.getPropertyValue("--accentE").trim(),
       pillB: css.getPropertyValue("--pillB").trim(),
       pillD: css.getPropertyValue("--pillD").trim(),
-      pillN: css.getPropertyValue("--pillN").trim()
+      pillN: css.getPropertyValue("--pillN").trim()  /* chip gray (요청) */
     };
 
     const CHART_ANIM_MS = parseInt(css.getPropertyValue("--chartAnimDuration"), 10) || 1400;
@@ -1348,10 +1346,9 @@
     }
 
     /* =========================================================
-       Plugin helpers (label boxes, center text, bar labels 등)
+       Plugin helpers (white background label boxes)
     ========================================================= */
-
-function roundRectPath(ctx, x, y, w, h, r){
+    function roundRectPath(ctx, x, y, w, h, r){
       const rr = Math.max(0, Math.min(r, Math.min(w,h)/2));
       ctx.beginPath();
       ctx.moveTo(x+rr, y);
@@ -1379,6 +1376,7 @@ function roundRectPath(ctx, x, y, w, h, r){
       const m = ctx.measureText(text);
       const w = Math.ceil(m.width + padX*2);
       const h = Math.ceil(12 + padY*2);
+
       const rx = centerX ? Math.round(x - w/2) : x;
 
       roundRectPath(ctx, rx, y, w, h, radius);
@@ -1386,15 +1384,17 @@ function roundRectPath(ctx, x, y, w, h, r){
       ctx.fill();
       ctx.strokeStyle = stroke;
       ctx.lineWidth = 1;
+/*    ctx.stroke(); */
 
       ctx.fillStyle = textColor;
       ctx.fillText(text, rx + padX, y + h/2);
+
       ctx.restore();
       return { w, h };
     }
 
     /* =========================================================
-       2-1) Donut center text plugin
+       2-1) Donut center text plugin (굵기 조정 + yOffset 지원)
     ========================================================= */
     const centerTextPlugin = {
       id:"centerTextPlugin",
@@ -1414,25 +1414,26 @@ function roundRectPath(ctx, x, y, w, h, r){
         const bottom = String(opts.bottom || "");
         const yOffset = Number(opts.yOffset || 0);
 
-        const topFont = opts.topFont || "600 16px Open Sans, system-ui, sans-serif";
-        const bottomFont = opts.bottomFont || "600 16px Open Sans, system-ui, sans-serif";
+        const topFont = opts.topFont || "600 16px Open Sans, system-ui, sans-serif";   /* 덜 굵게 */
+        const bottomFont = opts.bottomFont || "600 16px Open Sans, system-ui, sans-serif"; /* 덜 굵게 */
 
         ctx.save();
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = THEME.text || "#0f172a";
 
+        ctx.fillStyle = THEME.text || "#0f172a";
         ctx.font = topFont;
         ctx.fillText(top, x, y - 8 + yOffset);
 
         ctx.font = bottomFont;
         ctx.fillText(bottom, x, y + 12 + yOffset);
+
         ctx.restore();
       }
     };
 
     /* =========================================================
-       2-2) Bar value labels plugin
+       2-2) Bar value labels (세로: 바 중앙 정렬로 수정)
     ========================================================= */
     const barValueLabelsPlugin = {
       id:"barValueLabelsPlugin",
@@ -1458,23 +1459,43 @@ function roundRectPath(ctx, x, y, w, h, r){
           if(v == null) continue;
 
           let text = "";
-          if(fmt === "pct") text = Math.round(Number(v)) + "%";
-          else if(fmt === "float1") text = Number(v).toFixed(1);
-          else if(fmt === "float2") text = Number(v).toFixed(2);
-          else text = String(v);
+          if(fmt === "pct"){
+            text = Math.round(Number(v)) + "%";
+          }else if(fmt === "float1"){
+            text = Number(v).toFixed(1);
+          }else if(fmt === "float2"){
+            text = Number(v).toFixed(2);
+          }else{
+            text = String(v);
+          }
 
           if(indexAxis === "y"){
-            drawLabelBox(ctx, el.x + 8, el.y - 10, text, { textColor: color });
+            /* 가로 바: 기존대로 오른쪽 */
+            const x = el.x + 8;
+            const y = el.y - 10;
+            drawLabelBox(ctx, x, y, text, { textColor: color, bg:"#fff", stroke:"rgba(226,232,240,.95)", radius:6 });
           }else{
-            drawLabelBox(ctx, el.x, el.y - 24, text, { textColor: color, centerX:true });
+            /* 세로 바: 바의 중앙에 오도록 centerX 사용 */
+            const x = el.x;
+            const y = el.y - 24;
+            drawLabelBox(ctx, x, y, text, {
+              textColor: color,
+              bg:"#fff",
+              stroke:"rgba(226,232,240,.95)",
+              radius:6,
+              centerX:true
+            });
           }
         }
+
         ctx.restore();
       }
     };
 
     /* =========================================================
-       2-3) Radar value labels plugin
+       2-3) Radar value labels
+       - 값만 출력
+       - point label보다 더 바깥쪽으로 (outV 확대 + radial offset)
     ========================================================= */
     const radarValueLabelsPlugin = {
       id:"radarValueLabelsPlugin",
@@ -1499,31 +1520,46 @@ function roundRectPath(ctx, x, y, w, h, r){
         ctx.textBaseline = "middle";
 
         const maxV = (typeof scale.max === "number") ? scale.max : 1;
+
+        /* 더 멀리: 1.15 (기존 1.06보다 바깥쪽) */
         const outV = maxV * (Number(opts.outFactor || 1.15));
-        const extraPx = Number(opts.extraPx || 10);
+        const extraPx = Number(opts.extraPx || 10); /* 라벨 위치보다 더 멀어지게 */
 
         for(let i=0;i<labels.length;i++){
           const v = Number(values[i] ?? 0);
+
+          /* 값만 표시 */
           const txt = fmt2(v);
+
           const pt = scale.getPointPositionForValue(i, outV);
 
+          /* 중심에서 바깥 방향으로 extraPx 더 이동 */
           const cx = scale.xCenter;
           const cy = scale.yCenter;
           const dx = pt.x - cx;
           const dy = pt.y - cy;
           const len = Math.hypot(dx,dy) || 1;
-
           const ox = pt.x + (dx/len)*extraPx;
           const oy = pt.y + (dy/len)*extraPx;
 
-          drawLabelBox(ctx, ox, oy - 8, txt, { centerX:true });
+          drawLabelBox(ctx, ox, oy - 8, txt, {
+            textColor: THEME.text || "#0f172a",
+            bg:"#fff",
+            stroke:"rgba(226,232,240,.95)",
+            radius:6,
+            padX:6,
+            padY:3,
+            font:"700 10px Open Sans, system-ui, sans-serif",
+            centerX:true
+          });
         }
+
         ctx.restore();
       }
     };
 
     /* =========================================================
-       2-4) Pulsing ring plugin for scatter
+       2-4) Pulsing ring animation for Structural Position Map (3 rings, 가속감)
     ========================================================= */
     const pulseCurrentPointPlugin = {
       id:"pulseCurrentPointPlugin",
@@ -1533,9 +1569,11 @@ function roundRectPath(ctx, x, y, w, h, r){
 
         const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 3;
         const meta = chart.getDatasetMeta(dsIndex);
-        if(!meta || !meta.data || !meta.data.length) return;
+        if(!meta || meta.hidden || !meta.data || !meta.data.length) return;
 
         const point = meta.data[0];
+        if(!point) return;
+
         const ctx = chart.ctx;
         const now = performance.now();
 
@@ -1543,7 +1581,8 @@ function roundRectPath(ctx, x, y, w, h, r){
           chart.$pulse = { start: now, raf: null };
         }
 
-        const period = Number(opts.periodMs || 1000);
+        /* 속도: period 1000ms, 3개 링이 서로 1/3씩 위상차 */
+        const period = Number(opts.periodMs || 50);
         const t = (now - chart.$pulse.start) % period;
         const base = t / period;
 
@@ -1551,40 +1590,320 @@ function roundRectPath(ctx, x, y, w, h, r){
         const maxR = Number(opts.maxR || 26);
         const rings = 3;
 
-        for(let j=0;j<rings;j++){
-          const k = (base + j / rings) % 1;
-          const r = baseR + (maxR - baseR) * k;
-          const alpha = 0.22 * (1 - k);
+// 삭제하거나 안 써도 됨
+// function easeIn(k){ return k*k; }
 
-          ctx.save();
-          ctx.beginPath();
-          ctx.arc(point.x, point.y, r, 0, Math.PI*2);
-          ctx.strokeStyle = "rgba(249,123,23," + alpha.toFixed(3) + ")";
-          ctx.lineWidth = 2;
-          ctx.stroke();
-          ctx.restore();
-        }
+for(let j=0;j<rings;j++){
+  const k0 = (base + j / rings) % 1;
+
+  // ✅ 일정 속도(선형)
+  const r = baseR + (maxR - baseR) * k0;
+
+  const alpha = 0.22 * (1 - k0);
+
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(point.x, point.y, r, 0, Math.PI*2);
+  ctx.strokeStyle = "rgba(249,123,23," + alpha.toFixed(3) + ")";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+}
+
 
         if(!chart.$pulse.raf){
           const tick = () => {
-            try{ chart.draw(); }catch(_e){}
+            if(chart && chart.ctx){
+              try{ chart.draw(); }catch(_e){}
+            }
             chart.$pulse.raf = requestAnimationFrame(tick);
           };
           chart.$pulse.raf = requestAnimationFrame(tick);
+        }
+      },
+      beforeDestroy(chart){
+        if(chart && chart.$pulse && chart.$pulse.raf){
+          cancelAnimationFrame(chart.$pulse.raf);
+          chart.$pulse.raf = null;
         }
       }
     };
 
     if(window.Chart){
-      Chart.register(
-        centerTextPlugin,
-        barValueLabelsPlugin,
-        radarValueLabelsPlugin,
-        pulseCurrentPointPlugin
+      Chart.register(centerTextPlugin, barValueLabelsPlugin, radarValueLabelsPlugin, pulseCurrentPointPlugin);
+    }
+
+    /* =========================================================
+       Render: DOM binding
+    ========================================================= */
+    function renderReport(r){
+      renderHero(r);
+      renderHeaderPills(r);
+      renderExecutiveMetrics(r);
+      renderSummaryPanels(r);
+      renderAuthorshipPanels(r);
+      renderCffPanels(r);
+      renderCffTable(r);
+      renderArcPanels(r);
+      renderArcTable(r);
+      renderMapPanels(r);
+      renderStabilityPanels(r);
+      renderIdentityPanels(r);
+      renderHrPanels(r);
+      renderMetadata(r);
+    }
+
+    function renderHero(r){
+      if(r.hero){
+        setText("heroTitle", r.hero.title);
+        setText("heroDesc", r.hero.description);
+      }
+      if(r.verify){
+        setText("verifyUrlText", r.verify.url);
+        setText("verifyIdText", r.verify.id);
+        const qr = $("qrImg");
+        if(qr && r.verify.qr_src) qr.src = r.verify.qr_src;
+      }
+    }
+
+    function setPill(id, value, toneClass){
+      const el = $(id);
+      if(!el) return;
+      el.textContent = String(value);
+      el.className = "pill " + (toneClass || "toneN");
+    }
+
+    function renderHeaderPills(r){
+      const decision = r.ai?.final_classification || "Unknown";
+      const confIdx = clamp01(r.ai?.confidence_index ?? 0);
+      const cffType = r.cff?.primary_type || "Unknown";
+      const arcLabel = ((r.arc?.overall_level || "?") + " " + (r.arc?.overall_label || "")).trim();
+      const identity = r.identity?.status || "Unknown";
+
+      setPill("decisionPill", decision, "toneE");
+      setPill("confidencePill", pct01ToPctInt(confIdx) + "%", "toneB");
+      setPill("cffTypePill", cffType, "toneC");
+      setPill("arcLevelPill", arcLabel, "toneD");
+      setPill("identityPill", identity, "toneN");
+    }
+
+    function renderExecutiveMetrics(r){
+      const decision = r.ai?.final_classification || "Unknown";
+      const confIdx = clamp01(r.ai?.confidence_index ?? 0);
+
+      setText("mDecision", decision);
+      setText("mConfidence", fmt2(confIdx));
+      setText("mArcMean", Number(r.arc?.mean_score ?? 0).toFixed(2));
+      setText("mArcPctNote", "Percentile: " + Math.round((r.arc?.percentile ?? 0) * 100) + "th in reference cohort.");
+
+      const rb = riskBandFromReliability(r.ai?.detection_reliability_band);
+      setText("mRiskBand", rb.label);
+      setText("mRiskNote", rb.note);
+
+      setText("mDecisionNote", r.ai?.interpretation || "");
+    }
+
+    function renderSummaryPanels(r){
+      setText("contentSummary", r.content_summary || "");
+
+      const tags = $("topicTags");
+      if(tags){
+        tags.innerHTML = "";
+        (r.topic_tags || []).forEach((t)=>{
+          const s = document.createElement("span");
+          s.className = "kpi";
+          s.textContent = t;
+          tags.appendChild(s);
+        });
+      }
+
+      setText("baselineMode", r.baseline_mode || "BASELINE_ONLY");
+      setText("historyStatus", r.history_status || "None");
+      setText("kpfStatus", r.cff?.indicators?.KPF_SIM == null ? "N/A" : "OK");
+    }
+
+    function renderAuthorshipPanels(r){
+      const mapNote = r.reasoning_map?.note ? " " + r.reasoning_map.note : "";
+      setText("aiInterpretation", (r.ai?.interpretation || "") + ". " + mapNote);
+      setText("aiPatternLabel", r.ai?.pattern_label || "");
+      setText("aiReliability", r.ai?.detection_reliability_band || "");
+
+      const mix = r.ai?.mix_ratio || { human:0, hybrid:0, ai:0 };
+      const mixKpis = $("mixKpis");
+      if(mixKpis){
+        mixKpis.innerHTML = "";
+        [["human",mix.human],["hybrid",mix.hybrid],["ai",mix.ai]].forEach(([k,v])=>{
+          const span = document.createElement("span");
+          span.className = "kpi";
+          span.innerHTML = k + ": <span class=\"code\">" + formatPct01(v) + "</span>";
+          mixKpis.appendChild(span);
+        });
+      }
+    }
+
+    function renderCffPanels(r){
+      setText("cffPrimary", r.cff?.primary_type || "");
+      setText("cffSecondary", r.cff?.secondary_tendency || "");
+      setText("cffTypeConfidence", fmt2(r.cff?.type_confidence ?? 0));
+      setText("cffKpfNote", r.cff?.indicators?.KPF_SIM == null ? "N/A" : String(r.cff.indicators.KPF_SIM));
+    }
+
+    function renderCffTable(r){
+      const body = $("cffTableBody");
+      if(!body) return;
+      body.innerHTML = "";
+
+      const names = {
+        AAS:"Argument Architecture Style",
+        CTF:"Cognitive Transition Flow",
+        RMD:"Reasoning Momentum Delta",
+        RDX:"Revision Depth Index",
+        EDS:"Evidence Diversity Score",
+        HI:"Human Rhythm Index",
+        IFD:"Intent Friction Delta",
+        KPF_SIM:"Keystroke Pattern Fingerprint Similarity"
+      };
+
+      const order = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF_SIM"];
+      const ind = r.cff?.indicators || {};
+
+      order.forEach((code)=>{
+        const raw = (code==="KPF_SIM") ? ind.KPF_SIM : ind[code];
+        const isNA = raw == null;
+
+        const tr = document.createElement("tr");
+
+        const tdCode = document.createElement("td");
+        tdCode.className="code";
+        tdCode.textContent = (code==="KPF_SIM") ? "KPF-Sim" : code;
+
+        const tdName = document.createElement("td");
+        tdName.textContent = names[code];
+
+        const tdScore = document.createElement("td");
+        tdScore.textContent = isNA ? "N/A" : fmt2(raw);
+
+        const tdStatus = document.createElement("td");
+        tdStatus.textContent = isNA ? "Excluded" : "Active";
+
+        tr.appendChild(tdCode);
+        tr.appendChild(tdName);
+        tr.appendChild(tdScore);
+        tr.appendChild(tdStatus);
+        body.appendChild(tr);
+      });
+    }
+
+    function renderArcPanels(r){
+      setText("arcLevel", ((r.arc?.overall_level || "?") + " " + (r.arc?.overall_label || "")).trim());
+      setText("arcMean", Number(r.arc?.mean_score ?? 0).toFixed(2));
+      setText("arcReliability", fmt2(r.arc?.reliability ?? 0));
+      setText("arcGuidance", r.arc?.guidance || "");
+
+      const arcKpis = $("arcKpis");
+      if(arcKpis){
+        arcKpis.innerHTML = "";
+
+        const strengths = Array.isArray(r.arc?.strengths) ? r.arc.strengths : [];
+        const growth = Array.isArray(r.arc?.growth_targets) ? r.arc.growth_targets : [];
+
+        const s = document.createElement("span"); s.className="kpi";
+        s.innerHTML = "strengths: <span class=\"code\">" + strengths.join(", ") + "</span>";
+
+        const g = document.createElement("span"); g.className="kpi";
+        g.innerHTML = "growth: <span class=\"code\">" + growth.join(", ") + "</span>";
+
+        const p = document.createElement("span"); p.className="kpi";
+        p.innerHTML = "percentile: <span class=\"code\">" + Math.round((r.arc?.percentile ?? 0)*100) + "th</span>";
+
+        arcKpis.appendChild(s);
+        arcKpis.appendChild(g);
+        arcKpis.appendChild(p);
+      }
+    }
+
+    function renderArcTable(r){
+      const body = $("arcTableBody");
+      if(!body) return;
+      body.innerHTML = "";
+      (r.arc?.dimensions || []).forEach((d)=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML =
+          "<td class=\"code\">" + d.code + "</td>" +
+          "<td>" + d.name + "</td>" +
+          "<td>" + Number(d.score).toFixed(1) + "</td>" +
+          "<td>" + d.comment + "</td>";
+        body.appendChild(tr);
+      });
+    }
+
+    function renderMapPanels(r){
+      const rm = r.reasoning_map || {};
+      const mapKpis = $("mapKpis");
+      if(mapKpis){
+        mapKpis.innerHTML="";
+
+        const sd = document.createElement("span"); sd.className="kpi";
+        sd.innerHTML="distance_to_human_center: <span class=\"code\">" + Number(rm.distance_to_human_center_sd ?? 0).toFixed(2) + " SD</span>";
+
+        const pt = document.createElement("span"); pt.className="kpi";
+        const cx = Number(rm.current?.x ?? 0).toFixed(2);
+        const cy = Number(rm.current?.y ?? 0).toFixed(2);
+        pt.innerHTML="current_point: <span class=\"code\">(" + cx + ", " + cy + ")</span>";
+
+        mapKpis.appendChild(sd);
+        mapKpis.appendChild(pt);
+      }
+      setText("mapInterpretation", rm.note || "");
+    }
+
+    function renderStabilityPanels(r){
+      setText("stHistoryStatus", r.stability?.history_status || "None");
+      setText(
+        "stabilityIndex",
+        r.stability?.history_status === "None"
+          ? "None"
+          : fmt2(r.stability?.type_consistency ?? 0)
       );
     }
 
-/* =========================================================
+    function renderIdentityPanels(r){
+      setText("idStatus", r.identity?.status || "Unknown");
+      setText("idScore", r.identity?.same_author_score == null ? "None" : fmt2(r.identity.same_author_score));
+    }
+
+    function renderHrPanels(r){
+      const hr = r.hr || {};
+      const roles = Array.isArray(hr.recommended_roles) ? hr.recommended_roles : [];
+      const tail = roles.length ? ". Recommended roles include: " + roles.join(", ") + "." : "";
+      setText("hrProfile", (hr.cognitive_style || "") + tail);
+
+      const hrKpis = $("hrKpis");
+      if(hrKpis){
+        hrKpis.innerHTML="";
+        roles.forEach((role)=>{
+          const v = hr.fit_scores?.[role] ?? 0;
+          const span = document.createElement("span");
+          span.className="kpi";
+          span.innerHTML = role + ": <span class=\"code\">" + formatPct01(v) + "</span>";
+          hrKpis.appendChild(span);
+        });
+      }
+    }
+
+    function renderMetadata(r){
+      setText("metaAssessmentId", r.assessment_id || "-");
+      setText("metaLang", r.input_language || "-");
+      setText("metaTime", r.generated_at_utc || "-");
+      setText("metaHistory", r.history_status || "None");
+      setText("metaKpf", r.cff?.indicators?.KPF_SIM == null ? "N/A" : "OK");
+      setText("metaEditLog", "None");
+
+      const raw = $("rawJson");
+      if(raw) raw.textContent = JSON.stringify(r, null, 2);
+    }
+
+    /* =========================================================
        Signature Fingerprint (canvas)
     ========================================================= */
     const SIGNATURE_KEYS = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF"];
@@ -1697,20 +2016,124 @@ function roundRectPath(ctx, x, y, w, h, r){
         return [nx,ny];
       }
 
+      const baselineAngle=lerp(-0.20,0.12,rng());
+      const baselineLen=bandW*0.84;
+      const bx1=cx-Math.cos(baselineAngle)*baselineLen/2;
+      const by1=cy-Math.sin(baselineAngle)*baselineLen/2;
+      const bx2=cx+Math.cos(baselineAngle)*baselineLen/2;
+      const by2=cy+Math.sin(baselineAngle)*baselineLen/2;
+
+      const coresN=3+Math.floor(rng()*3);
+      const cores=[];
+      for(let i=0;i<coresN;i++){
+        const t = (coresN===1)?0:i/(coresN-1);
+        const px=bx1+(bx2-bx1)*t;
+        const py=by1+(by2-by1)*t;
+        const n=Math.hypot(bx2-bx1,by2-by1) || 1;
+        const nx=-(by2-by1)/n;
+        const ny=(bx2-bx1)/n;
+        const off=(rng()-0.5)*bandH*0.62;
+        cores.push({ x:px+nx*off, y:py+ny*off, pull:lerp(0.05,0.40,rng())*cohesion });
+      }
+
       let x=lerp(bandX1, bandX1+bandW*0.12, rng());
       let y=lerp(bandY1, bandY2, rng());
       let ang=lerp(-0.16,0.16,rng());
+      let mode=0;
 
+      const history=[];
+      const historyCap = 80 + Math.floor(v.RMD*260);
       const pts=[{x,y}];
+
       for(let i=0;i<steps;i++){
-        ang += (rng()-0.5)*turnGain;
-        let nx = x + Math.cos(ang)*baseStep + (rng()-0.5)*2*jitter;
-        let ny = y + Math.sin(ang)*baseStep + (rng()-0.5)*2*jitter;
-        [nx,ny]=softClamp(nx,ny);
-        x=nx; y=ny;
+        if(rng()<switchP) mode=(mode+1+Math.floor(rng()*2))%3;
+
+        let target=cores[Math.floor(rng()*cores.length)];
+        if(history.length>18 && rng()<loopP){
+          const h=history[Math.floor(rng()*history.length)];
+          target={ x:h.x, y:h.y, pull:lerp(0.06,0.48,rng())*cohesion };
+        }
+
+        const dx=target.x-x, dy=target.y-y;
+        const dist=Math.hypot(dx,dy) || 1;
+        const tx=(dx/dist)*target.pull;
+        const ty=(dy/dist)*target.pull;
+
+        const pullAngle=Math.atan2(ty,tx);
+        const delta=Math.atan2(Math.sin(pullAngle-ang), Math.cos(pullAngle-ang));
+
+        const drift=(rng()-0.5)*(0.020+0.028*v.CTF);
+        const modeGain = (mode===0)?0.85:(mode===1?1.25:1.05);
+
+        const flick=(mode===1 && rng()<0.018)
+          ? (rng()<0.5?-1:1)*(0.28+rng()*0.75)
+          : 0;
+
+        ang += drift + delta*turnGain*modeGain + flick;
+
+        const breathe = 0.80 + 0.45*Math.sin(i*0.010 + rng()*0.6);
+        let stepLen = baseStep*breathe*(0.90+rng()*0.28);
+
+        if(mode===2){
+          stepLen *= 0.92;
+          ang += (rng()-0.5)*0.10;
+        }
+
+        let nx2 = x + Math.cos(ang)*stepLen + (rng()-0.5)*2*jitter;
+        let ny2 = y + Math.sin(ang)*stepLen + (rng()-0.5)*2*jitter;
+        [nx2,ny2]=softClamp(nx2,ny2);
+        x=nx2; y=ny2;
         pts.push({x,y});
+
+        if(i%48===0){
+          history.push({x,y});
+          if(history.length>historyCap) history.shift();
+        }
       }
+
       return pts;
+    }
+
+    function resamplePolyline(pts, step){
+      if(pts.length<2) return pts.slice();
+      const out=[pts[0]];
+      let acc=0;
+      for(let i=1;i<pts.length;i++){
+        let p0=pts[i-1];
+        let p1=pts[i];
+        let dx=p1.x-p0.x, dy=p1.y-p0.y;
+        let seg=Math.hypot(dx,dy);
+        if(seg===0) continue;
+
+        while(acc+seg>=step){
+          const t=(step-acc)/seg;
+          const nx=p0.x+dx*t;
+          const ny=p0.y+dy*t;
+          out.push({x:nx,y:ny});
+          p0={x:nx,y:ny};
+          dx=p1.x-p0.x; dy=p1.y-p0.y;
+          seg=Math.hypot(dx,dy) || 1;
+          acc=0;
+        }
+        acc += seg;
+      }
+      out.push(pts[pts.length-1]);
+      return out;
+    }
+
+    function chaikinOnce(pts){
+      if(pts.length<3) return pts.slice();
+      const fixed=[];
+      fixed.push(pts[0]);
+      for(let i=0;i<pts.length-1;i++){
+        const p=pts[i], q=pts[i+1];
+        fixed.push(
+          { x:0.75*p.x+0.25*q.x, y:0.75*p.y+0.25*q.y },
+          { x:0.25*p.x+0.75*q.x, y:0.25*p.y+0.75*q.y }
+        );
+      }
+      fixed.push(pts[pts.length-1]);
+      return fixed;
     }
 
     let sigAnimRAF = null;
@@ -1718,6 +2141,9 @@ function roundRectPath(ctx, x, y, w, h, r){
     function drawSignatureFingerprintAnimated(r){
       const canvas = $("signatureCanvas");
       if(!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      if(rect.width<4 || rect.height<4) return;
 
       const out = setupHiDPICanvas(canvas);
       const ctx = out.ctx;
@@ -1729,13 +2155,20 @@ function roundRectPath(ctx, x, y, w, h, r){
       ctx.fillRect(0,0,width,height);
 
       const gen = generateSignatureVectorFromReport(r);
-      const raw = generateRawPolyline(gen.v, gen.rng);
+      const v = gen.v;
+      const rng = gen.rng;
+      const raw = generateRawPolyline(v,rng);
 
-      const bb=bboxOfPoints(raw);
-      const PAD=Math.max(8, Math.floor(Math.min(width,height)*0.028));
+      let pts = resamplePolyline(raw, Number(SIGNATURE_OPTS.resampleStepPx));
+      if(SIGNATURE_OPTS.preChaikin) pts=chaikinOnce(pts);
+
+      const bb=bboxOfPoints(pts);
+      const padRatio=0.028;
+      const basePad=Number(SIGNATURE_OPTS.padPx);
+      const PAD=Math.max(basePad, Math.floor(Math.min(width,height)*padRatio));
       const fit=fitRectToCanvas(bb,width,height,PAD,Number(SIGNATURE_OPTS.overscan));
 
-      const mapped = raw.map(p=>({
+      const mapped = pts.map((p)=>({
         x: p.x*fit.scale + fit.tx,
         y: p.y*fit.scale + fit.ty
       }));
@@ -1773,7 +2206,7 @@ function roundRectPath(ctx, x, y, w, h, r){
     }
 
     /* =========================================================
-       Charts setup (common)
+       Charts setup
     ========================================================= */
     const chartsById = Object.create(null);
     const chartAnimators = Object.create(null);
@@ -1823,220 +2256,824 @@ function roundRectPath(ctx, x, y, w, h, r){
       };
     }
 
-/* =========================================================
-       Individual charts
-    ========================================================= */
+    function doughnutOptions(animate){
+      const base = baseChartOptions(animate);
+      return {
+        ...base,
+        plugins:{ ...base.plugins, legend:{ ...base.plugins.legend, position:"bottom" } }
+      };
+    }
 
-    function mountDonut(){
-      const mix = report.ai.mix_ratio || { human:0, hybrid:0, ai:0 };
-      return safeChart("aiMixDonut", {
+    const BAR_FIXED_VERTICAL = {
+      barThickness: 14,
+      maxBarThickness: 14,
+      categoryPercentage: 0.8,
+      barPercentage: 0.9,
+      borderWidth: 0,
+      borderRadius: { topLeft: 4, topRight: 4, bottomLeft: 0, bottomRight: 0 },
+      borderSkipped: false
+    };
+
+    const BAR_FIXED_HORIZONTAL = {
+      barThickness: 14,
+      maxBarThickness: 14,
+      categoryPercentage: 0.8,
+      barPercentage: 0.9,
+      borderWidth: 0,
+      borderRadius: { topLeft: 0, bottomLeft: 0, topRight: 4, bottomRight: 4 },
+      borderSkipped: false
+    };
+
+    const DONUT_FIXED = {
+      cutout:"62%",
+      radius:"92%",
+      borderWidth:0,
+      hoverOffset:0
+    };
+
+    function mountChartDeferred(id, makeBaseConfig, animateNow){
+      const el = $(id);
+      if(!el) return;
+
+      safeChart(id, makeBaseConfig(false));
+
+      if(chartIO){
+        chartAnimators[id] = animateNow;
+        chartIO.observe(el);
+      }else{
+        setTimeout(()=> animateNow(), CHART_DELAY_MS);
+      }
+    }
+
+    function onChartEnter(entries){
+      entries.forEach((ent)=>{
+        if(!ent.isIntersecting) return;
+        const canvas = ent.target;
+        const id = canvas && canvas.id;
+        if(!id) return;
+        if(chartAnimatedOnce[id]) return;
+
+        chartAnimatedOnce[id] = true;
+        chartIO.unobserve(canvas);
+
+        const fn = chartAnimators[id];
+        if(typeof fn === "function"){
+          setTimeout(()=> fn(), CHART_DELAY_MS);
+        }
+      });
+    }
+
+    function animateChartData(id, applyRealData){
+      const c = chartsById[id];
+      if(!c) return;
+      applyRealData(c);
+      c.options.animation = { duration: CHART_ANIM_MS, delay: 0, from: 0 };
+      c.update();
+    }
+
+    /* Gauge config: remaining gray = chip gray(--pillN) */
+    function makeGaugeConfig(mainLabel, color, animate){
+      const remaining = THEME.pillN || "rgba(226,232,240,.65)";
+      return {
         type:"doughnut",
         data:{
-          labels:["Human","Hybrid","AI"],
+          labels:[mainLabel, "remaining"],
           datasets:[{
-            data:[
-              pct01ToPctInt(mix.human),
-              pct01ToPctInt(mix.hybrid),
-              pct01ToPctInt(mix.ai)
-            ],
-            backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentE],
-            borderWidth:0
+            data:[0, 1],
+            backgroundColor:[color, remaining],
+            borderWidth:0,
+            borderRadius: 8,
+            cutout:"82%",
+            radius:"92%",
+            hoverOffset:0
           }]
         },
-        options:Object.assign(baseChartOptions(true),{
-          cutout:"68%",
-          rotation: Math.PI / 2,
+        options:{
+          ...doughnutOptions(animate),
+          rotation: -90,
+          circumference: 180,
           plugins:{
-            centerText:{
-              top:"Human",
-              bottom: formatPct01(mix.human),
-              yOffset:2
+            ...doughnutOptions(animate).plugins,
+            legend:{ ...doughnutOptions(animate).plugins.legend, display:false }
+          }
+        }
+      };
+    }
+
+    function setGaugeLegend(containerId, items){
+      const el = $(containerId);
+      if(!el) return;
+      el.innerHTML = "";
+      items.forEach((it)=>{
+        const wrap = document.createElement("span");
+        wrap.className = "gaugeLegendItem";
+        const dot = document.createElement("span");
+        dot.className = "gaugeDot";
+        dot.style.background = it.color;
+        const lab = document.createElement("span");
+        lab.className = "label";
+        lab.textContent = it.label;
+        el.appendChild(wrap);
+        wrap.appendChild(dot);
+        wrap.appendChild(lab);
+      });
+    }
+
+    /* =========================================================
+       레이다 값 라벨을 "아예 없애고", 값은 포인트 라벨에 넣고 싶을 때
+       - 아래 옵션을 true로 바꾸면 됨.
+       - 그럼 radarValueLabelsPlugin은 끄고, labels에 값 포함시킴.
+    ========================================================= */
+    const RADAR_VALUE_IN_POINT_LABEL = false;
+
+    function registerAllCharts(r){
+      const mix = r.ai?.mix_ratio || { human:0, hybrid:0, ai:0 };
+      const conf = clamp01(r.ai?.confidence_index ?? 0);
+
+      const relMapped =
+        r.ai?.detection_reliability_band === "HIGH" ? 0.9 :
+        r.ai?.detection_reliability_band === "MEDIUM" ? 0.6 : 0.35;
+
+      const decision = r.ai?.final_classification || "Human";
+
+      const arcDims = Array.isArray(r.arc?.dimensions) ? r.arc.dimensions : [];
+      const arcLabels = arcDims.map((d)=>String(d.code || "").trim()).filter(Boolean);
+      const arcVals = arcDims.map((d)=>Number(d.score ?? 0));
+
+      const cffOrder = ["AAS","CTF","RMD","RDX","EDS","HI","IFD"];
+      const cffInd = r.cff?.indicators || {};
+
+      /* 1) chartMix (donut center text) */
+      mountChartDeferred(
+        "chartMix",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              /* 도넛 중앙 텍스트 굵기 완화 (기본 폰트가 바뀐 상태) */
+              centerText:{ top: decision, bottom: fmt2(conf) }
             }
           }
+        }),
+        ()=> animateChartData("chartMix", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
         })
-      });
-    }
+      );
 
-    function mountVerticalBar(){
-      const scores = report.hr.fit_scores || {};
-      return safeChart("hrBar", {
-        type:"bar",
-        data:{
-          labels:Object.keys(scores),
-          datasets:[{
-            label:"Fit score",
-            data:Object.values(scores).map(v=>Math.round(v*100)),
-            backgroundColor: THEME.accentB,
-            borderRadius:6
-          }]
-        },
-        options:Object.assign(baseChartOptions(true),{
-          scales:{
-            x:{ grid:{ display:false } },
-            y:{ beginAtZero:true, max:100, ticks:{ stepSize:20 } }
+      /* 2) chartConfidence (vertical bar) */
+      mountChartDeferred(
+        "chartConfidence",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:["Confidence","Reliability band"],
+            datasets:[{
+              label:"index (0 to 1)",
+              data:[0,0],
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:[THEME.accentB, THEME.accentB]
+            }]
           },
-          plugins:{
-            barValueLabels:{ format:"pct" }
-          }
-        })
-      });
-    }
-
-    function mountHorizontalBar(){
-      const dims = report.arc.dimensions || [];
-      return safeChart("arcBar", {
-        type:"bar",
-        data:{
-          labels:dims.map(d=>d.code),
-          datasets:[{
-            label:"ARC score",
-            data:dims.map(d=>d.score),
-            backgroundColor: THEME.accentD,
-            borderRadius:6
-          }]
-        },
-        options:Object.assign(baseChartOptions(true),{
-          indexAxis:"y",
-          scales:{
-            x:{ beginAtZero:true, max:5, ticks:{ stepSize:1 } },
-            y:{ grid:{ display:false } }
-          },
-          plugins:{
-            barValueLabels:{ format:"float1" }
-          }
-        })
-      });
-    }
-
-    function mountRadar(){
-      const ind = report.cff.indicators || {};
-      const labels = Object.keys(ind);
-      const values = labels.map(k => ind[k] == null ? 0 : ind[k]);
-      return safeChart("cffRadar", {
-        type:"radar",
-        data:{
-          labels,
-          datasets:[{
-            label:"CFF profile",
-            data:values,
-            fill:true,
-            backgroundColor:"rgba(54,124,255,.16)",
-            borderColor: THEME.accentA,
-            borderWidth:2,
-            pointRadius:3,
-            pointHoverRadius:4
-          }]
-        },
-        options:Object.assign(baseChartOptions(true),{
-          scales:{
-            r:{
-              min:0,
-              max:1,
-              ticks:{ display:false },
-              grid:{ color:"rgba(148,163,184,.35)" },
-              angleLines:{ color:"rgba(148,163,184,.35)" },
-              pointLabels:{ font:{ size:11, weight:"600" }, color: THEME.text }
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
             }
-          },
-          plugins:{
-            radarValueLabels:{ outFactor:1.12, extraPx:8 }
           }
+        }),
+        ()=> animateChartData("chartConfidence", (c)=>{
+          c.data.datasets[0].data = [conf, relMapped];
         })
-      });
+      );
+
+      /* 3) chartArcBarsMini */
+      mountChartDeferred(
+        "chartArcBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentC
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBarsMini", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 4) chartCffBarsMini */
+      mountChartDeferred(
+        "chartCffBarsMini",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:cffOrder,
+            datasets:[{
+              label:"CFF score (0 to 1)",
+              data:cffOrder.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentD
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartCffBarsMini", (c)=>{
+          c.data.datasets[0].data = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+        })
+      );
+
+      /* 5) chartMix2 */
+      mountChartDeferred(
+        "chartMix2",
+        (animate)=>({
+          type:"doughnut",
+          data:{
+            labels:["Human","Hybrid","AI"],
+            datasets:[{
+              data:[0,0,0],
+              ...DONUT_FIXED,
+              backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentD]
+            }]
+          },
+          options:{
+            ...doughnutOptions(animate),
+            plugins:{
+              ...doughnutOptions(animate).plugins,
+              centerText:{ top: decision, bottom: fmt2(conf) }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMix2", (c)=>{
+          c.data.datasets[0].data = [pct01ToPctInt(mix.human), pct01ToPctInt(mix.hybrid), pct01ToPctInt(mix.ai)];
+          c.options.plugins.centerText = {
+            top: decision,
+            bottom: fmt2(conf),
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 6) chartAuthSignals (horizontal bar) */
+      const contrib = r.ai?.signal_contributions || {};
+      const contribLabels = Object.keys(contrib).map((k)=>k.split("_").join(" "));
+      const contribVals = Object.values(contrib).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartAuthSignals",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:contribLabels,
+            datasets:[{
+              label:"contribution (0 to 1)",
+              data:contribLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentB
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:0.4, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartAuthSignals", (c)=>{
+          c.data.datasets[0].data = contribVals.slice();
+        })
+      );
+
+      /* 7) chartCffRadar */
+      mountChartDeferred(
+        "chartCffRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels: cffOrder,
+            datasets:[{
+              label:"CFF Indicator",
+              data:cffOrder.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillD,
+              borderColor: THEME.accentD,
+              pointBackgroundColor: THEME.accentD,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+plugins:{
+  ...baseChartOptions(animate).plugins,
+  legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+  radarValueLabels:false
+},
+            scales:{
+              r:{
+                min:0, max:1,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+()=> animateChartData("chartCffRadar", (c)=>{
+  const vals = cffOrder.map((k)=>Number(cffInd[k] ?? 0));
+  c.data.datasets[0].data = vals.slice();
+
+  // ✅ 레이다 수치(값) 표시는 전부 끔
+  c.data.labels = cffOrder.slice();          // "AAS" 같은 라벨만
+  c.options.plugins.radarValueLabels = false; // 바깥 값 박스도 끔
+})
+
+      );
+
+      /* 8) chartArcBars */
+      mountChartDeferred(
+        "chartArcBars",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC score (0 to 6)",
+              data:arcLabels.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentE
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float1", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartArcBars", (c)=>{
+          c.data.datasets[0].data = arcVals.slice();
+        })
+      );
+
+      /* 9) chartArcRadar */
+      mountChartDeferred(
+        "chartArcRadar",
+        (animate)=>({
+          type:"radar",
+          data:{
+            labels:arcLabels,
+            datasets:[{
+              label:"ARC profile",
+              data:arcLabels.map(()=>0),
+              fill:true,
+              backgroundColor: THEME.pillB,
+              borderColor: THEME.accentB,
+              borderWidth: 2,
+              pointRadius:3,
+              pointHoverRadius:3,
+              pointBackgroundColor: THEME.accentB,
+              pointBorderWidth:0
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+plugins:{
+  ...baseChartOptions(animate).plugins,
+  legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" },
+  radarValueLabels:false
+},
+
+            scales:{
+              r:{
+                min:0, max:6,
+                ticks:{ display:false, backdropColor:"transparent" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                grid:{ color:"rgba(148,163,184,.22)" },
+                angleLines:{ color:"rgba(148,163,184,.22)" }
+              }
+            }
+          }
+        }),
+()=> animateChartData("chartArcRadar", (c)=>{
+  c.data.datasets[0].data = arcVals.slice();
+  c.options.plugins.radarValueLabels = false; // ✅ 레이다 값 표시 끔
+})
+
+      );
+
+      /* 10) chartMapScatter (pulse ring 3개, 가속) */
+      const cl = r.reasoning_map?.clusters || { human:[], hybrid:[], ai:[] };
+      const toXY = (arr)=> (Array.isArray(arr) ? arr.map((p)=>({ x:Number(p.x ?? 0), y:Number(p.y ?? 0) })) : []);
+      const currentPt = { x:Number(r.reasoning_map?.current?.x ?? 0), y:Number(r.reasoning_map?.current?.y ?? 0) };
+
+      mountChartDeferred(
+        "chartMapScatter",
+        (animate)=>({
+          type:"scatter",
+          data:{
+            datasets:[
+              { label:"Human cluster", data:toXY(cl.human), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentA, borderWidth:0 },
+              { label:"Hybrid cluster", data:toXY(cl.hybrid), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentC, borderWidth:0 },
+              { label:"AI cluster", data:toXY(cl.ai), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentB, borderWidth:0 },
+              { label:"Current", data:[currentPt], pointRadius:7, pointHoverRadius:8, backgroundColor:THEME.accentE, borderWidth:0 }
+            ]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:8, maxR:26 }
+            },
+            scales:{
+              x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } }
+            }
+          }
+        }),
+        ()=> {
+          const c = chartsById["chartMapScatter"];
+          if(!c) return;
+          c.options.animation = { duration: CHART_ANIM_MS, delay: 0, from:0 };
+          c.update();
+        }
+      );
+
+      /* 11) chartMapBands */
+      mountChartDeferred(
+        "chartMapBands",
+        (animate)=>({
+          type:"line",
+          data:{
+            labels:["0.0","0.5","1.0","1.5","2.0"],
+            datasets:[{
+              label:"distance (SD)",
+              data:[0,0,0,0,0],
+              fill:false,
+              borderColor:THEME.accentB,
+              pointBackgroundColor:THEME.accentB,
+              pointBorderWidth:0,
+              borderWidth:2,
+              tension:0.25
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            scales:{
+              y:{ min:0, max:2, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartMapBands", (c)=>{
+          c.data.datasets[0].data = [0.1,0.35,0.8,1.2,1.6];
+        })
+      );
+
+      /* 12) chartStabilityLine */
+      const stLabels = r.stability?.sessions || [];
+      const stVals = r.stability?.arc_level_numeric || [];
+      mountChartDeferred(
+        "chartStabilityLine",
+        (animate)=>({
+          type:"line",
+          data:{
+            labels: stLabels,
+            datasets:[{
+              label:"ARC level (numeric)",
+              data: stLabels.map(()=>0),
+              fill:false,
+              borderColor:THEME.accentA,
+              pointBackgroundColor:THEME.accentA,
+              pointBorderWidth:0,
+              borderWidth:2,
+              tension:0.25
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{ ...baseChartOptions(animate).plugins, legend:{ ...baseChartOptions(animate).plugins.legend, position:"bottom" } },
+            scales:{
+              y:{ min:0, max:6, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartStabilityLine", (c)=>{
+          c.data.datasets[0].data = stVals.slice();
+        })
+      );
+
+      /* 13) chartConsistencyGauge (centerText yOffset -10 + 굵기 완화 + remaining gray 통일) */
+      setGaugeLegend("legendConsistency", [
+        { label:"Consistency score", color: THEME.accentC },
+        { label:"Remaining", color: THEME.pillN || "rgba(245,245,245,.96)" }
+      ]);
+
+      mountChartDeferred(
+        "chartConsistencyGauge",
+        (animate)=> makeGaugeConfig("Consistency", THEME.accentC, animate),
+        ()=> animateChartData("chartConsistencyGauge", (c)=>{
+          const v = clamp01(r.stability?.type_consistency ?? 0);
+          c.data.datasets[0].data = [v, 1 - v];
+          c.options.plugins.centerText = {
+            top:"Consistency",
+            bottom: fmt2(v),
+            yOffset:-30,
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 14) chartIdentityGauge (centerText yOffset -10 + 굵기 완화 + remaining gray 통일) */
+      setGaugeLegend("legendIdentity", [
+        { label:"Same-author", color: THEME.accentE },
+        { label:"Remaining", color: THEME.pillN || "rgba(245,245,245,.96)" }
+      ]);
+
+      mountChartDeferred(
+        "chartIdentityGauge",
+        (animate)=> makeGaugeConfig("Same-author", THEME.accentE, animate),
+        ()=> animateChartData("chartIdentityGauge", (c)=>{
+          const v = clamp01(r.identity?.same_author_score ?? 0);
+          c.data.datasets[0].data = [v, 1 - v];
+          c.options.plugins.centerText = {
+            top:"Same-author",
+            bottom: fmt2(v),
+            yOffset:-30,
+            topFont:"600 16px Open Sans, system-ui, sans-serif",
+            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+          };
+        })
+      );
+
+      /* 15) chartIdentityComponents */
+      const comps = r.identity?.components || {};
+      const compLabels = Object.keys(comps).map((k)=>k.split("_").join(" "));
+      const compVals = Object.values(comps).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartIdentityComponents",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:compLabels,
+            datasets:[{
+              label:"component (0 to 1)",
+              data:compLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentB
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartIdentityComponents", (c)=>{
+          c.data.datasets[0].data = compVals.slice();
+        })
+      );
+
+      /* 16) chartHrFit */
+      const roles = Array.isArray(r.hr?.recommended_roles) ? r.hr.recommended_roles : [];
+      const fitScores = roles.map((role)=> Number(r.hr?.fit_scores?.[role] ?? 0));
+
+      mountChartDeferred(
+        "chartHrFit",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:roles,
+            datasets:[{
+              label:"fit (0 to 1)",
+              data:roles.map(()=>0),
+              ...BAR_FIXED_VERTICAL,
+              backgroundColor:THEME.accentD
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              y:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              x:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartHrFit", (c)=>{
+          c.data.datasets[0].data = fitScores.slice();
+        })
+      );
+
+      /* 17) chartHrCoach */
+      const coach = r.hr?.coaching_targets || {};
+      const coachLabels = Object.keys(coach).map((k)=>k.split("_").join(" "));
+      const coachVals = Object.values(coach).map((v)=>Number(v ?? 0));
+
+      mountChartDeferred(
+        "chartHrCoach",
+        (animate)=>({
+          type:"bar",
+          data:{
+            labels:coachLabels,
+            datasets:[{
+              label:"target (0 to 1)",
+              data:coachLabels.map(()=>0),
+              ...BAR_FIXED_HORIZONTAL,
+              backgroundColor:THEME.accentC
+            }]
+          },
+          options:{
+            ...baseChartOptions(animate),
+            indexAxis:"y",
+            plugins:{
+              ...baseChartOptions(animate).plugins,
+              barValueLabels:{ format:"float2", textColor: THEME.text || "#0f172a" }
+            },
+            scales:{
+              x:{ min:0, max:1, grid:{ color:"rgba(148,163,184,.22)" } },
+              y:{ grid:{ display:false } }
+            }
+          }
+        }),
+        ()=> animateChartData("chartHrCoach", (c)=>{
+          c.data.datasets[0].data = coachVals.slice();
+        })
+      );
     }
 
-    function mountReasoningMap(){
-      const rm = report.reasoning_map || {};
-      const mk = (arr, r, c)=> (arr||[]).map(p=>({x:p.x,y:p.y,r, backgroundColor:c}));
-      return safeChart("reasoningMap", {
-        type:"bubble",
-        data:{
-          datasets:[
-            {
-              label:"Human",
-              data: mk(rm.clusters?.human, 4, THEME.accentA),
-              backgroundColor: THEME.accentA
-            },
-            {
-              label:"Hybrid",
-              data: mk(rm.clusters?.hybrid, 4, THEME.accentC),
-              backgroundColor: THEME.accentC
-            },
-            {
-              label:"AI",
-              data: mk(rm.clusters?.ai, 4, THEME.accentE),
-              backgroundColor: THEME.accentE
-            },
-            {
-              label:"Current",
-              data: rm.current ? [{ x:rm.current.x, y:rm.current.y, r:6 }] : [],
-              backgroundColor: "#f97316"
-            }
-          ]
-        },
-        options:Object.assign(baseChartOptions(true),{
-          scales:{
-            x:{ min:-1, max:1, grid:{ display:false } },
-            y:{ min:-1, max:1, grid:{ display:false } }
-          },
-          plugins:{
-            legend:{ position:"bottom" },
-            pulseCurrentPoint:{ datasetIndex:3 }
-          }
-        })
+    /* =========================================================
+       Tabs: click scroll + active
+    ========================================================= */
+    function initTabs(){
+      const tabs = document.querySelectorAll(".tab");
+      const sections = Array.from(tabs).map(t=> $(t.getAttribute("data-target"))).filter(Boolean);
+
+      function setActive(targetId){
+        tabs.forEach(btn=>{
+          btn.classList.toggle("active", btn.getAttribute("data-target") === targetId);
+        });
+      }
+
+      tabs.forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const targetId = btn.getAttribute("data-target");
+          const sec = $(targetId);
+          if(!sec) return;
+          setActive(targetId);
+          sec.scrollIntoView({ behavior:"smooth", block:"start" });
+        }, { passive:true });
       });
+
+      const io = ("IntersectionObserver" in window)
+        ? new IntersectionObserver((entries)=>{
+            entries.forEach(ent=>{
+              if(ent.isIntersecting){
+                setActive(ent.target.id);
+              }
+            });
+          }, { root:null, threshold:0.25, rootMargin:"-10% 0px -70% 0px" })
+        : null;
+
+      if(io){
+        sections.forEach(sec=> io.observe(sec));
+      }
     }
 
     /* =========================================================
        Boot
     ========================================================= */
     function boot(){
-      setText("engineVersion", report.engine_version);
-      setText("assessmentId", report.assessment_id);
-      setText("generatedAt", report.generated_at_utc);
+      try{
+        renderReport(report);
+        initTabs();
 
-      drawSignatureFingerprintAnimated(report);
+deferSignatureDraw(report);                  // 추가
+function deferSignatureDraw(r){
+  const canvas = $("signatureCanvas");
+  if(!canvas) return;
 
-      if(chartIO){
-        ["aiMixDonut","hrBar","arcBar","cffRadar","reasoningMap"].forEach(id=>{
-          const el = $(id);
-          if(el) chartIO.observe(el);
+  let drawn = false;
+
+  const io = ("IntersectionObserver" in window)
+    ? new IntersectionObserver((entries)=>{
+        entries.forEach((ent)=>{
+          if(!ent.isIntersecting) return;
+          if(drawn) return;
+          drawn = true;
+          io.unobserve(canvas);
+          drawSignatureFingerprintAnimated(r);
         });
-      }else{
-        mountDonut();
-        mountVerticalBar();
-        mountHorizontalBar();
-        mountRadar();
-        mountReasoningMap();
+      }, { root:null, threshold:0.18, rootMargin:"120px 0px" })
+    : null;
+
+  if(io){
+    io.observe(canvas);
+  }else{
+    // 구형 브라우저면 그냥 약간 늦게
+    setTimeout(()=> drawSignatureFingerprintAnimated(r), 200);
+  }
+}
+
+		
+		registerAllCharts(report);
+      }catch(e){
+        console.error("Boot error:", e);
       }
     }
 
-    function onChartEnter(entries){
-      entries.forEach(entry=>{
-        if(!entry.isIntersecting) return;
-        const id = entry.target && entry.target.id;
-        if(!id || chartAnimatedOnce[id]) return;
-        chartAnimatedOnce[id] = true;
-
-        if(id==="aiMixDonut") mountDonut();
-        if(id==="hrBar") mountVerticalBar();
-        if(id==="arcBar") mountHorizontalBar();
-        if(id==="cffRadar") mountRadar();
-        if(id==="reasoningMap") mountReasoningMap();
-
-        if(chartIO) chartIO.unobserve(entry.target);
-      });
-    }
-
     if(document.readyState === "loading"){
-      document.addEventListener("DOMContentLoaded", boot, { once:true });
+      document.addEventListener("DOMContentLoaded", boot);
     }else{
       boot();
     }
 
+    console.info(
+      "Suggestion for Reference distance bands and Session Timeline:",
+      "1) Add a shaded uncertainty band (min-max or CI) around the line, " +
+      "2) Add milestone markers (session labels with small dots), " +
+      "3) Add a subtle baseline threshold horizontal line, " +
+      "4) Add a light background segmentation to show phases."
+    );
   })();
 </script>
 
+</body>
 </html>
+
 
 
