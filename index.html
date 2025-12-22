@@ -1,4 +1,4 @@
-21<!doctype html>
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
@@ -1193,369 +1193,398 @@
       history_status:"None",
       hero:{
         title:"Structural Reference for Human Reasoning and Agency",
-        description:"NeuPrint provides a decision-grade structural reference for verifying whether human reasoning and agency were retained under AI-assisted conditions."
+        description:"NeuPrint provides a decision-grade structural reference that identifies whether human reasoning and agency were retained under AI-assisted conditions."
       },
       verify:{
         url:"https://neuprint.ai/verify",
         id:"NP-2025-0314-0007",
         qr_src:"https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
       },
-      content_summary:"(No report provided) Connect window.report to render dynamic values.",
-      authorship:{
-        primary_outcome:"Human",
-        confidence:0.88,
-        risk_band:"Low",
-        classification_share:{ human:0.82, hybrid:0.09, ai:0.09 },
-        rationale:[
-          "Human-led structure with recognizable revision rhythm",
-          "Transitions show organic variability rather than template smoothness",
-          "Evidence diversity and self-monitoring remain present under assistance"
-        ]
-      },
-      arc:{
-        level:"L4",
-        label:"Integrated Reasoning",
-        score:3.72,
-        max_score:6.0,
-        percentile:0.76,
-        reliability:0.89,
-        dimensions:{
-          interpretation:0.71,
-          analysis:0.68,
-          evaluation:0.61,
-          inference:0.66,
-          explanation:0.74,
-          self_regulation:0.70
+      content_summary:"(No report provided) Connect window.report to render real data.",
+      topic_tags:["AI-assisted writing","Assessment fairness","Learner agency","Institutional policy"],
+      ai:{
+        final_classification:"Human",
+        confidence_index:0.88,
+        interpretation:"Human-led reasoning with stable structural traces",
+        pattern_label:"deep_reflective_human",
+        detection_reliability_band:"HIGH",
+        mix_ratio:{ human:0.82, hybrid:0.09, ai:0.09 },
+        signal_contributions:{
+          structural_variance:0.22,
+          human_rhythm_index:0.18,
+          transition_flow:0.15,
+          revision_depth:0.12
         }
       },
       cff:{
-        fingerprint_type:"Reflective Explorer",
-        confidence:0.83,
+        primary_type:"Reflective Explorer",
         secondary_tendency:"Evidence Weaver",
-        indicators:{
-          AAS:0.63,
-          CTF:0.71,
-          RMD:0.58,
-          RDX:0.74,
-          EDS:0.62,
-          HI:0.79,
-          IFD:0.33,
-          KPF_SIM:0.15
-        },
-        interpretation:
-          "CFF decomposes the essay into eight indicators that capture argument structure, transitions, revision depth and diversity of evidence.\n\nIn this profile, high HI together with RDX is typical of a Reflective Explorer pattern, where self-revision is dense and the human rhythm is recognisable. Combinations of lower HI with higher CTF and RMD, when they appear, tend to move closer to smoother, more machine-like patterns that are characteristic of the Evidence Weaver side of the profile."
+        type_confidence:0.83,
+        indicators:{ AAS:0.63, CTF:0.71, RMD:0.58, RDX:0.74, EDS:0.62, HI:0.79, IFD:0.33, KPF_SIM:null }
       },
-      reasoning_map:{
-        position:{ x:0.18, y:-0.06 },
-        human_cluster_center:{ x:0.0, y:0.0 },
-        hybrid_cluster_center:{ x:0.55, y:0.10 },
-        ai_cluster_center:{ x:0.95, y:0.0 },
-        distance_bands:{ near:0.8, mid:1.6, far:2.4 },
-        collaboration:"Human-led + AI Assist",
-        notes:"This sample sits within ~0.8 SD from the human cluster center."
-      },
-      stability:{
-        decision_stability:0.88,
-        type_consistency:0.84,
-        session_timeline:[
-          { t:"draft_1", value:0.74 },
-          { t:"draft_2", value:0.79 },
-          { t:"final", value:0.88 }
+      arc:{
+        overall_level:"L4",
+        overall_label:"Integrated",
+        mean_score:3.72,
+        percentile:0.76,
+        reliability:0.89,
+        guidance:"Focus on counterargument handling and explicit evidence chaining.",
+        strengths:["A2","A4"],
+        growth_targets:["A6","A7"],
+        dimensions:[
+          { code:"A1", name:"Claim clarity", score:3.8, comment:"Clear primary claim." },
+          { code:"A2", name:"Structure", score:4.1, comment:"Good sectioning and flow." },
+          { code:"A3", name:"Evidence use", score:3.5, comment:"Adequate evidence variety." },
+          { code:"A4", name:"Counterarguments", score:3.4, comment:"Some counter handling." },
+          { code:"A5", name:"Causal reasoning", score:3.7, comment:"Mostly coherent." },
+          { code:"A6", name:"Tradeoffs", score:3.2, comment:"Tradeoffs could be sharper." },
+          { code:"A7", name:"Constraints", score:3.3, comment:"Constraints noted but thin." },
+          { code:"A8", name:"Synthesis", score:3.6, comment:"Balanced close." }
         ]
       },
-      hr:{
-        cognitive_style:"Structured reflective reasoning with stable self-monitoring.",
-        recommended_roles:["Policy Analyst","Product Strategy","Research Associate"],
-        fit_scores:{
-          "Policy Analyst":0.77,
-          "Product Strategy":0.72,
-          "Research Associate":0.68
-        },
-        coaching_targets:{
-          "counter_argument_handling":0.62,
-          "evidence_diversity":0.58,
-          "decision_clarity":0.66
+      reasoning_map:{
+        note:"Current point is near the human cluster center.",
+        distance_to_human_center_sd:0.35,
+        current:{ x:0.12, y:-0.08 },
+        clusters:{
+          human:[{x:-0.2,y:0.1},{x:0.1,y:-0.1},{x:0.3,y:0.05}],
+          hybrid:[{x:0.5,y:0.4},{x:0.4,y:0.2},{x:0.6,y:0.3}],
+          ai:[{x:-0.6,y:-0.5},{x:-0.4,y:-0.6},{x:-0.5,y:-0.4}]
         }
       },
+      stability:{
+        history_status:"None",
+        type_consistency:0.62,
+        sessions:["S1","S2","S3","S4"],
+        arc_level_numeric:[3.2,3.4,3.5,3.7]
+      },
       identity:{
-        status:"No history available",
-        same_author_score:null
+        status:"Unknown",
+        same_author_score:0.55,
+        components:{ cff_similarity:0.62, arc_alignment:0.48, transition_consistency:0.57 }
+      },
+      hr:{
+        cognitive_style:"Reflective Explorer, structured but exploratory",
+        recommended_roles:["Analyst","Research","Strategy"],
+        fit_scores:{ Analyst:0.78, Research:0.74, Strategy:0.70 },
+        coaching_targets:{ planning:0.62, execution:0.58, review:0.55 }
       }
     };
 
-    window.report = window.report || REPORT;
+    /* =========================================================
+       Utilities
+    ========================================================= */
+    function $(id){ return document.getElementById(id); }
+    function setText(id, value){
+      const el = $(id);
+      if(el) el.textContent = String(value);
+    }
+    function clamp01(x){
+      const n = Number(x);
+      if(!Number.isFinite(n)) return 0;
+      return Math.max(0, Math.min(1, n));
+    }
+    function pct01ToPctInt(x){
+      return Math.round(clamp01(x) * 100);
+    }
+    function formatPct01(x){
+      return pct01ToPctInt(x) + "%";
+    }
+    function fmt2(x){
+      const n = Number(x);
+      if(!Number.isFinite(n)) return "0.00";
+      return n.toFixed(2);
+    }
+
+    function riskBandFromReliability(band){
+      if(band==="HIGH") return { label:"Low", note:"High reliability band, low false-positive risk." };
+      if(band==="MEDIUM") return { label:"Medium", note:"Medium reliability band, review recommended." };
+      if(band==="LOW") return { label:"High", note:"Low reliability band, do not use alone." };
+      return { label:"Unknown", note:"Reliability band unavailable." };
+    }
+
+    function getReportOverride(){
+      try{
+        if(typeof window.report === "function"){
+          const r = window.report();
+          return r || null;
+        }
+        if(typeof window.report === "object" && window.report){
+          return window.report;
+        }
+        return null;
+      }catch(e){
+        console.error("window.report load error:", e);
+        return null;
+      }
+    }
+
+    const report = getReportOverride() || REPORT;
 
     /* =========================================================
-       Helpers / Theme / Utils
+       Theme tokens to JS (from CSS)
     ========================================================= */
     const css = getComputedStyle(document.documentElement);
     const THEME = {
-      text: css.getPropertyValue("--text").trim() || "#0f172a",
-      muted: css.getPropertyValue("--muted").trim() || "#334155",
-      border: css.getPropertyValue("--border").trim() || "#e2e8f0",
-      soft: css.getPropertyValue("--soft").trim() || "#f8fafc",
-      accentA: css.getPropertyValue("--accentA").trim() || "#074d81",
-      accentB: css.getPropertyValue("--accentB").trim() || "#40b1e6",
-      accentC: css.getPropertyValue("--accentC").trim() || "#20cbc2",
-      accentD: css.getPropertyValue("--accentD").trim() || "#fabb05",
-      accentE: css.getPropertyValue("--accentE").trim() || "#f97b17"
+      text: css.getPropertyValue("--text").trim(),
+      accentA: css.getPropertyValue("--accentA").trim(),
+      accentB: css.getPropertyValue("--accentB").trim(),
+      accentC: css.getPropertyValue("--accentC").trim(),
+      accentD: css.getPropertyValue("--accentD").trim(),
+      accentE: css.getPropertyValue("--accentE").trim(),
+      pillB: css.getPropertyValue("--pillB").trim(),
+      pillD: css.getPropertyValue("--pillD").trim(),
+      pillN: css.getPropertyValue("--pillN").trim()
     };
 
-    const ANIM_MS = parseInt(css.getPropertyValue("--chartAnimDuration"), 10) || 1400;
-    const ANIM_DELAY = parseInt(css.getPropertyValue("--chartAnimDelay"), 10) || 180;
+    const CHART_ANIM_MS = parseInt(css.getPropertyValue("--chartAnimDuration"), 10) || 1400;
+    const CHART_DELAY_MS = parseInt(css.getPropertyValue("--chartAnimDelay"), 10) || 180;
 
-    const $ = (id)=> document.getElementById(id);
-
-    function clamp01(x){ return Math.max(0, Math.min(1, Number(x || 0))); }
-    function fmt2(x){ return (Math.round(Number(x)*100)/100).toFixed(2); }
-    function formatPct01(x){ return Math.round(clamp01(x)*100) + "%"; }
-    function setText(id, v){ const el=$(id); if(el) el.textContent = (v==null?"-":String(v)); }
+    if(window.Chart){
+      Chart.defaults.font.family =
+        '"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+      Chart.defaults.font.size = 11;
+      Chart.defaults.color = THEME.text || "#0f172a";
+    }
 
     /* =========================================================
-       Chart.js Plugins
+       Plugin helpers (label boxes, center text, bar labels 등)
     ========================================================= */
-    const barValueLabels = {
-      id:"barValueLabels",
-      afterDatasetsDraw(chart, args, pluginOptions){
-        const opts = pluginOptions || {};
-        const ctx = chart.ctx;
-        const format = opts.format || "pct01";
-        const textColor = opts.textColor || THEME.text;
 
-        ctx.save();
-        ctx.fillStyle = textColor;
-        ctx.font = "12px Open Sans, system-ui, -apple-system, Segoe UI, Roboto, sans-serif";
+function roundRectPath(ctx, x, y, w, h, r){
+      const rr = Math.max(0, Math.min(r, Math.min(w,h)/2));
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
 
-        const meta = chart.getDatasetMeta(0);
-        if(!meta) { ctx.restore(); return; }
+    function drawLabelBox(ctx, x, y, text, opt){
+      const padX = (opt && opt.padX != null) ? opt.padX : 6;
+      const padY = (opt && opt.padY != null) ? opt.padY : 3;
+      const radius = (opt && opt.radius != null) ? opt.radius : 6;
+      const font = (opt && opt.font) ? opt.font : "500 11px Open Sans, system-ui, sans-serif";
+      const textColor = (opt && opt.textColor) ? opt.textColor : "#0f172a";
+      const bg = (opt && opt.bg) ? opt.bg : "#ffffff";
+      const stroke = (opt && opt.stroke) ? opt.stroke : "rgba(226,232,240,.95)";
+      const centerX = !!(opt && opt.centerX);
 
-        meta.data.forEach((bar, i)=>{
-          const val = chart.data.datasets[0].data[i];
-          let label = "";
-          if(format==="pct01") label = formatPct01(val);
-          else if(format==="float2") label = fmt2(val);
-          else label = String(val);
+      ctx.save();
+      ctx.font = font;
+      ctx.textBaseline = "middle";
 
-          const pos = bar.tooltipPosition();
-          const isH = chart.options.indexAxis === "y";
+      const m = ctx.measureText(text);
+      const w = Math.ceil(m.width + padX*2);
+      const h = Math.ceil(12 + padY*2);
+      const rx = centerX ? Math.round(x - w/2) : x;
 
-          const x = isH ? (pos.x + 8) : pos.x;
-          const y = isH ? pos.y + 4 : (pos.y - 8);
+      roundRectPath(ctx, rx, y, w, h, radius);
+      ctx.fillStyle = bg;
+      ctx.fill();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
 
-          ctx.fillText(label, x, y);
-        });
+      ctx.fillStyle = textColor;
+      ctx.fillText(text, rx + padX, y + h/2);
+      ctx.restore();
+      return { w, h };
+    }
 
-        ctx.restore();
-      }
-    };
+    /* =========================================================
+       2-1) Donut center text plugin
+    ========================================================= */
+    const centerTextPlugin = {
+      id:"centerTextPlugin",
+      afterDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.centerText) || null;
+        if(!opts) return;
 
-    const donutCenterText = {
-      id:"donutCenterText",
-      afterDraw(chart, args, pluginOptions){
-        const opt = pluginOptions || {};
         const ctx = chart.ctx;
         const meta = chart.getDatasetMeta(0);
         if(!meta || !meta.data || !meta.data.length) return;
 
-        const x = meta.data[0].x;
-        const y = meta.data[0].y;
+        const arc = meta.data[0];
+        const x = arc.x;
+        const y = arc.y;
+
+        const top = String(opts.top || "");
+        const bottom = String(opts.bottom || "");
+        const yOffset = Number(opts.yOffset || 0);
+
+        const topFont = opts.topFont || "600 16px Open Sans, system-ui, sans-serif";
+        const bottomFont = opts.bottomFont || "600 16px Open Sans, system-ui, sans-serif";
 
         ctx.save();
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = opt.color || THEME.text;
+        ctx.fillStyle = THEME.text || "#0f172a";
 
-        ctx.font = "700 22px Open Sans, system-ui, sans-serif";
-        if(opt.textTop) ctx.fillText(opt.textTop, x, y - 6);
+        ctx.font = topFont;
+        ctx.fillText(top, x, y - 8 + yOffset);
 
-        ctx.font = "600 12px Open Sans, system-ui, sans-serif";
-        if(opt.textBottom) ctx.fillText(opt.textBottom, x, y + 18);
-
+        ctx.font = bottomFont;
+        ctx.fillText(bottom, x, y + 12 + yOffset);
         ctx.restore();
       }
     };
 
-    if(window.Chart){
-      Chart.register(barValueLabels, donutCenterText);
-    }
-
     /* =========================================================
-       Base chart options
+       2-2) Bar value labels plugin
     ========================================================= */
-    function baseChartOptions(animate=true){
-      return {
-        responsive:true,
-        maintainAspectRatio:false,
-        animation: animate ? { duration: ANIM_MS, delay: ANIM_DELAY } : false,
-        plugins:{
-          legend:{ display:false },
-          tooltip:{ enabled:true }
+    const barValueLabelsPlugin = {
+      id:"barValueLabelsPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.barValueLabels) || null;
+        if(!opts) return;
+
+        const ctx = chart.ctx;
+        const indexAxis = (chart.options && chart.options.indexAxis) || "x";
+        const fmt = opts.format || "float2";
+        const color = opts.textColor || (THEME.text || "#0f172a");
+
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 0;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || meta.hidden) return;
+
+        const data = chart.data.datasets[dsIndex].data || [];
+        ctx.save();
+
+        for(let i=0;i<meta.data.length;i++){
+          const el = meta.data[i];
+          const v = data[i];
+          if(v == null) continue;
+
+          let text = "";
+          if(fmt === "pct") text = Math.round(Number(v)) + "%";
+          else if(fmt === "float1") text = Number(v).toFixed(1);
+          else if(fmt === "float2") text = Number(v).toFixed(2);
+          else text = String(v);
+
+          if(indexAxis === "y"){
+            drawLabelBox(ctx, el.x + 8, el.y - 10, text, { textColor: color });
+          }else{
+            drawLabelBox(ctx, el.x, el.y - 24, text, { textColor: color, centerX:true });
+          }
         }
-      };
-    }
+        ctx.restore();
+      }
+    };
 
     /* =========================================================
-       Chart registry / deferred mount
+       2-3) Radar value labels plugin
     ========================================================= */
-    const CHARTS = {};
+    const radarValueLabelsPlugin = {
+      id:"radarValueLabelsPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.radarValueLabels) || null;
+        if(!opts) return;
 
-    function destroyChart(id){
-      const c = CHARTS[id];
-      if(c && typeof c.destroy==="function") c.destroy();
-      delete CHARTS[id];
-    }
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 0;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || meta.hidden) return;
 
-    function mountChartDeferred(canvasId, makeConfig, afterData){
-      const canvas = $(canvasId);
-      if(!canvas || !window.Chart) return;
+        const scale = chart.scales && chart.scales.r;
+        if(!scale) return;
 
-      destroyChart(canvasId);
+        const labels = chart.data.labels || [];
+        const values = chart.data.datasets[dsIndex].data || [];
 
-      const created = { done:false };
-      const io = ("IntersectionObserver" in window)
-        ? new IntersectionObserver((entries)=>{
-            entries.forEach((ent)=>{
-              if(!ent.isIntersecting || created.done) return;
-              created.done = true;
-              io.unobserve(canvas);
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = "700 10px Open Sans, system-ui, sans-serif";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
 
-              const cfg = makeConfig(true);
-              const chart = new Chart(canvas.getContext("2d"), cfg);
-              CHARTS[canvasId] = chart;
+        const maxV = (typeof scale.max === "number") ? scale.max : 1;
+        const outV = maxV * (Number(opts.outFactor || 1.15));
+        const extraPx = Number(opts.extraPx || 10);
 
-              if(typeof afterData==="function"){
-                requestAnimationFrame(()=> afterData());
-              }
-            });
-          }, { threshold:0.12, rootMargin:"140px 0px" })
-        : null;
+        for(let i=0;i<labels.length;i++){
+          const v = Number(values[i] ?? 0);
+          const txt = fmt2(v);
+          const pt = scale.getPointPositionForValue(i, outV);
 
-      if(io){
-        io.observe(canvas);
-      }else{
-        const cfg = makeConfig(true);
-        const chart = new Chart(canvas.getContext("2d"), cfg);
-        CHARTS[canvasId] = chart;
-        if(typeof afterData==="function") setTimeout(()=> afterData(), 0);
+          const cx = scale.xCenter;
+          const cy = scale.yCenter;
+          const dx = pt.x - cx;
+          const dy = pt.y - cy;
+          const len = Math.hypot(dx,dy) || 1;
+
+          const ox = pt.x + (dx/len)*extraPx;
+          const oy = pt.y + (dy/len)*extraPx;
+
+          drawLabelBox(ctx, ox, oy - 8, txt, { centerX:true });
+        }
+        ctx.restore();
       }
-    }
-
-    function animateChartData(canvasId, mutator){
-      const c = CHARTS[canvasId];
-      if(!c) return;
-      if(typeof mutator==="function") mutator(c);
-      c.update();
-    }
+    };
 
     /* =========================================================
-       Rendering panels
+       2-4) Pulsing ring plugin for scatter
     ========================================================= */
-    function renderHero(r){
-      setText("heroTitle", r.hero?.title || "NeuPrint");
-      setText("heroDesc", r.hero?.description || "");
-      setText("verifyId", r.verify?.id || "-");
-      const qr = $("verifyQr");
-      if(qr && r.verify?.qr_src) qr.src = r.verify.qr_src;
-    }
+    const pulseCurrentPointPlugin = {
+      id:"pulseCurrentPointPlugin",
+      afterDatasetsDraw(chart){
+        const opts = (chart.options && chart.options.plugins && chart.options.plugins.pulseCurrentPoint) || null;
+        if(!opts) return;
 
-    function renderTopCards(r){
-      setText("authPrimary", r.authorship?.primary_outcome || "Unknown");
-      setText("authConf", r.authorship?.confidence==null ? "-" : formatPct01(r.authorship.confidence));
-      setText("authRisk", r.authorship?.risk_band || "-");
+        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 3;
+        const meta = chart.getDatasetMeta(dsIndex);
+        if(!meta || !meta.data || !meta.data.length) return;
 
-      setText("arcLevel", (r.arc?.level||"-") + " · " + (r.arc?.label||""));
-      setText("arcScore", r.arc?.score==null ? "-" : (fmt2(r.arc.score) + " / " + fmt2(r.arc.max_score||6)));
-      setText("arcPct", r.arc?.percentile==null ? "-" : (Math.round(r.arc.percentile*100) + "th percentile"));
+        const point = meta.data[0];
+        const ctx = chart.ctx;
+        const now = performance.now();
 
-      setText("hrRole1", r.hr?.recommended_roles?.[0] || "-");
-      setText("hrRole2", r.hr?.recommended_roles?.[1] || "-");
-      setText("hrRole3", r.hr?.recommended_roles?.[2] || "-");
+        if(!chart.$pulse){
+          chart.$pulse = { start: now, raf: null };
+        }
 
-      setText("cffType", r.cff?.fingerprint_type || "-");
-      setText("cffConf", r.cff?.confidence==null ? "-" : formatPct01(r.cff.confidence));
-      setText("cffSecondary", r.cff?.secondary_tendency || "-");
-    }
-function renderSummary(r){
-      setText("contentSummary", r.content_summary || "");
-      const ul = $("authRationale");
-      if(ul){
-        ul.innerHTML = "";
-        (r.authorship?.rationale || []).forEach((t)=>{
-          const li = document.createElement("li");
-          li.textContent = t;
-          ul.appendChild(li);
-        });
+        const period = Number(opts.periodMs || 1000);
+        const t = (now - chart.$pulse.start) % period;
+        const base = t / period;
+
+        const baseR = Number(opts.baseR || 8);
+        const maxR = Number(opts.maxR || 26);
+        const rings = 3;
+
+        for(let j=0;j<rings;j++){
+          const k = (base + j / rings) % 1;
+          const r = baseR + (maxR - baseR) * k;
+          const alpha = 0.22 * (1 - k);
+
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, r, 0, Math.PI*2);
+          ctx.strokeStyle = "rgba(249,123,23," + alpha.toFixed(3) + ")";
+          ctx.lineWidth = 2;
+          ctx.stroke();
+          ctx.restore();
+        }
+
+        if(!chart.$pulse.raf){
+          const tick = () => {
+            try{ chart.draw(); }catch(_e){}
+            chart.$pulse.raf = requestAnimationFrame(tick);
+          };
+          chart.$pulse.raf = requestAnimationFrame(tick);
+        }
       }
-    }
+    };
 
-    function renderReasoningMapPanels(r){
-      setText("mapCollab", r.reasoning_map?.collaboration || "-");
-      setText("mapNotes", r.reasoning_map?.notes || "-");
-    }
-
-    function renderStabilityPanels(r){
-      setText(
-        "stabilityDecision",
-        r.stability?.decision_stability==null
-          ? "-"
-          : formatPct01(r.stability.decision_stability)
-      );
-      setText(
-        "stabilityType",
-        r.stability?.type_consistency==null
-          ? "None"
-          : fmt2(r.stability.type_consistency)
+    if(window.Chart){
+      Chart.register(
+        centerTextPlugin,
+        barValueLabelsPlugin,
+        radarValueLabelsPlugin,
+        pulseCurrentPointPlugin
       );
     }
 
-    function renderIdentityPanels(r){
-      setText("idStatus", r.identity?.status || "Unknown");
-      setText(
-        "idScore",
-        r.identity?.same_author_score == null
-          ? "None"
-          : fmt2(r.identity.same_author_score)
-      );
-    }
-
-    function renderHrPanels(r){
-      const hr = r.hr || {};
-      const roles = Array.isArray(hr.recommended_roles) ? hr.recommended_roles : [];
-      const tail = roles.length
-        ? ". Recommended roles include: " + roles.join(", ") + "."
-        : "";
-      setText("hrProfile", (hr.cognitive_style || "") + tail);
-
-      const hrKpis = $("hrKpis");
-      if(hrKpis){
-        hrKpis.innerHTML="";
-        roles.forEach((role)=>{
-          const v = hr.fit_scores?.[role] ?? 0;
-          const span = document.createElement("span");
-          span.className="kpi";
-          span.innerHTML =
-            role + ": <span class=\"code\">" + formatPct01(v) + "</span>";
-          hrKpis.appendChild(span);
-        });
-      }
-    }
-
-    function renderMetadata(r){
-      setText("metaAssessmentId", r.assessment_id || "-");
-      setText("metaLang", r.input_language || "-");
-      setText("metaTime", r.generated_at_utc || "-");
-      setText("metaHistory", r.history_status || "None");
-      setText(
-        "metaKpf",
-        r.cff?.indicators?.KPF_SIM == null ? "N/A" : "OK"
-      );
-      setText("metaEditLog", "None");
-
-      const raw = $("rawJson");
-      if(raw) raw.textContent = JSON.stringify(r, null, 2);
-    }
-
-    /* =========================================================
+/* =========================================================
        Signature Fingerprint (canvas)
     ========================================================= */
     const SIGNATURE_KEYS = ["AAS","CTF","RMD","RDX","EDS","HI","IFD","KPF"];
@@ -1596,189 +1625,417 @@ function renderSummary(r){
       canvas.height = Math.floor(h*dpr);
       const ctx = canvas.getContext("2d");
       ctx.setTransform(dpr,0,0,dpr,0,0);
-      return { ctx, w, h, dpr };
+      return { ctx, width:w, height:h };
     }
 
-    function chaikinSmooth(points, iterations=2){
-      let pts = points.slice();
-      for(let k=0;k<iterations;k++){
-        const out=[];
-        for(let i=0;i<pts.length-1;i++){
-          const p=pts[i], q=pts[i+1];
-          const Q={ x:0.75*p.x + 0.25*q.x, y:0.75*p.y + 0.25*q.y };
-          const R={ x:0.25*p.x + 0.75*q.x, y:0.25*p.y + 0.75*q.y };
-          out.push(Q,R);
+    function bboxOfPoints(pts){
+      let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+      for(const p of pts){
+        if(p.x<minX) minX=p.x;
+        if(p.y<minY) minY=p.y;
+        if(p.x>maxX) maxX=p.x;
+        if(p.y>maxY) maxY=p.y;
+      }
+      if(!isFinite(minX)) return {minX:0,minY:0,maxX:1,maxY:1,w:1,h:1};
+      const w=Math.max(1,maxX-minX);
+      const h=Math.max(1,maxY-minY);
+      return {minX,minY,maxX,maxY,w,h};
+    }
+
+    function fitRectToCanvas(bbox, canvasW, canvasH, pad, overscan){
+      const innerW=Math.max(1, canvasW-pad*2);
+      const innerH=Math.max(1, canvasH-pad*2);
+      let scale=Math.min(innerW/bbox.w, innerH/bbox.h);
+      scale *= Math.max(1, Number.isFinite(overscan)?overscan:1);
+      const tx = pad + (innerW - bbox.w*scale)/2 - bbox.minX*scale;
+      const ty = pad + (innerH - bbox.h*scale)/2 - bbox.minY*scale;
+      return { scale, tx, ty };
+    }
+
+    function lerp(a,b,t){ return a + (b-a)*t; }
+
+    function generateSignatureVectorFromReport(r){
+      const ind = Object.assign({}, r.cff?.indicators || {});
+      const v = {};
+      for(const k of SIGNATURE_KEYS){
+        if(k==="KPF"){
+          v.KPF = ind.KPF_SIM == null ? 0 : clamp01(Number(ind.KPF_SIM));
+        }else{
+          v[k] = clamp01(Number(ind[k] ?? 0));
         }
-        pts = [pts[0], ...out, pts[pts.length-1]];
+      }
+      const seedStr = JSON.stringify(v, SIGNATURE_KEYS);
+      const rng = mulberry32(hashStr(seedStr));
+      return { v, rng };
+    }
+
+    function generateRawPolyline(v, rng){
+      const W=1080,H=1080;
+      const margin=110;
+      const cx=W/2, cy=H/2;
+
+      const bandW=lerp(560,880,1-v.IFD);
+      const bandH=lerp(170,380,v.IFD);
+      const bandX1=cx-bandW/2, bandX2=cx+bandW/2;
+      const bandY1=cy-bandH/2, bandY2=cy+bandH/2;
+
+      const steps = Math.floor(lerp(2400,9000,v.RDX));
+      const baseStep = lerp(0.95,2.75,v.CTF);
+      const turnGain = lerp(0.006,0.080,v.AAS);
+      const loopP = lerp(0.010,0.120,v.RMD);
+      const cohesion = lerp(0.12,0.74,v.HI);
+      const switchP = lerp(0.0010,0.011,v.EDS);
+      const jitter = lerp(0.05,1.30,v.KPF);
+
+      function softClamp(nx, ny){
+        if(nx<bandX1) nx=lerp(nx,bandX1,0.55);
+        if(nx>bandX2) nx=lerp(nx,bandX2,0.55);
+        if(ny<bandY1) ny=lerp(ny,bandY1,0.55);
+        if(ny>bandY2) ny=lerp(ny,bandY2,0.55);
+        nx=Math.max(margin, Math.min(W-margin, nx));
+        ny=Math.max(margin, Math.min(H-margin, ny));
+        return [nx,ny];
+      }
+
+      let x=lerp(bandX1, bandX1+bandW*0.12, rng());
+      let y=lerp(bandY1, bandY2, rng());
+      let ang=lerp(-0.16,0.16,rng());
+
+      const pts=[{x,y}];
+      for(let i=0;i<steps;i++){
+        ang += (rng()-0.5)*turnGain;
+        let nx = x + Math.cos(ang)*baseStep + (rng()-0.5)*2*jitter;
+        let ny = y + Math.sin(ang)*baseStep + (rng()-0.5)*2*jitter;
+        [nx,ny]=softClamp(nx,ny);
+        x=nx; y=ny;
+        pts.push({x,y});
       }
       return pts;
     }
 
-    function resamplePolyline(points, stepPx){
-      if(points.length<2) return points;
-      const out=[points[0]];
-      let acc=0;
-      for(let i=1;i<points.length;i++){
-        const a=points[i-1], b=points[i];
-        const dx=b.x-a.x, dy=b.y-a.y;
-        const seg=Math.hypot(dx,dy);
-        if(seg===0) continue;
-        let t=0;
-        while(acc + seg*(1-t) >= stepPx){
-          const remain = stepPx - acc;
-          const dt = remain/seg;
-          t += dt;
-          const p = { x: a.x + dx*t, y: a.y + dy*t };
-          out.push(p);
-          acc = 0;
-        }
-        acc += seg*(1-t);
-      }
-      return out;
-    }
-
-    function buildSignaturePolyline(r, w, h){
-      const ind = r.cff?.indicators || {};
-      const vals = SIGNATURE_KEYS.map(k=> clamp01(ind[k]));
-      const seed = hashStr(JSON.stringify(vals));
-      const rand = mulberry32(seed);
-
-      const pad = SIGNATURE_OPTS.padPx;
-      const cx = w/2, cy = h/2;
-      const radius = Math.min(w,h)/2 - pad;
-      const angles = SIGNATURE_KEYS.map(
-        (_,i)=> (Math.PI*2) * (i/SIGNATURE_KEYS.length) - Math.PI/2
-      );
-
-      const pts = angles.map((a,i)=>{
-        const base = vals[i];
-        const jitter = (rand()-0.5)*0.06;
-        const rr = radius * (0.28 + 0.72*clamp01(base + jitter));
-        return { x: cx + rr*Math.cos(a), y: cy + rr*Math.sin(a) };
-      });
-
-      pts.push(pts[0]);
-      let p = pts;
-
-      if(SIGNATURE_OPTS.preChaikin){
-        p = chaikinSmooth(p, 2);
-      }
-
-      p = resamplePolyline(p, SIGNATURE_OPTS.resampleStepPx);
-      return p;
-    }
+    let sigAnimRAF = null;
 
     function drawSignatureFingerprintAnimated(r){
       const canvas = $("signatureCanvas");
       if(!canvas) return;
 
-      const { ctx, w, h } = setupHiDPICanvas(canvas);
-      const poly = buildSignaturePolyline(r, w, h);
+      const out = setupHiDPICanvas(canvas);
+      const ctx = out.ctx;
+      const width = out.width;
+      const height = out.height;
 
-      const overscan = SIGNATURE_OPTS.overscan || 1.0;
-      ctx.clearRect(0,0,w,h);
+      ctx.clearRect(0,0,width,height);
+      ctx.fillStyle="#ffffff";
+      ctx.fillRect(0,0,width,height);
 
-      const minX = Math.min(...poly.map(p=>p.x));
-      const maxX = Math.max(...poly.map(p=>p.x));
-      const minY = Math.min(...poly.map(p=>p.y));
-      const maxY = Math.max(...poly.map(p=>p.y));
+      const gen = generateSignatureVectorFromReport(r);
+      const raw = generateRawPolyline(gen.v, gen.rng);
 
-      const cx = w/2, cy = h/2;
-      const bw = (maxX - minX) || 1;
-      const bh = (maxY - minY) || 1;
+      const bb=bboxOfPoints(raw);
+      const PAD=Math.max(8, Math.floor(Math.min(width,height)*0.028));
+      const fit=fitRectToCanvas(bb,width,height,PAD,Number(SIGNATURE_OPTS.overscan));
 
-      const sx = (w*0.90)/bw;
-      const sy = (h*0.90)/bh;
-      const s = Math.min(sx, sy) * overscan;
-
-      const norm = poly.map(p=>({
-        x: cx + (p.x - cx)*s,
-        y: cy + (p.y - cy)*s
+      const mapped = raw.map(p=>({
+        x: p.x*fit.scale + fit.tx,
+        y: p.y*fit.scale + fit.ty
       }));
 
-      const total = norm.length;
-      const dur = SIGNATURE_OPTS.animMs || 1900;
-      const t0 = performance.now();
+      ctx.strokeStyle = SIGNATURE_OPTS.strokeRGBA;
+      ctx.lineWidth = Number(SIGNATURE_OPTS.strokeWidth);
+      ctx.lineCap="round";
+      ctx.lineJoin="round";
+
+      const start = performance.now();
+      const dur = Math.max(240, Number(SIGNATURE_OPTS.animMs) || 1200);
+
+      if(sigAnimRAF) cancelAnimationFrame(sigAnimRAF);
 
       function frame(now){
-        const t = Math.min(1, (now - t0)/dur);
-        const n = Math.max(2, Math.floor(total * t));
+        const t = Math.min(1, (now-start)/dur);
+        const count = Math.max(2, Math.floor(mapped.length * t));
 
-        ctx.clearRect(0,0,w,h);
+        ctx.clearRect(0,0,width,height);
+        ctx.fillStyle="#ffffff";
+        ctx.fillRect(0,0,width,height);
+
         ctx.beginPath();
-        ctx.lineWidth = SIGNATURE_OPTS.strokeWidth || 1.6;
-        ctx.strokeStyle = SIGNATURE_OPTS.strokeRGBA || "rgba(12,12,12,0.86)";
-        ctx.lineJoin = "round";
-        ctx.lineCap = "round";
-
-        ctx.moveTo(norm[0].x, norm[0].y);
-        for(let i=1;i<n;i++){
-          ctx.lineTo(norm[i].x, norm[i].y);
+        ctx.moveTo(mapped[0].x, mapped[0].y);
+        for(let i=1;i<count;i++){
+          ctx.lineTo(mapped[i].x, mapped[i].y);
         }
         ctx.stroke();
 
-        if(t<1) requestAnimationFrame(frame);
+        if(t<1){
+          sigAnimRAF = requestAnimationFrame(frame);
+        }
       }
-
-      requestAnimationFrame(frame);
-    }
-
-    function deferSignatureDraw(r){
-      const canvas = $("signatureCanvas");
-      if(!canvas) return;
-
-      let drawn = false;
-      const io = ("IntersectionObserver" in window)
-        ? new IntersectionObserver((entries)=>{
-            entries.forEach((ent)=>{
-              if(!ent.isIntersecting || drawn) return;
-              drawn = true;
-              io.unobserve(canvas);
-              drawSignatureFingerprintAnimated(r);
-            });
-          }, { threshold:0.18, rootMargin:"120px 0px" })
-        : null;
-
-      if(io){
-        io.observe(canvas);
-      }else{
-        setTimeout(()=> drawSignatureFingerprintAnimated(r), 200);
-      }
+      sigAnimRAF = requestAnimationFrame(frame);
     }
 
     /* =========================================================
-       Main render / boot
+       Charts setup (common)
     ========================================================= */
-    function renderReport(r){
-      renderHero(r);
-      renderTopCards(r);
-      renderSummary(r);
-      renderReasoningMapPanels(r);
-      renderStabilityPanels(r);
-      renderHrPanels(r);
-      renderIdentityPanels(r);
-      renderMetadata(r);
+    const chartsById = Object.create(null);
+    const chartAnimators = Object.create(null);
+    const chartAnimatedOnce = Object.create(null);
+
+    const chartIO = ("IntersectionObserver" in window)
+      ? new IntersectionObserver(onChartEnter, { root:null, threshold:0.18, rootMargin:"120px 0px" })
+      : null;
+
+    function safeChart(id, config){
+      const el = $(id);
+      if(!el || !window.Chart) return null;
+      if(chartsById[id]){
+        try{ chartsById[id].destroy(); }catch(_e){}
+        delete chartsById[id];
+      }
+      const c = new Chart(el, config);
+      chartsById[id] = c;
+      return c;
     }
 
+    function baseChartOptions(animate){
+      const animOn = !!animate;
+      return {
+        responsive:true,
+        maintainAspectRatio:false,
+        devicePixelRatio: Math.min(2, window.devicePixelRatio || 1),
+        animation: animOn ? { duration: CHART_ANIM_MS, delay: 0, from: 0 } : { duration: 0 },
+        layout:{ padding:{ top:10, right:14, bottom:12, left:14 } },
+        interaction:{ mode:"nearest", intersect:false },
+        plugins:{
+          legend:{
+            display:true,
+            position:"top",
+            labels:{
+              usePointStyle:true,
+              pointStyle:"circle",
+              boxWidth:8,
+              boxHeight:8,
+              padding:12,
+              color: THEME.text || "#0f172a",
+              font:{ size:11, weight:"600" }
+            }
+          },
+          tooltip:{ enabled:true }
+        }
+      };
+    }
+
+/* =========================================================
+       Individual charts
+    ========================================================= */
+
+    function mountDonut(){
+      const mix = report.ai.mix_ratio || { human:0, hybrid:0, ai:0 };
+      return safeChart("aiMixDonut", {
+        type:"doughnut",
+        data:{
+          labels:["Human","Hybrid","AI"],
+          datasets:[{
+            data:[
+              pct01ToPctInt(mix.human),
+              pct01ToPctInt(mix.hybrid),
+              pct01ToPctInt(mix.ai)
+            ],
+            backgroundColor:[THEME.accentA, THEME.accentC, THEME.accentE],
+            borderWidth:0
+          }]
+        },
+        options:Object.assign(baseChartOptions(true),{
+          cutout:"68%",
+          rotation: Math.PI / 2,
+          plugins:{
+            centerText:{
+              top:"Human",
+              bottom: formatPct01(mix.human),
+              yOffset:2
+            }
+          }
+        })
+      });
+    }
+
+    function mountVerticalBar(){
+      const scores = report.hr.fit_scores || {};
+      return safeChart("hrBar", {
+        type:"bar",
+        data:{
+          labels:Object.keys(scores),
+          datasets:[{
+            label:"Fit score",
+            data:Object.values(scores).map(v=>Math.round(v*100)),
+            backgroundColor: THEME.accentB,
+            borderRadius:6
+          }]
+        },
+        options:Object.assign(baseChartOptions(true),{
+          scales:{
+            x:{ grid:{ display:false } },
+            y:{ beginAtZero:true, max:100, ticks:{ stepSize:20 } }
+          },
+          plugins:{
+            barValueLabels:{ format:"pct" }
+          }
+        })
+      });
+    }
+
+    function mountHorizontalBar(){
+      const dims = report.arc.dimensions || [];
+      return safeChart("arcBar", {
+        type:"bar",
+        data:{
+          labels:dims.map(d=>d.code),
+          datasets:[{
+            label:"ARC score",
+            data:dims.map(d=>d.score),
+            backgroundColor: THEME.accentD,
+            borderRadius:6
+          }]
+        },
+        options:Object.assign(baseChartOptions(true),{
+          indexAxis:"y",
+          scales:{
+            x:{ beginAtZero:true, max:5, ticks:{ stepSize:1 } },
+            y:{ grid:{ display:false } }
+          },
+          plugins:{
+            barValueLabels:{ format:"float1" }
+          }
+        })
+      });
+    }
+
+    function mountRadar(){
+      const ind = report.cff.indicators || {};
+      const labels = Object.keys(ind);
+      const values = labels.map(k => ind[k] == null ? 0 : ind[k]);
+      return safeChart("cffRadar", {
+        type:"radar",
+        data:{
+          labels,
+          datasets:[{
+            label:"CFF profile",
+            data:values,
+            fill:true,
+            backgroundColor:"rgba(54,124,255,.16)",
+            borderColor: THEME.accentA,
+            borderWidth:2,
+            pointRadius:3,
+            pointHoverRadius:4
+          }]
+        },
+        options:Object.assign(baseChartOptions(true),{
+          scales:{
+            r:{
+              min:0,
+              max:1,
+              ticks:{ display:false },
+              grid:{ color:"rgba(148,163,184,.35)" },
+              angleLines:{ color:"rgba(148,163,184,.35)" },
+              pointLabels:{ font:{ size:11, weight:"600" }, color: THEME.text }
+            }
+          },
+          plugins:{
+            radarValueLabels:{ outFactor:1.12, extraPx:8 }
+          }
+        })
+      });
+    }
+
+    function mountReasoningMap(){
+      const rm = report.reasoning_map || {};
+      const mk = (arr, r, c)=> (arr||[]).map(p=>({x:p.x,y:p.y,r, backgroundColor:c}));
+      return safeChart("reasoningMap", {
+        type:"bubble",
+        data:{
+          datasets:[
+            {
+              label:"Human",
+              data: mk(rm.clusters?.human, 4, THEME.accentA),
+              backgroundColor: THEME.accentA
+            },
+            {
+              label:"Hybrid",
+              data: mk(rm.clusters?.hybrid, 4, THEME.accentC),
+              backgroundColor: THEME.accentC
+            },
+            {
+              label:"AI",
+              data: mk(rm.clusters?.ai, 4, THEME.accentE),
+              backgroundColor: THEME.accentE
+            },
+            {
+              label:"Current",
+              data: rm.current ? [{ x:rm.current.x, y:rm.current.y, r:6 }] : [],
+              backgroundColor: "#f97316"
+            }
+          ]
+        },
+        options:Object.assign(baseChartOptions(true),{
+          scales:{
+            x:{ min:-1, max:1, grid:{ display:false } },
+            y:{ min:-1, max:1, grid:{ display:false } }
+          },
+          plugins:{
+            legend:{ position:"bottom" },
+            pulseCurrentPoint:{ datasetIndex:3 }
+          }
+        })
+      });
+    }
+
+    /* =========================================================
+       Boot
+    ========================================================= */
     function boot(){
-      try{
-        const report = window.report || REPORT;
-        renderReport(report);
-        deferSignatureDraw(report);
-      }catch(e){
-        console.error("Boot error:", e);
+      setText("engineVersion", report.engine_version);
+      setText("assessmentId", report.assessment_id);
+      setText("generatedAt", report.generated_at_utc);
+
+      drawSignatureFingerprintAnimated(report);
+
+      if(chartIO){
+        ["aiMixDonut","hrBar","arcBar","cffRadar","reasoningMap"].forEach(id=>{
+          const el = $(id);
+          if(el) chartIO.observe(el);
+        });
+      }else{
+        mountDonut();
+        mountVerticalBar();
+        mountHorizontalBar();
+        mountRadar();
+        mountReasoningMap();
       }
     }
 
+    function onChartEnter(entries){
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const id = entry.target && entry.target.id;
+        if(!id || chartAnimatedOnce[id]) return;
+        chartAnimatedOnce[id] = true;
+
+        if(id==="aiMixDonut") mountDonut();
+        if(id==="hrBar") mountVerticalBar();
+        if(id==="arcBar") mountHorizontalBar();
+        if(id==="cffRadar") mountRadar();
+        if(id==="reasoningMap") mountReasoningMap();
+
+        if(chartIO) chartIO.unobserve(entry.target);
+      });
+    }
+
     if(document.readyState === "loading"){
-      document.addEventListener("DOMContentLoaded", boot);
+      document.addEventListener("DOMContentLoaded", boot, { once:true });
     }else{
       boot();
     }
+
   })();
 </script>
-
-
 
 </html>
 
