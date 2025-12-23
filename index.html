@@ -2746,7 +2746,7 @@ plugins:{
             ...baseChartOptions(animate),
             plugins:{
               ...baseChartOptions(animate).plugins,
-              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:8, maxR:26 }
+              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:16, maxR:52 }
             },
             scales:{
               x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
@@ -2755,10 +2755,13 @@ plugins:{
           }
         }),
         ()=> {
-          const c = chartsById["chartMapScatter"];
-          if(!c) return;
-          c.options.animation = { duration: CHART_ANIM_MS, delay: 0 };
-          c.update();
+const c = chartsById["chartMapScatter"];
+if(!c) return;
+c.options.animation = {
+  duration: CHART_ANIM_MS,
+  delay: (ctx)=> (ctx.type === 'data' ? (ctx.datasetIndex*180 + ctx.dataIndex*70) : 0)
+};
+c.update();
         }
       );
 
@@ -3076,6 +3079,7 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
 
