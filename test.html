@@ -1,476 +1,210 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>NeuPrint</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NeuPrint · Cognitive Reference Infrastructure</title>
 
-  <!-- Open Sans -->
+  <!-- Poppins Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --max: 1120px;
-      --pad: 26px;
-      --r: 18px;
-
-      --text: #0f172a;
-      --muted: rgba(15,23,42,.66);
-      --muted2: rgba(15,23,42,.52);
-
-      --line: rgba(15,23,42,.10);
-      --line2: rgba(15,23,42,.07);
-
-      --a: #074d81;
-      --b: #40b1e6;
-
-      --glass: rgba(255,255,255,.72);
-      --shadow: 0 22px 60px rgba(2,6,23,.10);
-      --shadow2: 0 10px 28px rgba(2,6,23,.06);
-
-      --logoW: 250px;
-      --logoWm: 175px;
-
-      --inputMin: 360px;
-      --inputMinM: 300px;
+    :root {
+      --bg: #ffffff;
+      --text-main: #111111;
+      --text-sub: #8a8f98;
+      --border: #e6e8eb;
+      --button-bg: #f3f4f6;
+      --button-text: #111111;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
-      background:
-        radial-gradient(1100px 700px at 18% 10%, rgba(64,177,230,.14), transparent 60%),
-        radial-gradient(900px 600px at 86% 14%, rgba(7,77,129,.12), transparent 56%),
-        linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #f7fafc 100%);
+    * {
+      box-sizing: border-box;
     }
 
-    a{color:inherit;text-decoration:none}
-    button{font-family:inherit}
-
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 22px var(--pad) 40px;
-      min-height: 100%;
-      display:flex;
-      flex-direction:column;
-      gap: 18px;
-    }
-
-    /* Top bar */
-    .topbar{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:16px;
-      padding: 10px 2px 0;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .brand img{
-      width: var(--logoW);
-      max-width: 55vw;
-      height:auto;
-      display:block;
-    }
-    .brandFallback{
-      display:none;
-      flex-direction:column;
-      gap:2px;
-    }
-    .sysline{
-      font-size: 12.5px;
-      color: rgba(15,23,42,.60);
-      line-height: 1.3;
-      letter-spacing: -0.01em;
-    }
-    .sysline b{
-      color: rgba(15,23,42,.86);
-      font-weight: 800;
-    }
-
-    .meta{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
-      margin-top: 6px;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 11px;
-      border:1px solid var(--line2);
-      border-radius:999px;
-      background: rgba(255,255,255,.74);
-      backdrop-filter: blur(10px);
-      font-size: 12.5px;
-      color: rgba(15,23,42,.70);
-      box-shadow: 0 10px 20px rgba(2,6,23,.05);
-      user-select:none;
-      white-space:nowrap;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;background:var(--b);
-      box-shadow: 0 0 0 4px rgba(64,177,230,.18);
-    }
-
-    /* Middle (question) */
-    .middle{
-      flex: 1;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-start;
-      gap: 10px;
-      padding: 10px 2px 0;
-    }
-    .question{
+    html, body {
       margin: 0;
-      font-size: 34px;
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-      font-weight: 800;
-      max-width: 18ch;
-    }
-    .framing{
-      margin: 0;
-      color: rgba(15,23,42,.45);
-      font-size: 13px;
-      line-height: 1.55;
-      max-width: 68ch;
-      user-select:none;
+      padding: 0;
+      background: var(--bg);
+      font-family: 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-main);
     }
 
-    /* Lower section */
-    .panel{
-      border: 1px solid var(--line2);
-      border-radius: calc(var(--r) + 8px);
-      background: var(--glass);
-      backdrop-filter: blur(14px);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .panelTop{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--line2);
-      background: rgba(255,255,255,.60);
-    }
-    .panelTitle{
-      display:flex;
-      flex-direction:column;
-      gap:3px;
-    }
-    .panelTitle b{
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      color: rgba(15,23,42,.78);
-    }
-    .panelTitle span{
-      font-size: 12.4px;
-      color: rgba(15,23,42,.54);
-    }
-    .count{
-      font-size: 12px;
-      color: rgba(15,23,42,.52);
-      user-select:none;
+    body {
+      overflow-x: hidden;
     }
 
-    .panelBody{
-      padding: 14px 16px 16px;
-      display:flex;
-      flex-direction:column;
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px
+        calc(36px + env(safe-area-inset-left))
+        32px
+        calc(36px + env(safe-area-inset-right));
+    }
+
+    /* ---------- Top Bar ---------- */
+    .top {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-sub);
+    }
+
+    /* ---------- Center ---------- */
+    .center {
+      margin-top: 64px;
+    }
+
+    .core-question {
+      font-size: 22px;
+      font-weight: 500;
+      line-height: 1.45;
+      margin-bottom: 18px;
+    }
+
+    .secondary {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--text-sub);
+      max-width: 420px;
+    }
+
+    /* ---------- Input Area ---------- */
+    .input-section {
+      margin-top: 48px;
+      display: flex;
+      flex-direction: column;
       gap: 12px;
     }
 
-    textarea{
-      width:100%;
-      min-height: var(--inputMin);
+    .input-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 220px;
       resize: vertical;
-      padding: 16px 16px;
-      border: 1px solid rgba(15,23,42,.12);
-      border-radius: 18px;
-      outline:none;
-      font: 14.5px/1.75 "Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      color: var(--text);
-      background: rgba(255,255,255,.94);
-      box-shadow: 0 14px 26px rgba(2,6,23,.06);
-    }
-    textarea:focus{
-      border-color: rgba(64,177,230,.60);
-      box-shadow: 0 0 0 6px rgba(64,177,230,.15), 0 14px 26px rgba(2,6,23,.08);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      outline: none;
     }
 
-    .attachRow{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
+    textarea::placeholder {
+      color: #9aa0a6;
+      font-weight: 400;
     }
 
-    .attach{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
+    /* ---------- Attachments ---------- */
+    .attachments {
+      display: flex;
+      gap: 16px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-sub);
     }
 
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line2);
-      background: rgba(255,255,255,.58);
-      color: rgba(15,23,42,.55);
-      box-shadow: 0 10px 22px rgba(2,6,23,.04);
-      user-select:none;
-      opacity: .55;
-      cursor:not-allowed;
-    }
-    .ic{
-      width: 14px;
-      height: 14px;
-      border-radius: 4px;
-      border: 1.8px solid rgba(15,23,42,.48);
-      display:inline-block;
-      position:relative;
-    }
-    .ic.img:after{
-      content:"";
-      position:absolute;
-      left:3px; top:3px;
-      width:6px; height:6px;
-      border-radius:2px;
-      border: 1.8px solid rgba(15,23,42,.42);
-      opacity:.8;
-    }
-    .ic.mic{
-      border-radius: 999px;
-    }
-    .ic.mic:after{
-      content:"";
-      position:absolute;
-      left:5px; top:2px;
-      width:2px; height:8px;
-      background: rgba(15,23,42,.42);
-      border-radius: 2px;
-      opacity:.9;
-    }
-    .ic.file:after{
-      content:"";
-      position:absolute;
-      right:-1px; top:-1px;
-      width:6px; height:6px;
-      border-top: 1.8px solid rgba(15,23,42,.42);
-      border-right: 1.8px solid rgba(15,23,42,.42);
-      transform: rotate(0deg);
-      border-top-right-radius: 3px;
-      opacity:.85;
+    .attachment {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
-    .attachNote{
-      color: rgba(15,23,42,.50);
-      font-size: 12.3px;
-      line-height: 1.4;
-      user-select:none;
-    }
-
-    .actions{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
-      margin-top: 2px;
-    }
-
-    .btn{
-      border: 1px solid rgba(15,23,42,.12);
-      background: rgba(255,255,255,.76);
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 800;
-      font-size: 13.5px;
-      color: var(--text);
-      cursor:pointer;
-      box-shadow: var(--shadow2);
-      outline:none;
-      transition: transform .12s ease, border-color .12s ease, filter .12s ease;
-    }
-    .btn:hover{border-color: rgba(64,177,230,.36); transform: translateY(-1px);}
-    .btn:active{transform: translateY(0px);}
-
-    .btnPrimary{
-      color:#fff;
-      border: 1px solid rgba(7,77,129,.55);
-      background: linear-gradient(180deg, rgba(64,177,230,.96), rgba(7,77,129,.98));
-    }
-    .btnPrimary:hover{filter: brightness(1.02);}
-
-    .rightLinks{
-      display:flex;
-      gap: 14px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-      color: rgba(15,23,42,.56);
+    .attachment-note {
+      margin-top: 6px;
       font-size: 12px;
+      color: var(--text-sub);
     }
-    .link{
-      color: rgba(15,23,42,.68);
-      border-bottom: 1px solid transparent;
-    }
-    .link:hover{border-bottom-color: rgba(64,177,230,.52);}
 
-    /* Mobile */
-    @media (max-width: 980px){
-      .brand img{ width: var(--logoWm); }
-      .meta{ justify-content:flex-start; }
-      .question{ font-size: 30px; max-width: 22ch; }
-      textarea{ min-height: var(--inputMinM); }
-      .topbar{ padding-top: 6px; }
-      .panelTop{ align-items:flex-start; flex-direction:column; }
-      .count{ align-self:flex-end; }
+    /* ---------- Action ---------- */
+    .action {
+      margin-top: 28px;
+    }
+
+    .primary-button {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: none;
+      background: var(--button-bg);
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      color: var(--button-text);
+      cursor: pointer;
+    }
+
+    .primary-button:hover {
+      background: #e9ebef;
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header class="topbar">
-      <div class="brand" aria-label="NeuPrint">
-        <img src="./neuprint_logo.svg" alt="NeuPrint Logo"
-             onerror="this.style.display='none';document.getElementById('brandFallback').style.display='flex';" />
-        <div id="brandFallback" class="brandFallback">
-          <div style="font-weight:900;letter-spacing:-0.02em;font-size:18px;">NeuPrint</div>
-          <div style="color:rgba(15,23,42,.60);font-size:12.5px;">Cognitive Reference Infrastructure</div>
-        </div>
+  <div class="container">
 
-        <div class="sysline">
-          <div><b>NeuPrint</b></div>
-          <div>Cognitive Reference Infrastructure</div>
-        </div>
+    <!-- Top -->
+    <div class="top">
+      <div class="brand">NeuPrint</div>
+      <div class="subtitle">Cognitive Reference Infrastructure</div>
+    </div>
+
+    <!-- Center -->
+    <div class="center">
+      <div class="core-question">
+        Do you want to reference cognitive structure?
       </div>
-
-      <div class="meta">
-        <div class="pill"><span class="dot"></span> Reference Layer</div>
-        <div class="pill">Build: 2025-12-23 02:34:12 UTC</div>
-      </div>
-    </header>
-
-    <section class="middle" aria-label="System question">
-      <h1 class="question">Do you want to reference cognitive structure?</h1>
-
-      <p class="framing">
-        A reference layer for reasoning structure.
+      <div class="secondary">
+        A reference layer for reasoning structure.<br>
         Comparable. Model-agnostic. Identity-stable.
-      </p>
-    </section>
+      </div>
+    </div>
 
-    <section class="panel" aria-label="Text intake">
-      <div class="panelTop">
-        <div class="panelTitle">
-          <b>Text intake</b>
-          <span>Paste text for reference alignment.</span>
-        </div>
-        <div class="count" id="count">0 chars</div>
+    <!-- Input -->
+    <div class="input-section">
+      <div class="input-label">Text intake</div>
+      <textarea placeholder="Paste text for reference alignment."></textarea>
+
+      <div class="attachments">
+        <div class="attachment">Image (under preparation)</div>
+        <div class="attachment">Audio (under preparation)</div>
+        <div class="attachment">File (under preparation)</div>
       </div>
 
-      <div class="panelBody">
-        <textarea id="doc" spellcheck="false" placeholder="Paste text for reference alignment."></textarea>
-
-        <div class="attachRow" aria-label="Additional intakes">
-          <div class="attach">
-            <div class="chip" aria-disabled="true" title="Under preparation">
-              <span class="ic img" aria-hidden="true"></span> Image (under preparation)
-            </div>
-            <div class="chip" aria-disabled="true" title="Under preparation">
-              <span class="ic mic" aria-hidden="true"></span> Audio (under preparation)
-            </div>
-            <div class="chip" aria-disabled="true" title="Under preparation">
-              <span class="ic file" aria-hidden="true"></span> File (under preparation)
-            </div>
-          </div>
-
-          <div class="attachNote">Additional intake types are under preparation.</div>
-        </div>
-
-        <div class="actions">
-          <button class="btn btnPrimary" id="runBtn">Generate reference</button>
-
-          <div class="rightLinks">
-            <a class="link" href="result.html">Open result screen</a>
-            <a class="link" href="#" id="noteBtn">Data note</a>
-          </div>
-        </div>
+      <div class="attachment-note">
+        Additional intake types are under preparation.
       </div>
-    </section>
+
+      <div class="action">
+        <button class="primary-button">
+          Generate reference
+        </button>
+      </div>
+    </div>
+
   </div>
-
-  <script>
-    (function(){
-      "use strict";
-
-      const el = (id) => document.getElementById(id);
-      const doc = el("doc");
-      const count = el("count");
-
-      const KEY_TEXT = "neuprint_intake_text";
-
-      function updateCount(){
-        count.textContent = (doc.value.length || 0).toLocaleString() + " chars";
-      }
-
-      function save(){
-        try{ localStorage.setItem(KEY_TEXT, doc.value || ""); }catch(e){}
-      }
-
-      function restore(){
-        try{
-          const t = localStorage.getItem(KEY_TEXT);
-          if(t && !doc.value) doc.value = t;
-        }catch(e){}
-        updateCount();
-      }
-
-      doc.addEventListener("input", ()=>{ updateCount(); save(); });
-
-      el("runBtn").addEventListener("click", ()=>{
-        const text = (doc.value || "").trim();
-        if(text.length < 220){
-          alert("Paste more text for a stable reference output.");
-          doc.focus();
-          return;
-        }
-        save();
-        window.location.href = "result.html";
-      });
-
-      el("noteBtn").addEventListener("click", (e)=>{
-        e.preventDefault();
-        alert("MVP note\n\nDraft text is stored locally in the browser for convenience.");
-      });
-
-      restore();
-    })();
-  </script>
 </body>
 </html>
