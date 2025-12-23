@@ -161,7 +161,7 @@
     }
 
     .title{
-      margin:25px 0 4px;
+      margin:24px 0 4px;
       font-size:36px;
       font-weight:700;
       line-height:1.15;
@@ -575,7 +575,7 @@
       .verifyText{ text-align:left; max-width:none; }
 
       .brandLogo{ width:var(--logoW-m); }
-      .title{ font-size:30px; }
+      .title{ font-size:28px; }
       .subtitle{ font-size:14px; margin-top:18px; }
 
       .tabs{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
@@ -1188,6 +1188,11 @@
   </div>
  
 <script>
+  /* ================================
+     모바일 판별 + 딜레이 값 (맨 위!)
+  ================================ */
+  const IS_MOBILE = window.matchMedia("(max-width: 680px)").matches;
+  const MOBILE_CHART_START_DELAY = 700;
   (function(){
     "use strict";
 
@@ -1427,8 +1432,8 @@
         const bottom = String(opts.bottom || "");
         const yOffset = Number(opts.yOffset || 0);
 
-        const topFont = opts.topFont || "600 16px Barlow, system-ui, sans-serif";   /* 덜 굵게 */
-        const bottomFont = opts.bottomFont || "600 16px Barlow, system-ui, sans-serif"; /* 덜 굵게 */
+        const topFont = opts.topFont || "600 14px Barlow, system-ui, sans-serif";   /* 덜 굵게 */
+        const bottomFont = opts.bottomFont || "600 14px Barlow, system-ui, sans-serif"; /* 덜 굵게 */
 
         ctx.save();
         ctx.textAlign = "center";
@@ -2374,7 +2379,7 @@ for(let j=0; j<rings; j++){
         chartAnimators[id] = animateNow;
         chartIO.observe(el);
       }else{
-        setTimeout(()=> animateNow(), CHART_DELAY_MS);
+        setTimeout(()=> animateNow(), (IS_MOBILE ? MOBILE_CHART_START_DELAY : 0) + CHART_DELAY_MS);
       }
     }
 
@@ -2391,7 +2396,7 @@ for(let j=0; j<rings; j++){
 
         const fn = chartAnimators[id];
         if(typeof fn === "function"){
-          setTimeout(()=> fn(), CHART_DELAY_MS);
+          setTimeout(()=> fn(), (IS_MOBILE ? MOBILE_CHART_START_DELAY : 0) + CHART_DELAY_MS);
         }
       });
     }
@@ -2503,8 +2508,8 @@ for(let j=0; j<rings; j++){
           c.options.plugins.centerText = {
             top: decision,
             bottom: fmt2(conf),
-            topFont:"600 16px Barlow, system-ui, sans-serif",
-            bottomFont:"600 16px Barlow, system-ui, sans-serif"
+            topFont:"600 14px Barlow, system-ui, sans-serif",
+            bottomFont:"600 14px Barlow, system-ui, sans-serif"
           };
         })
       );
@@ -2628,8 +2633,8 @@ for(let j=0; j<rings; j++){
           c.options.plugins.centerText = {
             top: decision,
             bottom: fmt2(conf),
-            topFont:"600 16px Barlow, system-ui, sans-serif",
-            bottomFont:"600 16px Barlow, system-ui, sans-serif"
+            topFont:"500 16px Barlow, system-ui, sans-serif",
+            bottomFont:"500 16px Barlow, system-ui, sans-serif"
           };
         })
       );
@@ -2992,8 +2997,8 @@ pulseCurrentPoint:{
             top:"Consistency",
             bottom: fmt2(v),
             yOffset:-30,
-            topFont:"600 16px Barlow, system-ui, sans-serif",
-            bottomFont:"600 16px Barlow, system-ui, sans-serif"
+            topFont:"600 14px Barlow, system-ui, sans-serif",
+            bottomFont:"600 14px Barlow, system-ui, sans-serif"
           };
         })
       );
@@ -3014,8 +3019,8 @@ pulseCurrentPoint:{
             top:"Same-author",
             bottom: fmt2(v),
             yOffset:-30,
-            topFont:"600 16px Barlow, system-ui, sans-serif",
-            bottomFont:"600 16px Barlow, system-ui, sans-serif"
+            topFont:"600 14px Barlow, system-ui, sans-serif",
+            bottomFont:"600 14px Barlow, system-ui, sans-serif"
           };
         })
       );
