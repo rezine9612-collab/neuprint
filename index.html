@@ -580,7 +580,7 @@
 
 	    .cardTitle{
 	      font-weight:700;
-	      font-size:18px;
+	      font-size:16px;
 	      display:flex;
 	      gap:8px;
 	      align-items:center;
@@ -1200,7 +1200,7 @@
      모바일 판별 + 딜레이 값 (맨 위!)
   ================================ */
   const IS_MOBILE = window.matchMedia("(max-width: 680px)").matches;
-  const MOBILE_CHART_START_DELAY = 100;
+  const MOBILE_CHART_START_DELAY = 10;
   (function(){
     "use strict";
 
@@ -2641,8 +2641,8 @@ for(let j=0; j<rings; j++){
           c.options.plugins.centerText = {
             top: decision,
             bottom: fmt2(conf),
-            topFont:"500 16px Barlow, system-ui, sans-serif",
-            bottomFont:"500 16px Barlow, system-ui, sans-serif"
+            topFont:"600 14px Barlow, system-ui, sans-serif",
+            bottomFont:"600 14px Barlow, system-ui, sans-serif"
           };
         })
       );
@@ -3238,6 +3238,7 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
 
