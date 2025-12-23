@@ -75,8 +75,8 @@
       --gaugeH-m: 165px;
 
       /* Animation */
-      --chartAnimDuration: 1400ms;
-      --chartAnimDelay: 180ms;
+      --chartAnimDuration: 2100ms;
+      --chartAnimDelay: 270ms;
       --sigAnimMs: 3000;
     }
 
@@ -155,73 +155,83 @@
       display:inline-flex;
       align-items:center;
       gap:8px;
-      font-size:12px;
+      font-size:13px;
       color:var(--muted);
       flex-wrap:wrap;
     }
 
     .title{
-      margin:10px 0 4px;
+      margin:25px 0 4px;
       font-size:36px;
       font-weight:700;
       line-height:1.15;
     }
 
     .subtitle{
-      margin-top:8px;
+      margin:8px 0 35px 0;
       font-size:18px;
       color:var(--muted);
       line-height:1.35;
     }
 
-    /* Header pills row */
-    .metaRow{
-      margin-top: var(--chipTopGap);
-      display:grid;
-      grid-template-columns:repeat(5, minmax(0, 1fr));
-      gap:14px;
-      align-items:stretch;
-    }
+/* ✅ PC: 칩 폭은 내용 기반 + 남는 폭은 균등 분배(오른쪽까지 딱 맞음), 간격은 동일 */
+.metaRow{
+  margin-top: var(--chipTopGap);
+  display:flex;
+  flex-wrap:nowrap;          /* 기본은 한 줄 */
+  gap:10px;                  /* 간격 줄이기 (기존 14px → 10px) */
+  align-items:stretch;
+  width:100%;
+}
 
-    .chip{
-      display:flex;
-      align-items:center;
-      justify-content:flex-start;
-      gap:10px;
-      width:100%;
-      padding:6px 10px;
-      background:#f5f5f5;
-      border-radius:8px;
-      font-size:11px;
-      font-weight:600;
-      color:var(--text);
-      line-height:1;
-      min-width:0;
-    }
+/* ✅ 칩은 '내용이 다 보일 최소폭'을 보장하면서,
+   남는 폭은 5개가 균등하게 조금씩 커져서 우측 끝까지 꽉 참 */
+.chip{
+  flex:1 1 0;                /* 남는 폭 균등 분배 */
+  min-width:max-content;     /* 내용이 잘리지 않는 최소폭 */
+  width:auto;
 
-    .chipLabel{
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      min-width:0;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
 
-    .chip .pill{
-      margin-left:auto;
-      flex:0 0 auto;
-      white-space:nowrap;
-    }
+  padding:6px 14px;         /* 칩 더 크게 */
+  background:#f5f5f5;
+  border-radius:10px;        /* 약간 더 둥글게(선호에 맞게) */
+  font-size:13px;            /* 약간 키움 */
+  font-weight:600;
+  color:var(--text);
+  line-height:1;
+}
 
-    /* 1) Pill background is white, text only has color (all 5 chips) */
-    .pill{
-      padding:2px 8px;
-      border-radius:8px;
-      font-size:11px;
-      font-weight:700;
-      background:#ffffff;
-      color:var(--text);
-      white-space:nowrap;
-    }
+/* ✅ 잘림/… 제거 */
+.chipLabel{
+  white-space:nowrap;
+  overflow:visible;
+  text-overflow:clip;
+}
+
+/* ✅ pill도 잘리지 않게 */
+.chip .pill{
+  margin-left:auto;
+  flex:0 0 auto;
+  white-space:nowrap;
+  overflow:visible;
+  text-overflow:clip;
+}
+
+/* 기존 pill 정의는 그대로 두면 됨(배경 흰색+색 텍스트) */
+.pill{
+  padding:4px 10px;          /* pill도 살짝 키움 */
+  border-radius:10px;
+  font-size:12px;
+  font-weight:700;
+  background:#ffffff;
+  color:var(--text);
+  white-space:nowrap;
+}
+
 
     .pill.toneA{ background:#fff; color: var(--accentA); }
     .pill.toneB{ background:#fff; color: var(--accentB); }
@@ -244,7 +254,7 @@
     .qrBox img{ display:block; width:92px; height:92px; margin:0 auto; }
 
     .verifyText{
-      font-size:11px;
+      font-size:12px;
       color:var(--muted);
       line-height:1.35;
       margin-top:0;
@@ -279,7 +289,7 @@
       border-radius:8px;
       background:#fff;
       color:var(--text);
-      font-size:12px;
+      font-size:13px;
       font-weight:400;
       cursor:pointer;
       user-select:none;
@@ -331,8 +341,8 @@
     }
 
     .muted{ color:var(--muted); }
-    .small{ font-size:12px; }
-    .tiny{ font-size:11px; }
+    .small{ font-size:13px; }
+    .tiny{ font-size:12px; }
     .code{ font-family:"Barlow", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
 
     /* Section top gap controls */
@@ -355,9 +365,9 @@
       min-height:92px;
     }
 
-    .metricLabel{ font-size:11px; color:var(--muted); font-weight:600; }
+    .metricLabel{ font-size:12px; color:var(--muted); font-weight:600; }
     .metricValue{ margin-top:6px; font-size:20px; font-weight:700; color:var(--text); }
-    .metricNote{ margin-top:6px; font-size:11px; color:var(--muted); line-height:1.35; font-weight:400; }
+    .metricNote{ margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35; font-weight:400; }
 
     #mDecision   { color: var(--accentE); }
     #mConfidence { color: var(--accentB); }
@@ -395,7 +405,7 @@
       background:#f5f5f5;
       padding:8px 10px;
       border-radius:8px;
-      font-size:11px;
+      font-size:12px;
       color:var(--text);
       line-height:1;
       font-weight:400;
@@ -415,7 +425,7 @@
     }
 
     .chartTitleText{
-      font-size:12px;
+      font-size:13px;
       font-weight:700;
       color:var(--text);
       line-height:1.25;
@@ -459,7 +469,7 @@
       gap:10px;
       align-items:center;
       justify-content:flex-start;
-      font-size:11px;
+      font-size:12px;
       color:var(--text);
     }
     .gaugeLegendItem{
@@ -501,11 +511,11 @@
     }
 
     /* Tables */
-    table{ width:100%; border-collapse:collapse; font-size:12px; }
+    table{ width:100%; border-collapse:collapse; font-size:13px; }
     th,td{ padding:9px 10px; border-bottom:1px solid var(--border); vertical-align:top; }
     th{
       text-align:left;
-      font-size:10px;
+      font-size:11px;
       color:var(--muted);
       font-weight:700;
       background:#fff;
@@ -520,7 +530,7 @@
       border-radius:8px;
       background:#fff;
       overflow:auto;
-      font-size:11px;
+      font-size:12px;
       line-height:1.45;
       color:#0f172a;
       font-weight:400;
@@ -532,7 +542,7 @@
       padding:14px 0 0;
       border-top:1px solid var(--border);
       color:var(--muted);
-      font-size:11px;
+      font-size:12px;
       display:flex;
       justify-content:space-between;
       gap:12px;
@@ -542,6 +552,7 @@
 
     /* Responsive */
     @media (max-width: 980px){
+	  .metaRow{    display:flex;    flex-wrap:wrap;    gap:14px;    justify-content:flex-start;  }
       .metrics{ grid-template-columns:repeat(1,1fr); }
       .twoCol{ grid-template-columns:1fr; }
       .rightMeta{ flex-direction:row; align-items:flex-start; justify-content:flex-end; }
@@ -564,11 +575,11 @@
       .verifyText{ text-align:left; max-width:none; }
 
       .brandLogo{ width:var(--logoW-m); }
-      .title{ font-size:28px; }
-      .subtitle{ font-size:13px; margin-top:18px; }
+      .title{ font-size:30px; }
+      .subtitle{ font-size:14px; margin-top:18px; }
 
       .tabs{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .tab{ padding:9px 10px; font-size:12px; }
+      .tab{ padding:9px 10px; font-size:13px; }
 
       .chartCanvasWrap{
         height:var(--chartH-m);
@@ -1563,73 +1574,133 @@
     /* =========================================================
        2-4) Pulsing ring animation for Structural Position Map (3 rings, 가속감)
     ========================================================= */
-    const pulseCurrentPointPlugin = {
-      id:"pulseCurrentPointPlugin",
-      afterDatasetsDraw(chart){
-        const opts = (chart.options && chart.options.plugins && chart.options.plugins.pulseCurrentPoint) || null;
-        if(!opts) return;
+const pulseCurrentPointPlugin = {
+  id:"pulseCurrentPointPlugin",
+  afterDatasetsDraw(chart){
+    const opts = (chart.options && chart.options.plugins && chart.options.plugins.pulseCurrentPoint) || null;
+    if(!opts) return;
 
-        const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 3;
-        const meta = chart.getDatasetMeta(dsIndex);
-        if(!meta || meta.hidden || !meta.data || !meta.data.length) return;
+    const dsIndex = (opts.datasetIndex != null) ? opts.datasetIndex : 3;
+    const meta = chart.getDatasetMeta(dsIndex);
+    if(!meta || meta.hidden || !meta.data || !meta.data.length) return;
 
-        const point = meta.data[0];
-        if(!point) return;
+    const point = meta.data[0];
+    if(!point) return;
 
-        const ctx = chart.ctx;
-        const now = performance.now();
+    // ✅ "현재 프레임" 값을 읽어야 함 (final=false)
+    const pr = point.getProps ? point.getProps(["radius","x","y"], false) : null;
 
-        if(!chart.$pulse){
-          chart.$pulse = { start: now, raf: null };
-        }
+    const px = pr && Number.isFinite(pr.x) ? pr.x : point.x;
+    const py = pr && Number.isFinite(pr.y) ? pr.y : point.y;
+    const curRadius = pr && Number.isFinite(pr.radius) ? pr.radius : (point.options?.radius ?? 0);
 
-        /* 속도: period 1000ms, 3개 링이 서로 1/3씩 위상차 */
-        const period = Number(opts.periodMs || 50);
-        const t = (now - chart.$pulse.start) % period;
-        const base = t / period;
+    // ✅ 점이 아직 안 보이면 펄스도 시작하지 않음
+// 점이 아직 안 보이면 "그리지 않기만" 하고 RAF는 유지(끊김 방지)
+if(curRadius < 0.5){
+  return;
+}
 
-        const baseR = Number(opts.baseR || 8);
-        const maxR = Number(opts.maxR || 26);
-        const rings = 3;
 
-// 삭제하거나 안 써도 됨
-// function easeIn(k){ return k*k; }
+    const ctx = chart.ctx;
+    const now = performance.now();
 
-for(let j=0;j<rings;j++){
-  const k0 = (base + j / rings) % 1;
+    if(!chart.$pulse){
+      chart.$pulse = { start: now, raf: null, started:false };
+    }
 
-  // ✅ 일정 속도(선형)
-  const r = baseR + (maxR - baseR) * k0;
+    // ✅ "처음 점이 보이는 순간"에 pulse 타이머 시작
+// ✅ 점이 처음 보이는 순간을 기록하고, startDelayMs 만큼 기다렸다가 펄스 시작
+const startDelayMs = Number(opts.startDelayMs || 0);
 
-  const alpha = 0.22 * (1 - k0);
+if(!chart.$pulse.startedAt){
+  chart.$pulse.startedAt = now;   // 점이 "보이기 시작한 시점"
+  chart.$pulse.start = now;       // 임시값
+  chart.$pulse.started = false;
+}
+
+if(!chart.$pulse.started){
+  if(now - chart.$pulse.startedAt < startDelayMs){
+    return; // 아직 1초 안 지났으면 펄스 그리지 않음
+  }
+  chart.$pulse.started = true;
+  chart.$pulse.start = now; // 여기서부터 펄스 시간 시작
+}
+
+
+// ✅ 1초 뒤에 펄스 시작(펄스만)
+const delayMs = Number(opts.delayMs ?? 0);
+
+// 시작 직후 전체 페이드인(갑자기 튀지 않게)
+const fadeInMs = Number(opts.fadeInMs ?? 450);
+
+const period = Number(opts.periodMs || 1200);
+
+// 아직 delay 전이면 아무 것도 안 그림
+const elapsed = now - chart.$pulse.start;
+if(elapsed < delayMs) return;
+
+// delay 이후 경과시간
+const t2 = elapsed - delayMs;
+
+// 0~1 반복 위상
+const base = (t2 % period) / period;
+
+// ✅ 펄스를 "가운데(0)에서 시작"하게 만들기
+// baseR을 0(또는 점 반경)에서 출발시키고, maxR까지 확장
+const rings = Number(opts.rings ?? 4);
+const baseR = 0; // ✅ 중심(0)에서 시작
+const maxR  = Math.max(Number(opts.maxR || 52), (curRadius + 18)); // 충분히 크게
+
+// ✅ 링마다 부드러운 나타남/사라짐(사인 곡선)
+// alpha = sin(pi * phase) 형태는 처음/끝이 0이라 "빵" 느낌이 줄어듦
+const smoothAlpha = (p) => Math.sin(Math.PI * p); // 0→1→0s
+const smoothGrow  = (p) => 1 - Math.cos((Math.PI/2) * p); // 0→1 (부드러운 확장)
+
+// 전체 페이드인(처음 몇백ms)
+const globalFade = Math.max(0, Math.min(1, t2 / fadeInMs));
+
+for(let j=0; j<rings; j++){
+  // 링 위상(각 링이 서로 시차)
+  const phase = (base + j / rings) % 1;
+
+  // 반경: 0에서 maxR까지 부드럽게 확장
+  const r = baseR + (maxR - baseR) * smoothGrow(phase);
+
+  // 알파: 부드럽게 나타났다가 사라짐
+  const a = 0.22 * smoothAlpha(phase) * globalFade;
+
+  // 거의 안 보일 때는 스킵(잔상 느낌 줄이기)
+  if(a < 0.003) continue;
 
   ctx.save();
   ctx.beginPath();
-  ctx.arc(point.x, point.y, r, 0, Math.PI*2);
-  ctx.strokeStyle = "rgba(249,123,23," + alpha.toFixed(3) + ")";
+  ctx.arc(px, py, r, 0, Math.PI * 2);
+  ctx.strokeStyle = "rgba(249,123,23," + a.toFixed(3) + ")";
   ctx.lineWidth = 2;
   ctx.stroke();
   ctx.restore();
 }
 
 
-        if(!chart.$pulse.raf){
-          const tick = () => {
-            if(chart && chart.ctx){
-              try{ chart.draw(); }catch(_e){}
-            }
-            chart.$pulse.raf = requestAnimationFrame(tick);
-          };
-          chart.$pulse.raf = requestAnimationFrame(tick);
+    // ✅ RAF는 한 번만
+    if(!chart.$pulse.raf){
+      const tick = () => {
+        if(chart && chart.ctx){
+          try{ chart.draw(); }catch(_e){}
         }
-      },
-      beforeDestroy(chart){
-        if(chart && chart.$pulse && chart.$pulse.raf){
-          cancelAnimationFrame(chart.$pulse.raf);
-          chart.$pulse.raf = null;
-        }
-      }
-    };
+        chart.$pulse.raf = requestAnimationFrame(tick);
+      };
+      chart.$pulse.raf = requestAnimationFrame(tick);
+    }
+  },
+  beforeDestroy(chart){
+    if(chart && chart.$pulse && chart.$pulse.raf){
+      cancelAnimationFrame(chart.$pulse.raf);
+      chart.$pulse.raf = null;
+    }
+  }
+};
+
 
     if(window.Chart){
       Chart.register(centerTextPlugin, barValueLabelsPlugin, radarValueLabelsPlugin, pulseCurrentPointPlugin);
@@ -2730,40 +2801,115 @@ plugins:{
       const toXY = (arr)=> (Array.isArray(arr) ? arr.map((p)=>({ x:Number(p.x ?? 0), y:Number(p.y ?? 0) })) : []);
       const currentPt = { x:Number(r.reasoning_map?.current?.x ?? 0), y:Number(r.reasoning_map?.current?.y ?? 0) };
 
-      mountChartDeferred(
-        "chartMapScatter",
-        (animate)=>({
-          type:"scatter",
-          data:{
-            datasets:[
-              { label:"Human cluster", data:toXY(cl.human), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentA, borderWidth:0 },
-              { label:"Hybrid cluster", data:toXY(cl.hybrid), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentC, borderWidth:0 },
-              { label:"AI cluster", data:toXY(cl.ai), pointRadius:5, pointHoverRadius:6, backgroundColor:THEME.accentB, borderWidth:0 },
-              { label:"Current", data:[currentPt], pointRadius:7, pointHoverRadius:8, backgroundColor:THEME.accentE, borderWidth:0 }
-            ]
-          },
-          options:{
-            ...baseChartOptions(animate),
-            plugins:{
-              ...baseChartOptions(animate).plugins,
-              pulseCurrentPoint:{ datasetIndex:3, periodMs:1000, baseR:16, maxR:52 }
-            },
-            scales:{
-              x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
-              y:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } }
-            }
-          }
-        }),
-        ()=> {
-const c = chartsById["chartMapScatter"];
-if(!c) return;
-c.options.animation = {
-  duration: CHART_ANIM_MS,
-  delay: (ctx)=> (ctx.type === 'data' ? (ctx.datasetIndex*180 + ctx.dataIndex*70) : 0)
-};
-c.update();
-        }
-      );
+mountChartDeferred(
+  "chartMapScatter",
+  (animate)=>( {
+    type:"scatter",
+    data:{
+      datasets:[
+{ label:"Human cluster",  order:10, data:toXY(cl.human),
+  radius: animate ? 5 : 0,
+  hoverRadius: animate ? 6 : 0,
+  backgroundColor:THEME.accentA, borderWidth:0
+},
+{ label:"Hybrid cluster", order:20, data:toXY(cl.hybrid),
+  radius: animate ? 5 : 0,
+  hoverRadius: animate ? 6 : 0,
+  backgroundColor:THEME.accentC, borderWidth:0
+},
+{ label:"AI cluster",     order:30, data:toXY(cl.ai),
+  radius: animate ? 5 : 0,
+  hoverRadius: animate ? 6 : 0,
+  backgroundColor:THEME.accentB, borderWidth:0
+},
+{ label:"Current",        order:-9999, data:[currentPt],
+  radius: animate ? 7 : 0,
+  hoverRadius: animate ? 8 : 0,
+  backgroundColor:THEME.accentE, borderWidth:0
+}
+
+      ]
+    },
+    options:{
+      ...baseChartOptions(animate),
+      plugins:{
+        ...baseChartOptions(animate).plugins,
+
+        // ✅ pulse도 느리게 하고 싶으면 periodMs를 * 1.5 해도 됨
+pulseCurrentPoint:{
+  datasetIndex: 3,
+  startDelayMs: 1000, // ✅ 점이 보이고 1초 뒤에 펄스 시작
+  periodMs: 1000,
+  baseR: 0,          // ✅ 중심에서 시작
+  maxR: 52
+}
+
+      },
+      scales:{
+        x:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } },
+        y:{ suggestedMin:-1, suggestedMax:1, grid:{ color:"rgba(148,163,184,.22)" } }
+      }
+    }
+  }),
+()=> {
+  const c = chartsById["chartMapScatter"];
+  if(!c) return;
+
+  const ds = c.data.datasets;
+
+  // ✅ Current를 맨 뒤로(최상단) 고정
+  const curPos = ds.findIndex(d => d && d.label === "Current");
+  if(curPos >= 0){
+    const cur = ds.splice(curPos, 1)[0];
+    ds.push(cur);
+  }
+
+  const currentIndex = ds.length - 1;
+
+  // ✅ radius/hoverRadius로 확실히 세팅
+  ds[0].radius = 5; ds[0].hoverRadius = 6;
+  ds[1].radius = 5; ds[1].hoverRadius = 6;
+  ds[2].radius = 5; ds[2].hoverRadius = 6;
+
+  ds[currentIndex].radius = 7;
+  ds[currentIndex].hoverRadius = 8;
+  ds[currentIndex].order = -9999;
+
+  // ✅ pulse도 현재 인덱스를 바라보게
+  c.options.plugins.pulseCurrentPoint = {
+    datasetIndex: currentIndex,
+    startDelayMs: 1000,
+    periodMs: 2600,   // 더 느리게
+    baseR: 0,
+    maxR: 52,
+    rings: 5,
+    maxAlpha: 0.18
+  };
+
+  const perPointDelay = (ctx) => {
+    if(ctx.type !== "data") return 0;
+
+    const di = Number(ctx.datasetIndex || 0);
+    const pi = Number(ctx.dataIndex || 0);
+
+    const isCurrent = (di === currentIndex);
+    const datasetBase = isCurrent ? 900 : (di * 220);
+    return datasetBase + (pi * 70);
+  };
+
+  c.options.animation = { duration: CHART_ANIM_MS, delay: perPointDelay };
+  c.options.animations = {
+    radius:  { duration: CHART_ANIM_MS, from: 0, delay: perPointDelay },
+    opacity: { duration: CHART_ANIM_MS, from: 0, delay: perPointDelay }
+  };
+
+  c.update();
+}
+
+
+
+);
+
 
       /* 11) chartMapBands */
       mountChartDeferred(
