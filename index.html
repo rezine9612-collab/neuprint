@@ -8,7 +8,7 @@
   <!-- Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Chart.js (single-file usage) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -86,7 +86,7 @@
 
     body{
       margin:0;
-      font-family:"Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family:"IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       color:var(--text);
       background:var(--bg);
       min-height:100svh;
@@ -331,7 +331,7 @@
     .muted{ color:var(--muted); }
     .small{ font-size:12px; }
     .tiny{ font-size:11px; }
-    .code{ font-family:"Open Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
+    .code{ font-family:"IBM Plex Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; }
 
     /* Section top gap controls */
     #tab-overview{ margin-top: var(--sectionTopGap-1); }
@@ -1340,7 +1340,7 @@
 
     if(window.Chart){
       Chart.defaults.font.family =
-        '"Open Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+        '"IBM Plex Sans", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
       Chart.defaults.font.size = 11;
       Chart.defaults.color = THEME.text || "#0f172a";
     }
@@ -1363,7 +1363,7 @@
       const padX = (opt && opt.padX != null) ? opt.padX : 6;
       const padY = (opt && opt.padY != null) ? opt.padY : 3;
       const radius = (opt && opt.radius != null) ? opt.radius : 6;
-      const font = (opt && opt.font) ? opt.font : "500 11px Open Sans, system-ui, sans-serif";
+      const font = (opt && opt.font) ? opt.font : "500 11px IBM Plex Sans, system-ui, sans-serif";
       const textColor = (opt && opt.textColor) ? opt.textColor : "#0f172a";
       const bg = (opt && opt.bg) ? opt.bg : "#ffffff";
       const stroke = (opt && opt.stroke) ? opt.stroke : "rgba(226,232,240,.95)";
@@ -1414,8 +1414,8 @@
         const bottom = String(opts.bottom || "");
         const yOffset = Number(opts.yOffset || 0);
 
-        const topFont = opts.topFont || "600 16px Open Sans, system-ui, sans-serif";   /* 덜 굵게 */
-        const bottomFont = opts.bottomFont || "600 16px Open Sans, system-ui, sans-serif"; /* 덜 굵게 */
+        const topFont = opts.topFont || "600 16px IBM Plex Sans, system-ui, sans-serif";   /* 덜 굵게 */
+        const bottomFont = opts.bottomFont || "600 16px IBM Plex Sans, system-ui, sans-serif"; /* 덜 굵게 */
 
         ctx.save();
         ctx.textAlign = "center";
@@ -1515,7 +1515,7 @@
 
         const ctx = chart.ctx;
         ctx.save();
-        ctx.font = "700 10px Open Sans, system-ui, sans-serif";
+        ctx.font = "700 10px IBM Plex Sans, system-ui, sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -1549,7 +1549,7 @@
             radius:6,
             padX:6,
             padY:3,
-            font:"700 10px Open Sans, system-ui, sans-serif",
+            font:"700 10px IBM Plex Sans, system-ui, sans-serif",
             centerX:true
           });
         }
@@ -2430,8 +2430,8 @@ for(let j=0;j<rings;j++){
           c.options.plugins.centerText = {
             top: decision,
             bottom: fmt2(conf),
-            topFont:"600 16px Open Sans, system-ui, sans-serif",
-            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+            topFont:"600 16px IBM Plex Sans, system-ui, sans-serif",
+            bottomFont:"600 16px IBM Plex Sans, system-ui, sans-serif"
           };
         })
       );
@@ -2555,8 +2555,8 @@ for(let j=0;j<rings;j++){
           c.options.plugins.centerText = {
             top: decision,
             bottom: fmt2(conf),
-            topFont:"600 16px Open Sans, system-ui, sans-serif",
-            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+            topFont:"600 16px IBM Plex Sans, system-ui, sans-serif",
+            bottomFont:"600 16px IBM Plex Sans, system-ui, sans-serif"
           };
         })
       );
@@ -2841,8 +2841,8 @@ plugins:{
             top:"Consistency",
             bottom: fmt2(v),
             yOffset:-30,
-            topFont:"600 16px Open Sans, system-ui, sans-serif",
-            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+            topFont:"600 16px IBM Plex Sans, system-ui, sans-serif",
+            bottomFont:"600 16px IBM Plex Sans, system-ui, sans-serif"
           };
         })
       );
@@ -2863,8 +2863,8 @@ plugins:{
             top:"Same-author",
             bottom: fmt2(v),
             yOffset:-30,
-            topFont:"600 16px Open Sans, system-ui, sans-serif",
-            bottomFont:"600 16px Open Sans, system-ui, sans-serif"
+            topFont:"600 16px IBM Plex Sans, system-ui, sans-serif",
+            bottomFont:"600 16px IBM Plex Sans, system-ui, sans-serif"
           };
         })
       );
