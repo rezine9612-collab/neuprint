@@ -2821,23 +2821,23 @@ mountChartDeferred(
     data:{
       datasets:[
 { label:"Human cluster",  order:10, data:toXY(cl.human),
-  radius: animate ? 5 : 0,
-  hoverRadius: animate ? 6 : 0,
+  radius: animate ? 3 : 0,
+  hoverRadius: animate ? 4 : 4,
   backgroundColor:THEME.accentA, borderWidth:0
 },
 { label:"Hybrid cluster", order:20, data:toXY(cl.hybrid),
-  radius: animate ? 5 : 0,
-  hoverRadius: animate ? 6 : 0,
+  radius: animate ? 3 : 0,
+  hoverRadius: animate ? 4 : 4,
   backgroundColor:THEME.accentC, borderWidth:0
 },
 { label:"AI cluster",     order:30, data:toXY(cl.ai),
-  radius: animate ? 5 : 0,
-  hoverRadius: animate ? 6 : 0,
+  radius: animate ? 3 : 0,
+  hoverRadius: animate ? 4 : 4,
   backgroundColor:THEME.accentB, borderWidth:0
 },
 { label:"Current",        order:-9999, data:[currentPt],
-  radius: animate ? 7 : 0,
-  hoverRadius: animate ? 8 : 0,
+  radius: animate ? 6 : 0,
+  hoverRadius: animate ? 6 : 6,
   backgroundColor:THEME.accentE, borderWidth:0
 }
 
@@ -2880,18 +2880,18 @@ pulseCurrentPoint:{
   const currentIndex = ds.length - 1;
 
   // ✅ radius/hoverRadius로 확실히 세팅
-  ds[0].radius = 5; ds[0].hoverRadius = 6;
-  ds[1].radius = 5; ds[1].hoverRadius = 6;
-  ds[2].radius = 5; ds[2].hoverRadius = 6;
+  ds[0].radius = 3; ds[0].hoverRadius = 4;
+  ds[1].radius = 3; ds[1].hoverRadius = 4;
+  ds[2].radius = 3; ds[2].hoverRadius = 4;
 
-  ds[currentIndex].radius = 7;
-  ds[currentIndex].hoverRadius = 8;
+  ds[currentIndex].radius = 5;
+  ds[currentIndex].hoverRadius = 6;
   ds[currentIndex].order = -9999;
 
   // ✅ pulse도 현재 인덱스를 바라보게
   c.options.plugins.pulseCurrentPoint = {
     datasetIndex: currentIndex,
-    startDelayMs: 1000,
+    startDelayMs: 10,
     periodMs: 2600,   // 더 느리게
     baseR: 0,
     maxR: 52,
@@ -2910,13 +2910,29 @@ pulseCurrentPoint:{
     return datasetBase + (pi * 70);
   };
 
-  c.options.animation = { duration: CHART_ANIM_MS, delay: perPointDelay };
+  // 기존 perPointDelay 그대로 사용
+
+  c.options.animation = {
+    duration: CHART_ANIM_MS,
+    delay: perPointDelay,
+    onComplete: () => {
+      // ✅ 초기 등장 후에는 "from:0" 애니메이션을 꺼서 hover 튐 방지
+      c.options.animation = { duration: 0 };
+      c.options.animations = {
+        radius:  { duration: 0 },
+        opacity: { duration: 0 }
+      };
+      c.update("none"); // ✅ 상태만 갱신, 재애니메이션 방지
+    }
+  };
+
   c.options.animations = {
     radius:  { duration: CHART_ANIM_MS, from: 0, delay: perPointDelay },
     opacity: { duration: CHART_ANIM_MS, from: 0, delay: perPointDelay }
   };
 
   c.update();
+
 }
 
 
@@ -3238,6 +3254,7 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
 
