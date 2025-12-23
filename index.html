@@ -578,6 +578,14 @@
       .title{ font-size:28px; }
       .subtitle{ font-size:14px; margin-top:18px; }
 
+	    .cardTitle{
+	      font-weight:700;
+	      font-size:18px;
+	      display:flex;
+	      gap:8px;
+	      align-items:center;
+	    }		
+
       .tabs{ grid-template-columns:repeat(2, minmax(0, 1fr)); }
       .tab{ padding:9px 10px; font-size:13px; }
 
@@ -1192,7 +1200,7 @@
      모바일 판별 + 딜레이 값 (맨 위!)
   ================================ */
   const IS_MOBILE = window.matchMedia("(max-width: 680px)").matches;
-  const MOBILE_CHART_START_DELAY = 700;
+  const MOBILE_CHART_START_DELAY = 100;
   (function(){
     "use strict";
 
@@ -3230,6 +3238,7 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
 
