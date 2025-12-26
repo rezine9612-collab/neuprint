@@ -270,7 +270,15 @@
       z-index:50;
       background:#fff;
       padding:10px 0 0px;
-      margin-bottom:-40px;
+    }
+
+    .tocTitle{
+      font-weight:700;
+      font-size:20px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:12px;
     }
 
     .tabs{
@@ -280,6 +288,7 @@
       grid-template-columns:repeat(6, minmax(0, 1fr));
       gap:8px;
       align-items:stretch;
+      margin-bottom:-20px;
     }
 
     .tab{
@@ -329,15 +338,25 @@
       align-items:flex-start;
       justify-content:space-between;
       gap:14px;
-      margin-bottom:10px;
+      margin-top:20px;
+	  margin-bottom:10px;
     }
 
     .cardTitle{
       font-weight:700;
-      font-size:22px;
+      font-size:24px;
       display:flex;
       gap:8px;
       align-items:center;
+    }
+
+    .cardTitle2{
+      font-weight:700;
+      font-size:20px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:-10px;
     }
 
     .muted{ color:var(--muted); }
@@ -529,7 +548,16 @@
       border:1px solid rgba(226,232,240,.85);
       border-radius:8px;
       background:#fff;
-      overflow:auto;
+/*      overflow:auto; */
+
+  /* 핵심 */
+  overflow-x:hidden;
+  overflow-y:auto;
+
+  white-space:pre-wrap;        /* 줄바꿈 허용 */
+  word-break:break-word;       /* 긴 토큰 강제 분리 */
+  overflow-wrap:anywhere;      /* JSON key/value 어디서든 줄바꿈 */
+
       font-size:12px;
       line-height:1.45;
       color:#0f172a;
@@ -549,6 +577,28 @@
       flex-wrap:wrap;
       font-weight:400;
     }
+
+/* Interpretation block enhancement */
+.interpretationBlock{
+  padding:16px 18px;
+  border-left:4px solid rgba(15,23,42,.65);
+  background:rgba(248,250,252,.85);
+}
+.interpretationItem + .interpretationItem{
+  margin-top:18px;
+}
+
+.interpretationItem .itemTitle{
+  font-size:13px;
+  font-weight:700;
+}
+
+.interpretationItem .itemBody{
+  margin-top:4px;
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.45;
+ }
 
     /* Responsive */
     @media (max-width: 980px){
@@ -579,14 +629,15 @@
       .subtitle{ font-size:14px; margin-top:18px; }
 
 	    .cardTitle{
-	      font-weight:700;
+	      font-size:20px;
+	    }	
+		
+	    .cardTitle2{
 	      font-size:16px;
-	      display:flex;
-	      gap:8px;
-	      align-items:center;
-	    }		
+	    }	
 
-      .tabs{ margin-top:20px; grid-template-columns:repeat(2, minmax(0, 1fr)); }
+
+      .tabs{ margin-top:20px; margin-bottom:0px; grid-template-columns:repeat(2, minmax(0, 1fr)); }
       .tab{ padding:9px 10px; font-size:13px; }
 
       .chartCanvasWrap{
@@ -696,8 +747,9 @@
 
       <!-- Sticky navigation -->
       <div class="tocWrap" aria-label="Table of contents">
+  <div class="tocTitle">Contents</div>
         <nav class="tabs" id="tabs">
-          <button class="tab active" data-target="tab-overview">1. Executive Summary</button>
+          <button class="tab" data-target="tab-overview">1. Executive Summary</button>
           <button class="tab" data-target="tab-authorship">2. Agency Control</button>
           <button class="tab" data-target="tab-cff">3. Cognitive Fingerprint</button>
           <button class="tab" data-target="tab-arc">4. Reasoning Capacity</button>
@@ -718,9 +770,13 @@
       <div class="card">
 
         <div class="sectionBlock">
-          <div class="cardHeader">
+          <div class="cardHeader" style="margin-top:-20px;">
             <div class="cardTitle">1. Executive Summary</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Evaluates the complexity and integration level of reasoning demonstrated within task constraints.
+      </div>
 
           <div class="metrics">
             <div class="metricBox">
@@ -772,7 +828,7 @@
 
         <div class="sectionBlock">
           <div class="cardHeader">
-            <div class="cardTitle">Structural Evidence Overview</div>
+            <div class="cardTitle2">Structural Evidence Overview</div>
           </div>
 
           <div class="twoCol">
@@ -800,7 +856,47 @@
           </div>
         </div>
 
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Overall Interpretation</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What this summary represents</div>
+    <div class="itemBody">
+      This summary consolidates key structural indicators to indicate whether human reasoning and decision agency were retained under comparable task conditions.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current determination meaning</div>
+    <div class="itemBody">
+      The determination reflects human-led reasoning with stable structural traces, indicating active control over reasoning flow.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">How this summary should be used</div>
+    <div class="itemBody">
+      This section provides quick orientation before reviewing detailed analyses and should be read as a reference, not a final judgment.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Interpretation note</div>
+    <div class="itemBody">
+      Observed behavior is task-bound and does not generalize beyond comparable conditions.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
+
+
     </section>
 
     <!-- 2. Agency Control -->
@@ -810,6 +906,10 @@
           <div class="cardHeader">
             <div class="cardTitle">2. Agency Control</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Assesses whether control over reasoning and decision-making remained with the human agent, rather than being delegated to external tools or automated processes.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -843,6 +943,44 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Agency Signal Interpretation</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What is assessed</div>
+    <div class="itemBody">
+      This section examines whether reasoning decisions appear to be actively guided by the individual rather than automated generation patterns.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current agency indicationg</div>
+    <div class="itemBody">
+      Observed signals suggest sustained human agency, including selective revision, consistency checks, and intentional restructuring of reasoning steps.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Practical implication</div>
+    <div class="itemBody">
+     These signals indicate that AI assistance functioned as a tool rather than as the primary driver of reasoning outcomes.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Usage caution</div>
+    <div class="itemBody">
+      Agency indicators are context-dependent and should not be interpreted as absolute proof of authorship or intent.
+    </div>
+  </div>
+
+</div>
+
       </div>
     </section>
 
@@ -853,6 +991,10 @@
           <div class="cardHeader">
             <div class="cardTitle">3. Cognitive Fingerprint (CFF)</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Describes structural patterns of reasoning organization and revision behavior observed in the task.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -913,6 +1055,44 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Pattern Reading Guide</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What this fingerprint represents</div>
+    <div class="itemBody">
+      The cognitive fingerprint visualizes structural characteristics of reasoning, including organization and revision behavior.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current pattern interpretation</div>
+    <div class="itemBody">
+      The observed pattern reflects a reflective and exploratory reasoning style, characterized by iterative refinement.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">When this pattern is effective</div>
+    <div class="itemBody">
+      This pattern is effective in tasks requiring explanation, justification, and adaptive reasoning.
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Interpretation note</div>
+    <div class="itemBody">
+      Fingerprint patterns describe tendencies, not fixed traits, and may vary across tasks and conditions.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -923,6 +1103,10 @@
           <div class="cardHeader">
             <div class="cardTitle">4. Reasoning Capacity (ARC)</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Evaluates the complexity and integration level of reasoning demonstrated within task constraints.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -970,6 +1154,45 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Capacity Interpretation</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What capacity indicates</div>
+    <div class="itemBody">
+      Reasoning capacity reflects the complexity and integration level of observed reasoning processes under task constraints.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current capacity meaning</div>
+    <div class="itemBody">
+      The current level indicates coherent integration of multiple reasoning elements with structured progression.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Development perspective</div>
+    <div class="itemBody">
+      Capacity may vary depending on task design, time pressure, and support conditions.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Limitation</div>
+    <div class="itemBody">
+      This measure does not represent general intelligence or permanent ability.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -980,6 +1203,10 @@
           <div class="cardHeader">
             <div class="cardTitle">5. Cohort Positioning</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Places observed reasoning patterns within a reference group for relative contextual comparison.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -1009,6 +1236,45 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Comparative Context</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What cohort positioning shows</div>
+    <div class="itemBody">
+      This section places the observed reasoning pattern within a reference group to provide relative context.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Meaning of current position</div>
+    <div class="itemBody">
+      The position indicates how similar structural patterns appear relative to comparable samples under similar conditions.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Appropriate use</div>
+    <div class="itemBody">
+      Cohort positioning supports contextual understanding and trend observation, not ranking or competitive judgment.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Interpretation note</div>
+    <div class="itemBody">
+      Observed differences may reflect task composition rather than individual performance.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -1019,6 +1285,10 @@
           <div class="cardHeader">
             <div class="cardTitle">6. Stability and Drift</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Examines consistency or change in reasoning structure across time or repeated conditions.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -1055,6 +1325,45 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Temporal Interpretation</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What stability and drift assesss</div>
+    <div class="itemBody">
+      This section evaluates whether reasoning structures remain consistent across time or repeated conditions.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current stability indication</div>
+    <div class="itemBody">
+      No significant structural instability is indicated within the observed task.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Monitoring guidance</div>
+    <div class="itemBody">
+      Drift assessment becomes meaningful only through repeated measurements under comparable task formats.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Interpretation note</div>
+    <div class="itemBody">
+      Structural change is not inherently negative and may reflect learning or adaptation.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -1065,6 +1374,10 @@
           <div class="cardHeader">
             <div class="cardTitle">7. Identity Continuity (Same-author signals)</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Analyzes structural similarity across samples attributed to the same individual.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -1104,6 +1417,44 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Continuity Scope</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">What continuity refers to</div>
+    <div class="itemBody">
+      Identity continuity reflects structural similarity across reasoning samples attributed to the same individual.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current continuity interpretation</div>
+    <div class="itemBody">
+      Observed continuity suggests consistent reasoning organization within the assessed context.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Appropriate interpretation</div>
+    <div class="itemBody">
+      Continuity supports internal reference consistency and does not imply legal or biometric identification.
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Usage limitation</div>
+    <div class="itemBody">
+      This signal should not be used as standalone identity verification.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -1114,6 +1465,10 @@
           <div class="cardHeader">
             <div class="cardTitle">8. Role Fit Signals</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Explores alignment between observed reasoning patterns and role-specific cognitive demands.
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -1145,6 +1500,45 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Role Alignment Interpretation</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">Role-relevant signals assessed</div>
+    <div class="itemBody">
+      This section examines whether observed reasoning patterns align with role-specific cognitive demands.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Current alignment indication</div>
+    <div class="itemBody">
+      The pattern suggests suitability for roles requiring documented reasoning and iterative problem-solving.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Development-oriented guidance</div>
+    <div class="itemBody">
+      Development may focus on clearer reasoning articulation and post-task reflection.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Usage caution</div>
+    <div class="itemBody">
+      This interpretation is intended for development support, not automated selection or exclusion.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -1155,6 +1549,10 @@
           <div class="cardHeader">
             <div class="cardTitle">9. Audit Metadata</div>
           </div>
+
+      <div class="tiny muted" style="margin-top:-6px; margin-bottom:16px;font-size:13px;">
+        - Provides contextual and technical metadata required for traceability and verification
+      </div>
 
           <div class="twoCol">
             <div class="panel">
@@ -1185,6 +1583,45 @@
           </div>
 
         </div>
+
+
+          <div class="cardHeader" style="margin-top:20px">
+            <div class="cardTitle2">Traceability and Verification</div>
+          </div>
+
+
+<div class="interpretationBlock">
+  <div class="interpretationItem">
+    <div class="itemTitle">Purpose of audit metadata</div>
+    <div class="itemBody">
+      Audit metadata provides identifiers, timestamps, and system references necessary for traceability.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">How this information is used</div>
+    <div class="itemBody">
+      Metadata supports verification of assessment context and reproducibility of results.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Scope clarificationd</div>
+    <div class="itemBody">
+      Metadata does not validate correctness or truthfulness of content.
+    </div>
+  </div>
+
+  <div class="interpretationItem">
+    <div class="itemTitle">Interpretation note</div>
+    <div class="itemBody">
+      Metadata should be considered alongside interpretive sections, not independently.
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </section>
 
@@ -3254,6 +3691,7 @@ function deferSignatureDraw(r){
 
 </body>
 </html>
+
 
 
 
