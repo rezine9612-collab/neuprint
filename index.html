@@ -6,9 +6,9 @@
   <title>NeuPrint Integrated Cognitive & Authorship Verification</title>
 
   <!-- Font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?Barlow:wght@300;400;500;500;500&display=swap" rel="stylesheet">
 
   <!-- Chart.js (single-file usage) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
@@ -163,7 +163,8 @@
     .title{
       margin:22px 0 4px;
       font-size:36px;
-      font-weight:700;
+      font-weight:600;
+	  letter-spacing: -0.01em;
       line-height:1.15;
     }
 
@@ -200,7 +201,7 @@
   background:#f5f5f5;
   border-radius:10px;        /* 약간 더 둥글게(선호에 맞게) */
   font-size:13px;            /* 약간 키움 */
-  font-weight:600;
+  font-weight:500;
   color:var(--text);
   line-height:1;
 }
@@ -226,7 +227,7 @@
   padding:4px 10px;          /* pill도 살짝 키움 */
   border-radius:10px;
   font-size:12px;
-  font-weight:700;
+  font-weight:500;
   background:#ffffff;
   color:var(--text);
   white-space:nowrap;
@@ -261,7 +262,7 @@
       max-width:420px;
       text-align:right;
     }
-    .verifyText span{ font-weight:700; color:var(--text); }
+    .verifyText span{ font-weight:500; color:var(--text); }
 
     /* Tabs (sticky TOC) */
     .tocWrap{
@@ -273,8 +274,8 @@
     }
 
     .tocTitle{
-      font-weight:700;
-      font-size:20px;
+      font-weight:600;
+      font-size:24px;
       display:flex;
       gap:8px;
       align-items:center;
@@ -311,7 +312,7 @@
       border:0px solid rgba(15,23,42,.40);
       outline:4px solid rgba(15,23,42,.78);
       outline-offset:0;
-      font-weight:700;
+      font-weight:500;
     }
 
     /* Layout */
@@ -343,7 +344,7 @@
     }
 
     .cardTitle{
-      font-weight:700;
+      font-weight:600;
       font-size:24px;
       display:flex;
       gap:8px;
@@ -351,7 +352,7 @@
     }
 
     .cardTitle2{
-      font-weight:700;
+      font-weight:600;
       font-size:20px;
       display:flex;
       gap:8px;
@@ -384,8 +385,8 @@
       min-height:92px;
     }
 
-    .metricLabel{ font-size:12px; color:var(--muted); font-weight:600; }
-    .metricValue{ margin-top:6px; font-size:20px; font-weight:700; color:var(--text); }
+    .metricLabel{ font-size:12px; color:var(--muted); font-weight:500; }
+    .metricValue{ margin-top:6px; font-size:20px; font-weight:500; color:var(--text); }
     .metricNote{ margin-top:6px; font-size:12px; color:var(--muted); line-height:1.35; font-weight:400; }
 
     #mDecision   { color: var(--accentE); }
@@ -445,7 +446,7 @@
 
     .chartTitleText{
       font-size:13px;
-      font-weight:700;
+      font-weight:500;
       color:var(--text);
       line-height:1.25;
     }
@@ -506,7 +507,7 @@
       border:1px solid rgba(0,0,0,.06);
     }
     .gaugeLegendItem .label{
-      font-weight:600;
+      font-weight:500;
       color:var(--muted);
     }
 
@@ -536,7 +537,7 @@
       text-align:left;
       font-size:11px;
       color:var(--muted);
-      font-weight:700;
+      font-weight:500;
       background:#fff;
     }
     tr:last-child td{ border-bottom:0; }
@@ -590,7 +591,7 @@
 
 .interpretationItem .itemTitle{
   font-size:13px;
-  font-weight:700;
+  font-weight:500;
 }
 
 .interpretationItem .itemBody{
@@ -636,7 +637,7 @@
 	      font-size:16px;
 	    }	
     .tocTitle{
-      font-weight:700;
+      font-weight:500;
       font-size:18px;
       display:flex;
       gap:8px;
@@ -811,7 +812,7 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Reasoning Context Summary</strong></div>
+              <div class="small">Reasoning Context Summary</div>
               <div class="tiny muted" style="margin-top:6px" id="contentSummary">
                 This determination evaluates reasoning under AI-assisted writing conditions,
                 with emphasis on structural control rather than surface output.
@@ -820,7 +821,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Evidence Scope</strong></div>
+              <div class="small">Evidence Scope</div>
               <div class="tiny muted" style="margin-top:6px" id="evidenceScopeText">
                 This determination is based on a single-session structural snapshot.
                 Longitudinal continuity is assessed only when historical data is available.
@@ -921,7 +922,7 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Determination Rationale</strong></div>
+              <div class="small">Determination Rationale</div>
               <div class="tiny muted" style="margin-top:6px" id="aiInterpretation">
                 Human. Pattern indicates deep reflective human in a stable context.
               </div>
@@ -932,7 +933,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Agency Distribution</strong></div>
+              <div class="small">Agency Distribution</div>
               <div class="tiny muted" style="margin-top:6px">Percentages represent structural agency contribution, not stylistic mixture or surface-level usage.</div>
               <div class="kpiRow" id="mixKpis"></div>
             </div>
@@ -1006,10 +1007,10 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Type Readout</strong></div>
+              <div class="small">Type Readout</div>
               <div class="tiny muted" style="margin-top:6px">
-                Primary type is <strong id="cffPrimary">Reflective Explorer</strong>, secondary is <strong id="cffSecondary">Evidence Weaver</strong>.
-                Type confidence is <strong id="cffTypeConfidence">0.83</strong>.
+                Primary type is Reflective Explorer, secondary is Evidence Weaver.
+                Type confidence is 0.83.
               </div>
               <div class="kpiRow" style="margin-top:10px">
                 <span class="kpi">KPF-Sim: <span class="code" id="cffKpfNote">N/A</span></span>
@@ -1018,7 +1019,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Interpretation</strong></div>
+              <div class="small">Interpretation</div>
               <ul class="tiny muted" style="margin:18px 0 0 -24px; line-height:1.6">
                 <li>HI and RDX are strong, consistent with dense self revision.</li>
                 <li>CTF is high, transitions show purposeful movement.</li>
@@ -1046,7 +1047,7 @@
           </div>
 
           <div class="panel" style="margin-top:14px">
-            <div class="small"><strong>CFF Indicator Summary</strong></div>
+            <div class="small">CFF Indicator Summary</div>
             <div style="margin-top:10px; overflow:auto; border:1px solid rgba(226,232,240,.85); border-radius:8px">
               <table>
                 <thead>
@@ -1119,16 +1120,16 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>ARC Summary</strong></div>
+              <div class="small">ARC Summary</div>
               <div class="tiny muted" style="margin-top:6px">
-                Overall level is <strong id="arcLevel">L4 Integrated</strong>. Mean score is <strong id="arcMean">3.72</strong>.
-                Reliability index is <strong id="arcReliability">0.89</strong>.
+                Overall level is L4 Integrated. Mean score is 3.72.
+                Reliability index is 0.89.
               </div>
               <div class="kpiRow" style="margin-top:10px" id="arcKpis"></div>
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Coaching Focus</strong></div>
+              <div class="small">Coaching Focus</div>
               <div class="tiny muted" style="margin-top:6px" id="arcGuidance"></div>
             </div>
           </div>
@@ -1146,7 +1147,7 @@
           </div>
 
           <div class="panel" style="margin-top:14px">
-            <div class="small"><strong>ARC Dimension Table</strong></div>
+            <div class="small">ARC Dimension Table</div>
             <div style="margin-top:10px; border:1px solid rgba(226,232,240,.85); border-radius:8px; overflow:auto">
               <table>
                 <thead>
@@ -1219,14 +1220,14 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>What This Represents</strong></div>
+              <div class="small">What This Represents</div>
               <div class="tiny muted" style="margin-top:6px">
                 The reasoning map places the sample in a learned space built from reference cohorts.
               </div>
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Interpretation</strong></div>
+              <div class="small">Interpretation</div>
               <div class="tiny muted" style="margin-top:6px" id="mapInterpretation"></div>
               <div class="kpiRow" style="margin-top:10px" id="mapKpis"></div>
             </div>
@@ -1301,7 +1302,7 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Baseline-only rule</strong></div>
+              <div class="small">Baseline-only rule</div>
               <div class="tiny muted" style="margin-top:6px">
                 Longitudinal stability is not asserted without historical data.
               </div>
@@ -1312,7 +1313,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>When History Is Available</strong></div>
+              <div class="small">When History Is Available</div>
               <div class="tiny muted" style="margin-top:6px">
                 Show type agency continuity, Structural drift direction, and Session-level variance bands.
               </div>
@@ -1390,7 +1391,7 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Identity Status</strong></div>
+              <div class="small">Identity Status</div>
               <div class="tiny muted" style="margin-top:6px">
                 Identity continuity is evaluated only when multiple sessions are present.
               </div>
@@ -1401,7 +1402,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Signals used (when available)</strong></div>
+              <div class="small">Signals used (when available)</div>
               <ul class="tiny muted" style="margin:8px 0 0 18px; line-height:1.6">
                 <li>Cross-session fingerprint similarity</li>
                 <li>ARC profile alignment</li>
@@ -1482,13 +1483,13 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Cognitive Style Summary</strong></div>
+              <div class="small">Cognitive Style Summary</div>
               <div class="tiny muted" style="margin-top:6px" id="hrProfile"></div>
               <div class="kpiRow" style="margin-top:10px" id="hrKpis"></div>
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Execution Coaching Focus</strong></div>
+              <div class="small">Execution Coaching Focus</div>
               <ul class="tiny muted" style="margin:8px 0 0 -24px; line-height:1.6">
                 <li>Milestone planning with visible checkpoints</li>
                 <li>Shared tracking and external reminders</li>
@@ -1566,7 +1567,7 @@
 
           <div class="twoCol">
             <div class="panel">
-              <div class="small"><strong>Identifiers</strong></div>
+              <div class="small">Identifiers</div>
               <div class="kpiRow" style="margin-top:10px">
                 <span class="kpi">Verication_ID: <span class="code" id="metaAssessmentId">NP-2025-0314-0007</span></span>
                 <span class="kpi">Language: <span class="code" id="metaLang">EN</span></span>
@@ -1575,7 +1576,7 @@
             </div>
 
             <div class="panel">
-              <div class="small"><strong>Data availability flags</strong></div>
+              <div class="small">Data availability flags</div>
               <div class="kpiRow" style="margin-top:10px">
                 <span class="kpi">History: <span class="code" id="metaHistory">None</span></span>
                 <span class="kpi">Behavioral_logs: <span class="code" id="metaEditLog">None</span></span>
@@ -1585,7 +1586,7 @@
           </div>
 
           <div class="panel" style="margin-top:14px">
-            <div class="small"><strong>Structured Output</strong></div>
+            <div class="small">Structured Output</div>
             <div class="tiny muted" style="margin-top:6px" id="rawJsonNote">
               This panel may be restricted in external or investor-facing views.
             </div>
@@ -1636,7 +1637,7 @@
     </section>
 
     <div class="footer">
-      <div><strong>NeuPrint</strong> , Reference Layer for Human Reasoning and Agency</div>
+      <div>NeuPrint , Reference Layer for Human Reasoning and Agency</div>
       <div>No cookies, no login, no persistence in this file.</div>
     </div>
 
@@ -1887,8 +1888,8 @@
         const bottom = String(opts.bottom || "");
         const yOffset = Number(opts.yOffset || 0);
 
-        const topFont = opts.topFont || "600 14px Barlow, system-ui, sans-serif";   /* 덜 굵게 */
-        const bottomFont = opts.bottomFont || "600 14px Barlow, system-ui, sans-serif"; /* 덜 굵게 */
+        const topFont = opts.topFont || "500 14px Barlow, system-ui, sans-serif";   /* 덜 굵게 */
+        const bottomFont = opts.bottomFont || "500 14px Barlow, system-ui, sans-serif"; /* 덜 굵게 */
 
         ctx.save();
         ctx.textAlign = "center";
@@ -1988,7 +1989,7 @@
 
         const ctx = chart.ctx;
         ctx.save();
-        ctx.font = "700 10px Barlow, system-ui, sans-serif";
+        ctx.font = "500 10px Barlow, system-ui, sans-serif";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
@@ -2022,7 +2023,7 @@
             radius:6,
             padX:6,
             padY:3,
-            font:"700 10px Barlow, system-ui, sans-serif",
+            font:"500 10px Barlow, system-ui, sans-serif",
             centerX:true
           });
         }
@@ -2781,7 +2782,7 @@ for(let j=0; j<rings; j++){
               boxHeight:8,
               padding:12,
               color: THEME.text || "#0f172a",
-              font:{ size:11, weight:"600" }
+              font:{ size:11, weight:"500" }
             }
           },
           tooltip:{ enabled:true }
@@ -3161,7 +3162,7 @@ plugins:{
               r:{
                 min:0, max:1,
                 ticks:{ display:false, backdropColor:"transparent" },
-                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"500" }, color: THEME.text || "#0f172a" },
                 grid:{ color:"rgba(148,163,184,.22)" },
                 angleLines:{ color:"rgba(148,163,184,.22)" }
               }
@@ -3242,7 +3243,7 @@ plugins:{
               r:{
                 min:0, max:6,
                 ticks:{ display:false, backdropColor:"transparent" },
-                pointLabels:{ padding:8, font:{ size:10, weight:"600" }, color: THEME.text || "#0f172a" },
+                pointLabels:{ padding:8, font:{ size:10, weight:"500" }, color: THEME.text || "#0f172a" },
                 grid:{ color:"rgba(148,163,184,.22)" },
                 angleLines:{ color:"rgba(148,163,184,.22)" }
               }
@@ -3339,7 +3340,7 @@ pulseCurrentPoint:{
   c.options.plugins.pulseCurrentPoint = {
     datasetIndex: currentIndex,
     startDelayMs: 10,
-    periodMs: 2600,   // 더 느리게
+    periodMs: 2500,   // 더 느리게
     baseR: 0,
     maxR: 52,
     rings: 5,
