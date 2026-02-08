@@ -10,7 +10,7 @@
 // - Full zod schema validation (that will be schema.ts stage)
 // - UI text generation (belongs to blueprints.ts / UI layer)
 
-import gptSpec from "@/lib/data/fields.gpt.json";
+import gptSpec from "../data/fields.gpt.json";
 
 type Issue = { path: string; message: string; level: "error" | "warn" };
 type ValidateResult = { report: any; errors: Issue[]; warnings: Issue[] };

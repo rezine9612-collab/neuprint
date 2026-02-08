@@ -24,14 +24,14 @@ export default function ReportPage() {
     // These are now TypeScript side-effect modules bundled by Next.
     (async () => {
       try {
-        await import("@/lib/client/report/charts/chartCore");
-        await import("@/lib/client/report/charts/plugins");
-        await import("@/lib/client/report/charts/cffRadar");
-        await import("@/lib/client/report/charts/rslCohort");
-        await import("@/lib/client/report/charts/rslRadar");
-        await import("@/lib/client/report/charts/agency");
-        await import("@/lib/client/report/ui");
-        await import("@/lib/client/report/hydrate");
+        await import("../../lib/client/report/charts/chartCore");
+        await import("../../lib/client/report/charts/plugins");
+        await import("../../lib/client/report/charts/cffRadar");
+        await import("../../lib/client/report/charts/rslCohort");
+        await import("../../lib/client/report/charts/rslRadar");
+        await import("../../lib/client/report/charts/agency");
+        await import("../../lib/client/report/ui");
+        await import("../../lib/client/report/hydrate");
       } catch (e) {
         // If modules fail, keep the page visible for debugging.
         console.error(e);

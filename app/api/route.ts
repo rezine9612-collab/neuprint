@@ -1,8 +1,8 @@
 // app/api/route.ts
 import { NextResponse } from "next/server";
-import { buildGptRawExtractorMessages, RELIABILITY_FIXED } from "@/lib/server/blueprints";
-import { deriveBackendRequiredCalcs } from "@/lib/server/derive";
-import { infer } from "@/lib/server/inference";
+import { buildGptRawExtractorMessages, RELIABILITY_FIXED } from "../../lib/server/blueprints";
+import { deriveBackendRequiredCalcs } from "../../lib/server/derive";
+import { infer } from "../../lib/server/inference";
 
 type AnalyzeRequest = {
   text: string;

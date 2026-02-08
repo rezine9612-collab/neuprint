@@ -2,8 +2,8 @@
 // IMPORTANT: Catalog samples are imported from fields.fixed.json and parsed at runtime.
 // This ensures the catalog JSON strings are NOT rewritten, re-formatted, or edited by ChatGPT.
 
-import fixed from "@/lib/data/fields.fixed.json";
-import gptSpec from "@/lib/data/fields.gpt.json";
+import fixed from "../data/fields.fixed.json";
+import gptSpec from "../data/fields.gpt.json";
 
 export type ExtractorVersion = "raw_features_v1";
 
