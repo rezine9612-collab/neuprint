@@ -1,7 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-}
 
 /* NeuPrint charts core (browser-only)
    - Provides window.NPCharts namespace

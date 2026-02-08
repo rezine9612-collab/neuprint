@@ -1,7 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-}
 
 /* Agency / Control (chartMixAgency or chartAgencyBars if present)
    - Your HTML may have a specific canvas id. We support common ones.
