@@ -5,8 +5,8 @@
 (function(){
     "use strict";
 
-    const textarea = document.getElementById("intakeText");
-    const intakeBox = document.getElementById("intakeBox");
+    const textarea = document.getElementById("intakeText") as HTMLTextAreaElement | null;
+const intakeBox = document.getElementById("intakeBox");
     const cta = document.getElementById("ctaBtn");
     const sampleBtns = Array.from(document.querySelectorAll(".sampleBtn"));
 
@@ -23,7 +23,7 @@
     }
 
     function syncStates(){
-      const hasValue = textarea.value.trim().length > 0;
+      const hasValue = (textarea?.value ?? "").trim().length > 0;
       cta.classList.toggle("isHot", hasValue);
       intakeBox.classList.toggle("isFilled", hasValue);
     }
@@ -60,7 +60,7 @@
         // 같은 샘플을 다시 클릭한 경우 -> 토글 해제
         if(isAlreadyActive){
           snapIntakeVisualUpdate();
-          textarea.value = "";
+          (textarea?.value ?? "") = "";
           textarea.blur();
           clearSampleActive();
           syncStates();
@@ -74,7 +74,7 @@
         snapIntakeVisualUpdate();
 
         // 값 먼저 주입 -> isFilled 즉시 반영
-        textarea.value = t;
+        (textarea?.value ?? "") = t;
         syncStates();
 
         // 포커스는 다음 프레임에 (레이아웃/스타일 적용 후)
@@ -93,7 +93,7 @@
 
     /* Empty input alert */
     cta.addEventListener("click", ()=>{
-      const v = textarea.value.trim();
+      const v = (textarea?.value ?? "").trim();
       if(!v){
         alert("Please enter text.");
         textarea.focus();
