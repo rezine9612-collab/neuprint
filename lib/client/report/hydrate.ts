@@ -1277,11 +1277,12 @@ window.renderNeuPrint = function (reportObject) {
         }
 
         function renderStabilityPanels(r) {
-          setText(
+          const v =
             r.stability?.history_status === 'None'
               ? 'None'
-              : fmt2(r.stability?.type_consistency ?? 0),
-          )
+              : fmt2(r.stability?.type_consistency ?? 0)
+          // Optional panel hook (no-op if the element is not present in the current HTML)
+          setText('stTypeConsistency', v)
         }
 
         function renderIdentityPanels(r) {}
