@@ -1,7 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-}
 
 /* =========================================================
        Module 1) Utilities (keep minimal, shared)
@@ -216,6 +215,5 @@
           if (band === 'LOW')
             return { label: 'High', note: 'Low reliability band, do not use alone.' }
           return { label: 'Unknown', note: 'Reliability band unavailable.' }
-        }
 
         const report = REPORT

@@ -833,3 +833,4 @@ const canvas = $('signatureCanvas')
             onScroll();
           }
         }
+}
