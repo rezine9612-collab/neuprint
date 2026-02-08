@@ -120,10 +120,12 @@
   }
 
   NPCharts.make = function make(id, config, animate) {
-    var el = document.getElementById(id);
+    // Canvas element is required for Chart.js
+    var el = document.getElementById(id) as HTMLCanvasElement | null;
     if (!el || !window.Chart) return null;
     NPCharts.destroy(id);
     var ctx = el.getContext('2d');
+    if (!ctx) return null;
     var opt = config.options || {};
     var merged = Object.assign({}, baseOptions(animate), opt);
     config.options = merged;
