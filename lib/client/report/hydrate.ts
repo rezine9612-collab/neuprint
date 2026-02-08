@@ -1831,21 +1831,23 @@ const canvas = $('signatureCanvas')
             // - Few sparks (4–7) in warm palette
             // - Exists ONLY while drawing, then fully disappears
 
-            if (!(frame as any).__sparks) {
-              (frame as any).__sparks = []
-              (frame as any).__sparkTick = 0
+            const f: any = frame as any
+
+            if (!f.__sparks) {
+              f.__sparks = []
+              f.__sparkTick = 0
               // deterministic-ish RNG anchored to the signature vector (doesn't affect the line)
-              (frame as any).__sparkRng = mulberry32(hashStr('spark:' + JSON.stringify(v, SIGNATURE_KEYS)))
+              f.__sparkRng = mulberry32(hashStr('spark:' + JSON.stringify(v, SIGNATURE_KEYS)))
             }
 
-            const sparks = (frame as any).__sparks
+            const sparks = f.__sparks
             if (t >= 1) sparks.length = 0
-            const rand = (frame as any).__sparkRng
+            const rand = f.__sparkRng
 
             // Spawn a tiny radial burst EVERY frame while drawing.
             // Keeping it sparse ensures it reads as a pen-tip tool, not decoration.
             if (t < 1) {
-              (frame as any).__sparkTick++
+              f.__sparkTick++
               const burstN = 2 + Math.floor(rand() * 5) // 2..6 (2x density)
               for (let k = 0; k < burstN; k++) {
                 const ang = rand() * Math.PI * 2
