@@ -4,10 +4,10 @@
 /* ================================
      모바일 판별 + 딜레이 값 (맨 위!)
   ================================ */
-            window.NP_DISABLE_INTERNAL_CHARTS = false
-const IS_MOBILE = window.matchMedia('(max-width: 680px)').matches
-      const MOBILE_CHART_START_DELAY = 10
-      const NP_DEBUG = false
+            window.NP_DISABLE_INTERNAL_CHARTS = false;
+const IS_MOBILE = window.matchMedia('(max-width: 680px)').matches;
+      const MOBILE_CHART_START_DELAY = 10;
+      const NP_DEBUG = false;
       /* =========================================================
      RSL table responsive behavior (reversible)
      - Mobile: show observation under Dimension, keep Score column
@@ -917,7 +917,7 @@ window.renderNeuPrint = function (reportObject) {
        (수정) Chart 존재할 때만 register 하도록 고정
     ========================================================= */
         if (window.Chart) {
-          Chart.register(
+          ;(window.Chart as any).register(
             centerTextPlugin,
             barValueLabelsPlugin,
             radarValueLabelsPlugin,
