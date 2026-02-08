@@ -266,7 +266,14 @@ window.renderNeuPrint = function (reportObject) {
             return clamp01(n > 1 ? n / 100 : n)
           }
 
-          function normTriplet(h, y, a) {
+          type MixTriplet = {
+            human: number
+            hybrid: number
+            ai: number
+            _pct?: { human: number; hybrid: number; ai: number }
+          }
+
+          function normTriplet(h, y, a): MixTriplet {
             const hh = clamp01(h)
             const yy = clamp01(y)
             const aa = clamp01(a)
