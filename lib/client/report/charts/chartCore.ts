@@ -72,7 +72,7 @@
     if (window.Chart) return Promise.resolve();
     if (NPCharts._chartPromise) return NPCharts._chartPromise;
 
-    NPCharts._chartPromise = new Promise(function (resolve, reject) {
+    NPCharts._chartPromise = new Promise<void>(function (resolve, reject) {
       var s = document.createElement('script');
       s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
       s.async = true;
