@@ -978,10 +978,10 @@ window.renderNeuPrint = function (reportObject) {
             r.rsl?.summary?.paragraph || r.rsl?.summary_paragraph || r.rsl?.summary_text || '',
           )
 
-          const qr = $('qrImg')
-          if (qr) {
-            if (meta.qr_src) qr.src = meta.qr_src
-            qr.alt = meta.qr_alt || 'QR'
+          const qrEl = $('qrImg')
+          if (qrEl && qrEl instanceof HTMLImageElement) {
+            if (meta.qr_src) qrEl.src = meta.qr_src
+            qrEl.alt = meta.qr_alt || 'QR'
           }
         }
 
