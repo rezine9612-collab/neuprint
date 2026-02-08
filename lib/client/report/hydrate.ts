@@ -2065,7 +2065,10 @@ const canvas = $('signatureCanvas')
             } catch (_e) {}
             delete chartsById[id]
           }
-          const c = new Chart(el, config)
+          // Chart.js is loaded via CDN and exposed as window.Chart (global).
+          // In TS, do NOT reference bare `Chart` identifier (it is not declared).
+          const C: any = (window as any).Chart
+          const c = new C(el, config)
           chartsById[id] = c
           return c
         }
