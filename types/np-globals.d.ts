@@ -6,6 +6,7 @@ declare const REPORT: any;
 interface Window {
   REPORT?: any;
   NPCharts?: any;
+  NPDOM?: any;
   NP_DISABLE_INTERNAL_CHARTS?: any;
   Chart?: any;
   renderNeuPrint?: (report: any) => void;
