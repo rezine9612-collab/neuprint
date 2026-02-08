@@ -2728,12 +2728,13 @@ const canvas = $('signatureCanvas')
           }
         }
 
-                window.setReport = function (reportObject) {
-          window.report = reportObject
-          window.renderNeuPrint(reportObject)
+                const w: any = globalThis as any
+        w.setReport = function (reportObject: any) {
+          w.report = reportObject
+          if (typeof w.renderNeuPrint === 'function') w.renderNeuPrint(reportObject)
           try {
-            if (window.NPCharts && typeof window.NPCharts.renderAll === 'function') {
-              window.NPCharts.renderAll(reportObject)
+            if (w.NPCharts && typeof w.NPCharts.renderAll === 'function') {
+              w.NPCharts.renderAll(reportObject)
             }
           } catch (e) {
             NP_DEBUG && console.error('[NeuPrint] external charts error:', e)
