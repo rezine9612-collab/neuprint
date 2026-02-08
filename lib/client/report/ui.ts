@@ -124,7 +124,8 @@
           if(!sec || !flow) return;
 
           // Prepare deterministic per-row delays (do NOT start yet)
-          const rows = Array.from(flow.querySelectorAll('.rfRow'));
+          // Ensure correct DOM typing (Element -> HTMLElement) for style access
+          const rows = Array.from(flow.querySelectorAll<HTMLElement>('.rfRow'));
           // Use CSS variable if present, otherwise fallback to existing defaults
           const baseDelay = 210; // ms between boxes (2x faster) // ms between boxes (already doubled vs earlier)
           rows.forEach((row, i)=>{
