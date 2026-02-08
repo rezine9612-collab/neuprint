@@ -1087,8 +1087,8 @@ export function infer(report: any, params?: Partial<InferenceParams>): any {
     const dist = lookupControlDistInterpret(String(bestPattern));
     if (dist) report.backend.control.distribution_interpretation_en = dist;
   }
-  const bandNote = lookupControlBandNote(String(report.backend.control.reliability_score?.band || ""));
-  if (bandNote) report.backend.control.reliability_note_en = bandNote;
+  const catalogBandNote = lookupControlBandNote(String(report.backend.control.reliability_score?.band || ""));
+  if (catalogBandNote) report.backend.control.reliability_note_en = catalogBandNote;
   // 3) Distribution label and shares
   report.backend.control.distribution_share = report.backend.control.distribution_share ?? {};
   if (report.backend.control.distribution_share.human == null) report.backend.control.distribution_share.human = A;

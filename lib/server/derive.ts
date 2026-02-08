@@ -972,3 +972,9 @@ function computeRoleFitDeterministic(out: any): void {
   out.backend.role_fit.top_jobs = jobs_all.slice(0, 3);
 }
 
+// NOTE: Some earlier iterations of this file were generated in multiple passes.
+// If you see a parse error like "Expected '}', got '<eof>'", it means the module
+// ended one brace short. The closing brace below intentionally seals the module
+// scope for Vercel/Next build stability.
+}
+
