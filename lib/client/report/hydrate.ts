@@ -2700,4 +2700,5 @@ NP_DEBUG && console.error('[NeuPrint] Failed to load report data', e);
           document.addEventListener('DOMContentLoaded', boot)
         } else {
           boot()
-      })()
+	        }
+	      })();

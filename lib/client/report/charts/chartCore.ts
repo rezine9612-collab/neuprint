@@ -144,5 +144,7 @@
       var k=fns[i];
       if (typeof NPCharts[k] === 'function') {
         try { NPCharts[k](report); } catch(e) { console.error('[NeuPrint] chart error:', k, e); }
+      }
+    }
   };
 })();
