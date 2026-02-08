@@ -129,7 +129,8 @@ const IS_MOBILE = window.matchMedia('(max-width: 680px)').matches
           // Use CSS variable if present, otherwise fallback to existing defaults
           const baseDelay = 210; // ms between boxes (2x faster) // ms between boxes (already doubled vs earlier)
           rows.forEach((row, i)=>{
-            row.style.animationDelay = (i*baseDelay) + 'ms';
+            const el = row as HTMLElement;
+            el.style.animationDelay = (i*baseDelay) + 'ms';
           });
 
           // Safety: ensure not started by default
