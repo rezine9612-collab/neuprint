@@ -1,8 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-}
-
 /* ================================
      모바일 판별 + 딜레이 값 (맨 위!)
   ================================ */
