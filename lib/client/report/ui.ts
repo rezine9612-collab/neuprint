@@ -184,6 +184,7 @@ window.renderNeuPrint = function (reportObject) {
 /* =========================================================
        Cognitive Fingerprint (canvas)
     ========================================================= */
+        const css = getComputedStyle(document.documentElement)
         const SIGNATURE_KEYS = ['AAS', 'CTF', 'RMD', 'RDX', 'EDS', 'IFD']
         const SIGNATURE_OPTS = {
           resampleStepPx: 2.5,
