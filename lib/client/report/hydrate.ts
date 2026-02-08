@@ -412,6 +412,7 @@ window.renderNeuPrint = function (reportObject) {
         const css = getComputedStyle(document.documentElement)
         const THEME = {
           text: css.getPropertyValue('--text').trim(),
+          muted: css.getPropertyValue('--muted').trim(),
           accentA: css.getPropertyValue('--accentA').trim(),
           accentB: css.getPropertyValue('--accentB').trim(),
           accentC: css.getPropertyValue('--accentC').trim(),
