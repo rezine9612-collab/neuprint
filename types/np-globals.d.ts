@@ -5,6 +5,9 @@ declare const REPORT: any;
 
 interface Window {
   REPORT?: any;
+  report?: any;
+  DEV_REPORT?: any;
+  NP_DEBUG?: any;
   NPCharts?: any;
   NPDOM?: any;
   NP_DISABLE_INTERNAL_CHARTS?: any;
