@@ -427,9 +427,9 @@ window.renderNeuPrint = function (reportObject) {
 
         if (window.Chart) {
           (window.Chart as any).defaults.font.family =
-            '"Barlow", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif'
-          (window.Chart as any).defaults.font.size = 11
-          (window.Chart as any).defaults.color = THEME.text || '#0f172a'
+            '"Barlow", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif';
+          (window.Chart as any).defaults.font.size = 11;
+          (window.Chart as any).defaults.color = THEME.text || '#0f172a';
         }
 
         /* =========================================================
