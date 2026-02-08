@@ -157,7 +157,7 @@ const IS_MOBILE = window.matchMedia('(max-width: 680px)').matches
             io.observe(flow);
           }else{
             // Fallback: start after 1s delay
-            window.setTimeout(()=>{ start(); }, 0);
+            setTimeout(()=>{ start(); }, 0);
           }
         }catch(e){
           // keep silent in production
@@ -2631,7 +2631,7 @@ const canvas = $('signatureCanvas')
               'resize',
               () => {
                 if (sigResizeT) window.clearTimeout(sigResizeT)
-                sigResizeT = window.setTimeout(() => {
+                sigResizeT = setTimeout(() => {
                   // Cognitive Fingerprint: no resize-triggered replay
                 }, 120)
               },
