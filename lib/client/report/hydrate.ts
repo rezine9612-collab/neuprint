@@ -2769,7 +2769,7 @@ NP_DEBUG && console.error('[NeuPrint] Failed to load report data', e);
         }
         function ensureChartJs(){
           if(window.Chart) return Promise.resolve();
-          return new Promise(function(resolve, reject){
+          return new Promise<void>(function(resolve, reject){
             var s=document.createElement('script');
             s.src='https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
             s.async=true;
