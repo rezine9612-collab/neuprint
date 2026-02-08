@@ -2686,15 +2686,16 @@ const canvas = $('signatureCanvas')
             io.observe(target);
           } else {
             // fallback: first scroll into view
+            const w: any = (globalThis as any);
             const onScroll = () => {
               const r = target.getBoundingClientRect();
-              const vh = window.innerHeight || document.documentElement.clientHeight;
+              const vh = (w.innerHeight || document.documentElement.clientHeight);
               if(r.top < vh*0.75 && r.bottom > vh*0.25){
                 runOnce();
-                window.removeEventListener("scroll", onScroll);
+                w.removeEventListener("scroll", onScroll);
               }
             };
-            window.addEventListener("scroll", onScroll, { passive:true });
+            w.addEventListener("scroll", onScroll, { passive:true });
             onScroll();
           }
         }
@@ -2711,10 +2712,11 @@ const canvas = $('signatureCanvas')
             __np_initRoleFitFlowOnView()
 
             let sigResizeT = null
-            window.addEventListener(
+            const w: any = (globalThis as any);
+            w.addEventListener(
               'resize',
               () => {
-                if (sigResizeT) window.clearTimeout(sigResizeT)
+                if (sigResizeT) w.clearTimeout(sigResizeT)
                 sigResizeT = setTimeout(() => {
                   // Cognitive Fingerprint: no resize-triggered replay
                 }, 120)
