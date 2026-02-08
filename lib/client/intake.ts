@@ -60,8 +60,10 @@ const intakeBox = document.getElementById("intakeBox");
         // 같은 샘플을 다시 클릭한 경우 -> 토글 해제
         if(isAlreadyActive){
           snapIntakeVisualUpdate();
-          (textarea?.value ?? "") = "";
-          textarea.blur();
+	      if (textarea) {
+	        textarea.value = "";
+	        textarea.blur();
+	      }
           clearSampleActive();
           syncStates();
           return;
@@ -73,18 +75,19 @@ const intakeBox = document.getElementById("intakeBox");
         // 플리커 방지: 상태 전환을 "즉시" 스냅
         snapIntakeVisualUpdate();
 
-        // 값 먼저 주입 -> isFilled 즉시 반영
-        (textarea?.value ?? "") = t;
+	    // 값 먼저 주입 -> isFilled 즉시 반영
+	    if (textarea) textarea.value = t;
         syncStates();
 
         // 포커스는 다음 프레임에 (레이아웃/스타일 적용 후)
-        requestAnimationFrame(()=>{
-          try{
-            textarea.focus({ preventScroll:true });
-          }catch(_){
-            textarea.focus();
-          }
-        });
+	    requestAnimationFrame(()=>{
+	      if (!textarea) return;
+	      try{
+	        textarea.focus({ preventScroll:true });
+	      }catch(_){
+	        textarea.focus();
+	      }
+	    });
 
         setActiveSample(btn);
         sampleSelected = true;
