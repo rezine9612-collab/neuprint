@@ -426,10 +426,10 @@ window.renderNeuPrint = function (reportObject) {
         const CHART_DELAY_MS = parseInt(css.getPropertyValue('--chartAnimDelay'), 10) || 180
 
         if (window.Chart) {
-          Chart.defaults.font.family =
+          (window.Chart as any).defaults.font.family =
             '"Barlow", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif'
-          Chart.defaults.font.size = 11
-          Chart.defaults.color = THEME.text || '#0f172a'
+          (window.Chart as any).defaults.font.size = 11
+          (window.Chart as any).defaults.color = THEME.text || '#0f172a'
         }
 
         /* =========================================================
