@@ -834,3 +834,5 @@ const canvas = $('signatureCanvas')
           }
         }
 }
+
+export {};
