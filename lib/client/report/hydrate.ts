@@ -1,12 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-declare global {
-  interface Window {
-    NPCharts?: any;
-    NP_DISABLE_INTERNAL_CHARTS?: any;
-    REPORT?: any;
-  }
 }
 
 /* ================================
@@ -2710,6 +2704,3 @@ NP_DEBUG && console.error('[NeuPrint] Failed to load report data', e);
           boot()
         }
       })()
-
-
-export {};

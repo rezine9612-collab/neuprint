@@ -1,12 +1,6 @@
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
-declare global {
-  interface Window {
-    NPCharts?: any;
-    NP_DISABLE_INTERNAL_CHARTS?: any;
-    REPORT?: any;
-  }
 }
 
 /* Agency / Control (chartMixAgency or chartAgencyBars if present)
@@ -63,6 +57,3 @@ declare global {
     }).catch(function(e){ console.error(e); });
   });
 })();
-
-
-export {};
