@@ -143,7 +143,8 @@
             flow.classList.add('rf-start');
           };
 
-          if('IntersectionObserver' in window){
+          const w: any = (globalThis as any);
+          if('IntersectionObserver' in w){
             const io = new IntersectionObserver((entries)=>{
               for(const e of entries){
                 if(e.isIntersecting){
@@ -156,7 +157,7 @@
             io.observe(flow);
           }else{
             // Fallback: start after 1s delay
-            window.setTimeout(()=>{ start(); }, 0);
+            w.setTimeout(()=>{ start(); }, 0);
           }
         }catch(e){
           // keep silent in production
