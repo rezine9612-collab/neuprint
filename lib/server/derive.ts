@@ -19,6 +19,9 @@ type CffIndicatorScoresV1 = {
 };
 // -------------------------------------------------------------------------------
 
+type RawFeaturesLoose = RawFeatures & Record<string, any>;
+
+
 // lib/server/derive.ts
 // NeuPrint v4.0 backend_required_calcs derivation
 //
@@ -334,7 +337,7 @@ export function computeCffIndicatorScoresV1(raw: RawFeatures, meta?: ReportMetaL
   const revisionDepthSum = raw.revision_depth_sum != null ? raw.revision_depth_sum : 0;
 
   const evidenceTypes = raw.evidence_types || 0;
-  const citations = raw.citations || 0;
+  const citations = (raw as RawFeaturesLoose).citations || 0;
   const adjacencyLinks = raw.adjacency_links || 0;
 
   const hedges = raw.hedges || 0;
