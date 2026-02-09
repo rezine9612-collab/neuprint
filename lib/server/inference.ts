@@ -461,7 +461,7 @@ function lookupControlDistInterpret(controlPattern: string): string | null {
 }
 
 function lookupControlBandNote(band: string): string | null {
-  const hit = (CAT_CONTROL_BAND_NOTES as any[]).find((r) => String(r.reliability_band).toUpperCase() === String(band).toUpperCase());
+  const hit = (CAT_CONTROL_BAND_NOTES as unknown as any[]).find((r) => String(r.reliability_band).toUpperCase() === String(band).toUpperCase());
   return hit ? String(hit.note_en) : null;
 }
 
