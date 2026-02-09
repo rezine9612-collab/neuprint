@@ -497,7 +497,7 @@ function fitBandFromScore(score01: number): "HIGH FIT" | "MODERATE FIT" | "LOW F
 function selectObservedSignalTexts(signalIds: number[]): string[] {
   const out: string[] = [];
   for (const id of signalIds) {
-    const hit = (CAT_OBSERVED_STRUCT_SIGNALS as any[]).find((r) => Number(r.signal_id) === Number(id));
+    const hit = (CAT_OBSERVED_STRUCT_SIGNALS as unknown as any[]).find((r) => Number(r.signal_id) === Number(id));
     if (hit?.signal_text_en) out.push(String(hit.signal_text_en));
   }
   return out;
