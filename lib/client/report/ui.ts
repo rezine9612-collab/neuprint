@@ -913,13 +913,15 @@ const canvas = $('signatureCanvas')
             // fallback: first scroll into view
             const onScroll = () => {
               const r = target.getBoundingClientRect();
-              const vh = window.innerHeight || document.documentElement.clientHeight;
+              const w = (typeof window !== "undefined" ? (window as unknown as Window) : null);
+              if (!w) return;
+              const vh = w.innerHeight || document.documentElement.clientHeight;
               if(r.top < vh*0.75 && r.bottom > vh*0.25){
                 runOnce();
-                window.removeEventListener("scroll", onScroll);
+                w.removeEventListener("scroll", onScroll);
               }
             };
-            window.addEventListener("scroll", onScroll, { passive:true });
+            w.addEventListener("scroll", onScroll, { passive:true });
             onScroll();
           }
         }
