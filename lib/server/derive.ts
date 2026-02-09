@@ -861,7 +861,7 @@ function lookupStabilityNote(stability01: number): { band: string; note_en: stri
   const x = clamp01(stability01);
   // thresholds strings like "≥ 0.85"
   let best: any | null = null;
-  for (const r of (CATALOG_STABILITY_INDEX_NOTES as any[])) {
+  for (const r of (CATALOG_STABILITY_INDEX_NOTES as unknown as any[])) {
     const th = String(r.threshold || "");
     const m = th.match(/≥\s*(0?\.\d+|1(?:\.0+)?)/);
     if (!m) continue;
