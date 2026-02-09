@@ -1,3 +1,24 @@
+
+// ---- Local minimal types to avoid cross-file type-index coupling (TS build safety) ----
+type ReportMetaLike = {
+  history?: {
+    cfv_hist?: number[] | null;
+  } | null;
+};
+
+type CffIndicatorScoresV1 = {
+  AAS: number | null;
+  CTF: number | null;
+  RMD: number | null;
+  RDX: number | null;
+  EDS: number | null;
+  HI: number | null;
+  IFD: number | null;
+  KPF_SIM: number | null;
+  TPS_H: number | null;
+};
+// -------------------------------------------------------------------------------
+
 // lib/server/derive.ts
 // NeuPrint v4.0 backend_required_calcs derivation
 //
@@ -977,4 +998,3 @@ function computeRoleFitDeterministic(out: any): void {
 // ended one brace short. The closing brace below intentionally seals the module
 // scope for Vercel/Next build stability.
 }
-
