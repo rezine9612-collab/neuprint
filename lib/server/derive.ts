@@ -111,6 +111,10 @@ function toNum(x: any): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+function round4(x: number): number {
+  return Math.round(x * 10000) / 10000;
+}
+
 function clamp01(x: number): number {
   if (!Number.isFinite(x)) return 0;
   return Math.min(1, Math.max(0, x));
