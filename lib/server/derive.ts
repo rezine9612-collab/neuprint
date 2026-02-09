@@ -111,6 +111,11 @@ function toNum(x: any): number {
   return Number.isFinite(n) ? n : 0;
 }
 
+function safeNum(x: any, fallback = 0): number {
+  const n = Number(x);
+  return Number.isFinite(n) ? n : fallback;
+}
+
 function round4(x: number): number {
   return Math.round(x * 10000) / 10000;
 }
