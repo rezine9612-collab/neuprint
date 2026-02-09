@@ -397,6 +397,81 @@ window.renderNeuPrint = function (reportObject) {
           return pts
         }
 
+function renderSignaturePath(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  r: any,
+  t: number
+) {
+  // background (match animated)
+  ctx.clearRect(0, 0, width, height)
+  ctx.fillStyle = '#ffffff'
+  ctx.fillRect(0, 0, width, height)
+
+  const gen = generateSignatureVectorFromReport(r)
+  const v = gen.v
+  const rng = gen.rng
+  const raw = generateRawPolyline(v, rng)
+
+  let pts = resamplePolyline(raw, Number(SIGNATURE_OPTS.resampleStepPx))
+  if (SIGNATURE_OPTS.preChaikin) pts = chaikinOnce(pts)
+
+  const bb = bboxOfPoints(pts)
+  const padRatio = 0.028
+  const basePad = Number(SIGNATURE_OPTS.padPx)
+  const PAD = Math.max(basePad, Math.floor(Math.min(width, height) * padRatio))
+  const fit = fitRectToCanvas(bb, width, height, PAD, Number(SIGNATURE_OPTS.overscan))
+
+  const mapped = pts.map((p: any) => ({
+    x: Math.max(1, Math.min(width - 1, p.x * fit.scale + fit.tx)),
+    y: Math.max(1, Math.min(height - 1, p.y * fit.scale + fit.ty)),
+  }))
+
+  ctx.lineWidth = Number(SIGNATURE_OPTS.strokeWidth)
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
+  ctx.globalAlpha = 1
+
+  // palette (match animated default: use CSS token if available)
+  const ORANGE =
+    getComputedStyle(document.documentElement).getPropertyValue('--accentE').trim() ||
+    '#ff6a1a'
+  const GLOW_A = 'rgba(255,106,26,0.95)'
+  const GLOW_B = 'rgba(255,180,80,0.55)'
+
+  ctx.strokeStyle = ORANGE
+
+  const tt = Math.max(0, Math.min(1, Number.isFinite(t) ? t : 1))
+  const count = Math.max(2, Math.floor(mapped.length * tt))
+
+  ctx.beginPath()
+  ctx.moveTo(mapped[0].x, mapped[0].y)
+  for (let i = 1; i < count; i++) ctx.lineTo(mapped[i].x, mapped[i].y)
+  ctx.stroke()
+
+  // subtle glow at tip if partially drawn (kept minimal for static render)
+  if (tt < 1 && mapped.length > 1) {
+    const tip = mapped[Math.max(0, count - 1)]
+    const tipX = tip.x
+    const tipY = tip.y
+    const emberR = 4.0
+    ctx.save()
+    ctx.globalCompositeOperation = 'lighter'
+    const grd = ctx.createRadialGradient(tipX, tipY, 0, tipX, tipY, emberR * 6)
+    grd.addColorStop(0, GLOW_A)
+    grd.addColorStop(0.35, GLOW_B)
+    grd.addColorStop(1, 'rgba(255,106,26,0)')
+    ctx.fillStyle = grd
+    ctx.beginPath()
+    ctx.arc(tipX, tipY, emberR * 6, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.restore()
+  }
+}
+
+
+
         function resamplePolyline(pts, step) {
           if (pts.length < 2) return pts.slice()
           const out = [pts[0]]
