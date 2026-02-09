@@ -874,7 +874,7 @@ function lookupStabilityNote(stability01: number): { band: string; note_en: stri
 }
 
 function lookupRslLevel(levelCode: string): any | null {
-  return (CATALOG_RSL_LEVELS as any[]).find((r) => String(r.level_code) === String(levelCode)) || null;
+  return (CATALOG_RSL_LEVELS as unknown as any[]).find((r) => String(r.level_code) === String(levelCode)) || null;
 }
 
 const OCCUPATION_TARGET_AXES: Array<{
