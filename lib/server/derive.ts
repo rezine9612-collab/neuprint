@@ -278,7 +278,7 @@ export function computeControlVector(cfv: CFV, signals: any, rslLevel01: number)
  * IMPORTANT: MVP rule
  * - KPF_SIM, TPS_H are backend-only and currently unused -> always null.
  */
-export function computeCffIndicatorScoresV1(raw: RawFeatures, meta?: Report["meta"]): BackendReport["cff"]["indicator_scores"] {
+export function computeCffIndicatorScoresV1(raw: RawFeatures, meta?: ReportMetaLike): CffIndicatorScoresV1 {
   /**
    * Source of truth: 계산용.xlsx (Sheet2, "2. CFF 8 계산식")
    * All scores are normalized to 0..1 and clamped.
