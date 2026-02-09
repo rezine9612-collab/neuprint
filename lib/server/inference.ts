@@ -481,7 +481,7 @@ function pickRolefitExplanation(structure01: number | null, exploration01: numbe
 }
 
 function pickRolefitWhy(fitBand: "HIGH FIT" | "MODERATE FIT" | "LOW FIT", jobName: string, score01: number): string | null {
-  const hit = (CAT_ROLEFIT_WHY_TEMPLATES as any[]).find((r) => String(r.fit_band).toUpperCase() === fitBand.toUpperCase());
+  const hit = (CAT_ROLEFIT_WHY_TEMPLATES as unknown as any[]).find((r) => String(r.fit_band).toUpperCase() === fitBand.toUpperCase());
   if (!hit) return null;
   return String(hit.template_en)
     .replaceAll("{job_name}", jobName)
