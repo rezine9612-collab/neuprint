@@ -452,7 +452,7 @@ function lookupDecisionSentence(decisionCode: string): { decision_label: string;
 }
 
 function lookupControlPatternMeta(controlPattern: string): any | null {
-  return (CAT_CONTROL_PATTERNS as any[]).find((r) => String(r.control_pattern) === String(controlPattern)) || null;
+  return (CAT_CONTROL_PATTERNS as unknown as any[]).find((r) => String(r.control_pattern) === String(controlPattern)) || null;
 }
 
 function lookupControlDistInterpret(controlPattern: string): string | null {
