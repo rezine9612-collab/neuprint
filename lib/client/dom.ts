@@ -40,6 +40,12 @@ export function fmt2(x: any): string {
 if (typeof window !== 'undefined') {
   ;(window as any).NPDOM = (window as any).NPDOM || {}
   const NPDOM = (window as any).NPDOM
+  ;(window as any).$ = (window as any).$ || $
+  ;(window as any).clamp01 = (window as any).clamp01 || clamp01
+  ;(window as any).setText = (window as any).setText || setText
+  ;(window as any).setHTML = (window as any).setHTML || setHTML
+  ;(window as any).esc = (window as any).esc || esc
+  ;(window as any).fmt2 = (window as any).fmt2 || fmt2
   NPDOM.$ = NPDOM.$ || $
   NPDOM.esc = NPDOM.esc || esc
   NPDOM.setText = NPDOM.setText || setText

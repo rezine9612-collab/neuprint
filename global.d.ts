@@ -22,4 +22,13 @@ declare global {
     // Feature flags
     NP_DISABLE_INTERNAL_CHARTS?: boolean
   }
+
+  // Legacy global helpers (some modules still call these without import)
+  function $(id: any): HTMLElement | null
+  function clamp01(x: any): number
+  function esc(v: any): string
+  function setText(id: any, value: any): void
+  function setHTML(id: any, html: any): void
+  function fmt2(x: any): string
+
 }
