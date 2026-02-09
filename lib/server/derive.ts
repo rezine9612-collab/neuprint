@@ -844,7 +844,7 @@ function lookupCohortNote(percentile01: number): string | null {
   const rank = 1 - pct; // top-ness
   // Cohort notes are in 'Top X–Y%' form. We'll map by rank.
   // Ranges are inclusive; we parse numbers from strings like "Top 10–20%".
-  for (const r of (CATALOG_COHORT_NOTES as any[])) {
+  for (const r of (CATALOG_COHORT_NOTES as unknown as any[])) {
     const s = String(r.cohort_range || "");
     const m = s.match(/Top\s*(\d+(?:\.\d+)?)\s*[–-]\s*(\d+(?:\.\d+)?)%/i);
     if (!m) continue;
