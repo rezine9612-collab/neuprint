@@ -105,6 +105,12 @@ export type DeriveOptions = {
 function safeDiv(a: number, b: number): number {
   return a / Math.max(1, b);
 }
+
+function toNum(x: any): number {
+  const n = Number(x);
+  return Number.isFinite(n) ? n : 0;
+}
+
 function clamp01(x: number): number {
   if (!Number.isFinite(x)) return 0;
   return Math.min(1, Math.max(0, x));
@@ -336,9 +342,9 @@ export function computeCffIndicatorScoresV1(raw: RawFeatures, meta?: ReportMetaL
   const revisions = raw.revisions || 0;
   const revisionDepthSum = raw.revision_depth_sum != null ? raw.revision_depth_sum : 0;
 
-  const evidenceTypes = raw.evidence_types || 0;
-  const citations = (raw as RawFeaturesLoose).citations || 0;
-  const adjacencyLinks = raw.adjacency_links || 0;
+  const evidenceTypes = toNum((raw as RawFeaturesLoose).evidence_types ?? 0);
+  const citations = toNum((raw as RawFeaturesLoose).citations ?? 0);
+  const adjacencyLinks = toNum((raw as RawFeaturesLoose).adjacency_links ?? 0);
 
   const hedges = raw.hedges || 0;
   const intentMarkers = raw.intent_markers || 0;
