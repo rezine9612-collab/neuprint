@@ -7,6 +7,15 @@
       const IS_MOBILE = window.matchMedia('(max-width: 680px)').matches
       const MOBILE_CHART_START_DELAY = 10
       const NP_DEBUG = false
+
+      // 0~1 범위 클램프 (legacy hydrate 로직과 동일)
+      function clamp01(x) {
+        x = Number(x)
+        if (!Number.isFinite(x)) return 0
+        if (x < 0) return 0
+        if (x > 1) return 1
+        return x
+      }
       /* =========================================================
      RSL table responsive behavior (reversible)
      - Mobile: show observation under Dimension, keep Score column
