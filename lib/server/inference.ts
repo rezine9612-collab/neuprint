@@ -476,7 +476,7 @@ function pickRolefitExplanation(structure01: number | null, exploration01: numbe
   const s = classifyTri(clamp01(structure01));
   const e = classifyTri(clamp01(exploration01));
   const key = `CS_${s[0]}${e[0]}`; // HH, HM, HL, MH, MM, ML, LH, LM, LL
-  const hit = (CAT_ROLEFIT_EXPL_TEMPLATES as any[]).find((r) => String(r.template_key).includes(`(${key})`));
+  const hit = (CAT_ROLEFIT_EXPL_TEMPLATES as unknown as any[]).find((r) => String(r.template_key).includes(`(${key})`));
   return hit ? String(hit.template_en) : null;
 }
 
