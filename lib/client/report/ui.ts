@@ -1,3 +1,4 @@
+import { $ } from '../dom'
 /* Auto-converted from legacy browser JS.
    Kept as side-effect module to preserve DOM-driven hydrate behavior.
 */
