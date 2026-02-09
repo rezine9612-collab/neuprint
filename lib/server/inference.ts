@@ -446,7 +446,7 @@ const CAT_OBSERVED_PATTERNS = [
 
 
 function lookupDecisionSentence(decisionCode: string): { decision_label: string; sentence_en: string } | null {
-  const hit = (CAT_DECISION_OUTPUT as any[]).find((r) => String(r.decision_code) === String(decisionCode));
+  const hit = (CAT_DECISION_OUTPUT as unknown as any[]).find((r) => String(r.decision_code) === String(decisionCode));
   if (!hit) return null;
   return { decision_label: String(hit.decision_label), sentence_en: String(hit.sentence_en) };
 }
