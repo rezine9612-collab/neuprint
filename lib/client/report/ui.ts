@@ -911,10 +911,10 @@ const canvas = $('signatureCanvas')
             io.observe(target);
           } else {
             // fallback: first scroll into view
+            const w = (typeof window !== "undefined" ? (window as unknown as Window) : null);
+            if (!w) return;
             const onScroll = () => {
               const r = target.getBoundingClientRect();
-              const w = (typeof window !== "undefined" ? (window as unknown as Window) : null);
-              if (!w) return;
               const vh = w.innerHeight || document.documentElement.clientHeight;
               if(r.top < vh*0.75 && r.bottom > vh*0.25){
                 runOnce();
