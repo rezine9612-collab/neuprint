@@ -456,7 +456,7 @@ function lookupControlPatternMeta(controlPattern: string): any | null {
 }
 
 function lookupControlDistInterpret(controlPattern: string): string | null {
-  const hit = (CAT_CONTROL_DIST_INTERPRET as any[]).find((r) => String(r.control_pattern) === String(controlPattern));
+  const hit = (CAT_CONTROL_DIST_INTERPRET as unknown as any[]).find((r) => String(r.control_pattern) === String(controlPattern));
   return hit ? String(hit.distribution_interpretation_en) : null;
 }
 
