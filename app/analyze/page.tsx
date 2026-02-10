@@ -1,123 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-
-type ApiResponse = any;
+import { useEffect } from "react";
 
 export default function AnalyzePage() {
-  const router = useRouter();
-
-  const [text, setText] = useState<string>("");
-  const [status, setStatus] = useState<"idle" | "running" | "done" | "error">("idle");
-  const [message, setMessage] = useState<string>("Paste text, then run analysis.");
-
-  // Load any prior intake text if it exists (optional)
   useEffect(() => {
-    const t = sessionStorage.getItem("np_intake_text") || "";
-    if (t.trim()) {
-      setText(t);
-      setMessage("Ready. Click Run analysis.");
-    }
+    (async () => {
+      try {
+        await import("../../lib/client/intake");
+      } catch (e) {
+        console.error(e);
+      }
+    })();
   }, []);
 
-  const canRun = useMemo(() => status !== "running" && !!text.trim(), [status, text]);
-
-  const run = useCallback(async () => {
-    const t = text.trim();
-    if (!t) return;
-
-    sessionStorage.setItem("np_intake_text", t);
-
-    setStatus("running");
-    setMessage("Generating structural reference...");
-
-    try {
-      // External-facing endpoint (rewritten internally to /api)
-      const res = await fetch("/engine_v1.1/analyze", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ text: t, input_language: "AUTO" }),
-      });
-
-      if (!res.ok) throw new Error("Request failed.");
-
-      const data: ApiResponse = await res.json();
-      sessionStorage.setItem("np_last_report", JSON.stringify(data));
-
-      setStatus("done");
-      setMessage("Done. Redirecting to report...");
-      router.replace("/report");
-    } catch (e: any) {
-      setStatus("error");
-      setMessage(String(e?.message || e || "Unknown error"));
-    }
-  }, [router, text]);
-
   return (
-    <div className="appPage" style={{ minHeight: "100vh", padding: 24 }}>
-      <div style={{ maxWidth: 980, margin: "0 auto" }}>
-        <h1 style={{ fontFamily: "Barlow, Inter, system-ui, sans-serif", margin: "8px 0 10px" }}>NeuPrint</h1>
-        <p style={{ margin: "0 0 16px" }}>{message}</p>
-
-        <label style={{ display: "block", marginBottom: 10, opacity: 0.85 }}>
-          Input text
-        </label>
-
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Paste the text you want to analyze…"
-          style={{
-            width: "100%",
-            minHeight: 240,
-            resize: "vertical",
-            padding: 14,
-            borderRadius: 14,
-            border: "1px solid rgba(255,255,255,0.18)",
-            background: "rgba(0,0,0,0.25)",
-            color: "inherit",
-            outline: "none",
-          }}
-        />
-
-        <div style={{ display: "flex", gap: 10, marginTop: 14, alignItems: "center", flexWrap: "wrap" }}>
-          <button
-            onClick={run}
-            disabled={!canRun}
-            style={{
-              padding: "10px 14px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.22)",
-              opacity: canRun ? 1 : 0.5,
-              cursor: canRun ? "pointer" : "not-allowed",
-            }}
-          >
-            Run analysis
-          </button>
-
-          {status === "error" ? (
-            <button
-              onClick={() => {
-                setStatus("idle");
-                setMessage("Paste text, then run analysis.");
-              }}
-              style={{ padding: "10px 14px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.22)" }}
-            >
-              Reset
-            </button>
-          ) : null}
-
-          {status === "done" ? (
-            <button
-              onClick={() => router.replace("/report")}
-              style={{ padding: "10px 14px", borderRadius: 12, border: "1px solid rgba(255,255,255,0.22)" }}
-            >
-              Open report
-            </button>
-          ) : null}
-        </div>
-      </div>
-    </div>
+    <div className="appPage" dangerouslySetInnerHTML={ __html: "<div class=\"page\">\n<main class=\"main\">\n<div class=\"container\">\n<section aria-label=\"Neuprint main entry\" class=\"hero\">\n<div class=\"brand\">\n<img alt=\"NeuPrint Logo\" class=\"brandLogo enterY\" id=\"brandLogo\" src=\"/assets/neuprint_logo.svg\"/>\n<div class=\"brandline enterY\" id=\"brandline\">\n<span>NeuPrint Cognitive Forensics Engine v1.1</span>\n</div>\n</div>\n<h1 id=\"heroTitle\">\n<span class=\"typeLine\" id=\"titleLine1\"></span><br/>\n<span class=\"typeLine\" id=\"titleLine2\"></span>\n</h1>\n<p class=\"subtitle enterY\" id=\"heroSubtitle\"></p>\n<div class=\"intakeWrap\">\n<div class=\"intakeBox enterY\" id=\"intakeBox\">\n<textarea aria-label=\"Text intake\" class=\"intakeText\" id=\"intakeText\" placeholder=\"Paste text to establish a cognitive reference.\"></textarea>\n<div aria-label=\"Input tools (placeholders)\" class=\"intakeTools\">\n<button aria-label=\"Attach file (placeholder)\" class=\"iconBtn\" title=\"Attach file (placeholder)\" type=\"button\">\n<span aria-hidden=\"true\" class=\"material-symbols--attach-file-rounded\"></span>\n</button>\n<button aria-label=\"Voice record (placeholder)\" class=\"iconBtn\" title=\"Voice record (placeholder)\" type=\"button\">\n<span aria-hidden=\"true\" class=\"material-symbols--mic\"></span>\n</button>\n<button aria-label=\"Image search (placeholder)\" class=\"iconBtn\" title=\"Image search (placeholder)\" type=\"button\">\n<span aria-hidden=\"true\" class=\"material-symbols--center-focus-weak-outline\"></span>\n</button>\n</div>\n</div>\n<div aria-label=\"Sample quick inserts\" class=\"sampleRow enterY\" id=\"sampleRow\">\n<button class=\"sampleBtn\" data-sample=\"sample1 \uc785\ub2c8\ub2e4.\" type=\"button\">Sample 1</button>\n<button class=\"sampleBtn\" data-sample=\"sample2 \uc785\ub2c8\ub2e4.\" type=\"button\">Sample 2</button>\n<button class=\"sampleBtn\" data-sample=\"sample3 \uc785\ub2c8\ub2e4.\" type=\"button\">Sample 3</button>\n<button class=\"sampleBtn\" data-sample=\"sample4 \uc785\ub2c8\ub2e4.\" type=\"button\">Sample 4</button>\n<button class=\"sampleBtn\" data-sample=\"sample5 \uc785\ub2c8\ub2e4.\" type=\"button\">Sample 5</button>\n</div>\n<button aria-label=\"Generate reference\" class=\"cta enterY\" id=\"ctaBtn\" type=\"button\">\n              Generate reference\n              <span aria-hidden=\"true\" class=\"material-symbols-outlined ctaArrow\">arrow_right_alt</span>\n</button>\n<footer aria-label=\"Footer\" class=\"footer enterY\" id=\"footer\" role=\"contentinfo\">\n              Copyright \u00a9 2026 Neuprint. All rights reserved. U.S. entity in formation.\n            </footer>\n</div>\n</section>\n</div>\n</main>\n</div>" } />
   );
 }

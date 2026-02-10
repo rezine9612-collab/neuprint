@@ -24,8 +24,8 @@ const intakeBox = document.getElementById("intakeBox");
 
     function syncStates(){
       const hasValue = (textarea?.value ?? "").trim().length > 0;
-      cta.classList.toggle("isHot", hasValue);
-      intakeBox.classList.toggle("isFilled", hasValue);
+      if(cta) cta.classList.toggle("isHot", hasValue);
+      if(intakeBox) intakeBox.classList.toggle("isFilled", hasValue);
     }
 
     function onUserEdit(){
@@ -33,7 +33,7 @@ const intakeBox = document.getElementById("intakeBox");
       syncStates();
     }
 
-    textarea.addEventListener("input", onUserEdit);
+    if(textarea) textarea.addEventListener("input", onUserEdit);
 
     /* =========================================================
        샘플 클릭 시 "회색 -> 진한 링" 플리커 제거
@@ -95,14 +95,36 @@ const intakeBox = document.getElementById("intakeBox");
     });
 
     /* Empty input alert */
-    cta.addEventListener("click", ()=>{
+    if(cta) cta.addEventListener("click", async ()=>{
       const v = (textarea?.value ?? "").trim();
       if(!v){
         alert("Please enter text.");
         textarea.focus();
         return;
       }
-      // placeholder action (no-op)
+      try{
+        cta?.setAttribute("disabled","true");
+        cta?.classList.add("isRunning");
+        const res = await fetch("/api", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ text: v, input_language: "AUTO" })
+        });
+        const j = await res.json();
+        if(!res.ok){
+          console.error(j);
+          alert(j?.error || "Analysis failed.");
+          return;
+        }
+        sessionStorage.setItem("np_last_report", JSON.stringify(j));
+        window.location.assign("/report");
+      }catch(e){
+        console.error(e);
+        alert("Network error.");
+      }finally{
+        cta?.removeAttribute("disabled");
+        cta?.classList.remove("isRunning");
+      }
     });
 
     syncStates();
